@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPIC-Bench</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* 作者弹窗动画 */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .authors.show {
+            display: block !important;
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        .authors.hide {
+            animation: slideUp 0.3s ease forwards;
+        }
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
+            padding-top: 0;
+        }
+        .rynn-header {
+            width: 100%;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+        }
+        .logo-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            max-width: 200px;
+        }
+        .logo-text {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title {
+            font-size: clamp(28px, 5vw, 56px);
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+        .title span {
+            color: #1e40af;
+        }
+        .authors {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            color: #334155;
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .authors sup {
+            font-size: 16px;
+            color: #000000;
+            vertical-align: super;
+            position: relative;
+            top: -4px;
+            left: 2px;
+        }
+        .author-notes {
+            font-size: 16px;
+            color: #000000;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+        .author-name {
+            font-size: 30px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 0 4px;
+            position: relative;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .view-tab {
+            padding: 12px 60px !important;
+            border-radius: 50px !important;
+            border: none !important;
+            font-size: 20px !important;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: all 0.2s ease !important;
+        }
+        .data-btn {
+            padding: 12px 28px !important;
+            border-radius: 50px !important;
+            border: 1px solid #e2e8f0 !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: all 0.2s ease !important;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        /* 新增：独立的榜单/数据快捷按钮样式 */
+        .quick-jump-btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid #1e40af;
+            background: #1e40af;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: all 0.2s ease;
+        }
+        .quick-jump-btn:hover {
+            background: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+        .btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        .btn-dropdown {
+            position: relative;
+        }
+        .btn-dropdown::after {
+            content: "▼";
+            font-size: 10px;
+            margin-left: 4px;
+        }
+        .epic-wrapper {
+            display: inline-block;
+            letter-spacing: -1px;
+            white-space: nowrap;
+        }
+        .epic-letter {
+            display: inline-block;
+            background: linear-gradient(90deg, #ef4444, #fbbf24, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: bounce 1.5s ease-in-out infinite;
+            margin: 0;
+            padding: 0;
+        }
+        .epic-letter:nth-child(1) { animation-delay: 0s; }
+        .epic-letter:nth-child(2) { animation-delay: 0.15s; }
+        .epic-letter:nth-child(3) { animation-delay: 0.3s; }
+        .epic-letter:nth-child(4) { animation-delay: 0.45s; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .abstract-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .abstract-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .abstract-card {
+            background: #f0f0f0;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .abstract-text {
+            color: #222;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .key-highlights {
+            margin-top: 24px;
+        }
+        .key-highlights h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .key-highlights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .key-highlights li {
+            margin-bottom: 16px;
+            color: #222;
+            line-height: 1.6;
+        }
+        .key-highlights li strong {
+            color: #222;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .overview-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .overview-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .overview-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .overview-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .overview-card h3::before {
+            content: "🧠";
+        }
+        .overview-card.location h3::before {
+            content: "📍";
+        }
+        .overview-item {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .overview-item .question {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .overview-item .answer {
+            font-size: 14px;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        .overview-images {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .overview-images img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #e2e8f0;
+        }
+        .logos-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .logos-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 60px; /* 间距增大到60px，可根据需要调整 */
+        }
+        .logo-img {
+            width: 280px;
+            height: 120px; /* 自定义高度，根据实际logo比例调整 */
+            object-fit: contain; /* 保持图片比例，不拉伸变形 */
+        }
+        .logo2-img {
+        }
+        .logo1-img {
+        }
+        #sticky-nav-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        #sticky-nav-clone {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
+            padding: 16px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        /* 排序相关样式 */
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px !important;
+        }
+        .sortable-header:hover {
+            background-color: #e2e8f0;
+        }
+        .sort-indicator {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #64748b;
+        }
+        /* 排名数字样式 */
+        .rank-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            color: #1e293b;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        /* 奖牌样式 */
+        .medal-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        /* 表格容器核心样式：固定高度，仅表格滚动 */
+        .table-scroll-wrapper {
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .data-table-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+            /* 核心：固定高度，仅表格区域垂直滚动 */
+            max-height: 800px;
+            overflow-y: auto;
+            overflow-x: auto;
+            /* 滚动条美化 */
+            scrollbar-width: thin;
+        }
+
+        /* Model列单元格固定 */
+        #data-table td:first-child,
+        #data-table th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 30; /* 提高层级，确保压过所有内容 */
+            min-width: 250px; /* 固定列宽度，防止被挤压 */
+            width: 250px; /* 强制宽度 */
+        }
+
+        /* 表格行的Model列背景适配 */
+        #data-table tbody tr td:first-child {
+            background-color: #fff !important; /* 普通行背景 */
+        }
+        #data-table tbody tr:nth-child(even) td:first-child {
+            background-color: #f8fafc !important; /* 偶数行背景 */
+        }
+        #data-table tbody tr:nth-child(1) td:first-child {
+            background-color: #fff8e6 !important; /* 第一名背景 */
+        }
+        #data-table tbody tr:nth-child(2) td:first-child {
+            background-color: #f5f5f5 !important; /* 第二名背景 */
+        }
+        #data-table tbody tr:nth-child(3) td:first-child {
+            background-color: #fff3e0 !important; /* 第三名背景 */
+        }
+        /* 自定义滚动条 */
+        .data-table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .data-table-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .data-table-container::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        .data-table-container::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* 隐藏分页箭头（不需要分页） */
+        .pagination-arrow {
+            display: none !important;
+        }
+        /* 仅统一最上方6个按钮的尺寸，保留原有样式 */
+        #top-button-group {
+            /* 按钮组布局优化，保证间距均匀 */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px !important; /* 保留原有间距 */
+        }
+
+        /* 统一6个按钮的宽高和内边距 */
+        #top-button-group .btn,
+        #top-button-group .quick-jump-btn {
+            width: 150px !important;  /* 统一宽度 */
+            height: 50px !important; /* 统一高度 */
+            padding: 0 16px !important; /* 清除原有padding，改为内边距统一 */
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            margin: 0 !important; /* 清除quick-jump-btn的margin，保证对齐 */
+        }
+
+        /* 增大快捷按钮图标与文字间距（必生效版） */
+        #top-button-group .quick-jump-btn {
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            /* 核心：给文字加左边距，直接隔开图标 */
+        }
+        #top-button-group .quick-jump-btn span {
+            margin-left: 12px !important; /* 关键：间距数值，可改10/15px */
+        }
+        /* 固定表头和固定列（解决内容穿透问题） */
+        .data-table-container {
+            position: relative; /* 新增：作为固定元素的参考 */
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0; /* 关键：移除内边距，紧贴顶部 */
+        }
+
+        .data-table-container thead tr {
+            position: sticky;
+            top: 0;
+            z-index: 40; /* 提高层级，避免内容穿透 */
+            background: #f1f5f9 !important;
+            box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1); /* 新增：遮挡下方内容 */
+        }
+
+        /* EPIC模块第一组左侧分隔线 */
+        /* EPIC模块第一组左侧分隔线 - 修复优先级和位置 */
+        .module-epic thead tr:first-child th:nth-child(3) {
+            border-left: 2px solid #e2e8f0 !important;
+        }
+        .module-epic thead tr:nth-child(2) th:nth-child(3) {
+            border-left: 2px solid #e2e8f0 !important;
+        }
+        /* 修复表头背景色穿透问题 */
+        .module-epic thead th {
+            background: #f1f5f9 !important;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 关键：给表格行加背景色，避免透明穿透 */
+        #data-table tbody tr {
+            background: #fff !important; /* 强制白色背景 */
+        }
+        #data-table tbody tr:nth-child(even) {
+            background: #f8fafc !important; /* 偶数行背景 */
+        }
+        /* 前三名行背景色单独指定 */
+        #data-table tbody tr:nth-child(1) {
+            background: #fff8e6 !important;
+        }
+        #data-table tbody tr:nth-child(2) {
+            background: #f5f5f5 !important;
+        }
+        #data-table tbody tr:nth-child(3) {
+            background: #fff3e0 !important;
+        }
+        /* 1. 统一 TargetLocalization 表格的表头边框（原EPIC是2px，Target是1px） */
+        .module-target #data-table thead th {
+            border-bottom: 2px solid #e2e8f0 !important; /* 从1px改为2px，和EPIC一致 */
+            border-right: 1px solid #e2e8f0 !important;
+            background: #f1f5f9 !important; /* 强制背景色，解决优先级问题 */
+        }
+
+        /* 2. 统一 TargetLocalization 分组分隔线样式（和EPIC保持2px粗） */
+        .module-target #data-table thead tr:first-child th:nth-child(1) {
+            border-right: 2px solid #e2e8f0 !important; /* Model列右侧分隔线 */
+        }
+        .module-target #data-table thead tr:first-child th:nth-child(2) {
+            border-right: 2px solid #e2e8f0 !important; /* 第一组右侧分隔线 */
+        }
+        .module-target #data-table thead tr:first-child th:nth-child(3) {
+            border-right: 2px solid #e2e8f0 !important; /* 第二组右侧分隔线 */
+        }
+
+        /* 3. 提升 TargetLocalization Model 列优先级（解决背景覆盖问题） */
+        .module-target #data-table th:first-child,
+        .module-target #data-table td:first-child {
+            z-index: 50 !important; /* 高于EPIC的40，确保不被覆盖 */
+            background: #f1f5f9 !important; /* 表头背景 */
+            border-right: 2px solid #e2e8f0 !important; /* 和EPIC一致的粗分隔线 */
+        }
+
+        /* 4. 统一 TargetLocalization 表格行背景（和EPIC保持一致） */
+        .module-target #data-table tbody tr {
+            background: #fff !important;
+        }
+        .module-target #data-table tbody tr:nth-child(even) {
+            background: #f8fafc !important;
+        }
+        .module-target #data-table tbody tr:nth-child(1) {
+            background: #fff8e6 !important;
+        }
+        .module-target #data-table tbody tr:nth-child(2) {
+            background: #f5f5f5 !important;
+        }
+        .module-target #data-table tbody tr:nth-child(3) {
+            background: #fff3e0 !important;
+        }
+        /* 确保Target表Model列表头背景不被覆盖 */
+        #data-table th:first-child {
+            background: #f1f5f9 !important;
+            position: sticky !important;
+            left: 0 !important;
+            z-index: 50 !important;
+        }
+
+        /* 确保Target表Model列内容单元格背景 */
+        .module-target #data-table tbody td:first-child {
+            background: #fff !important;
+            z-index: 45 !important;
+        }
+        .module-target #data-table tbody tr:nth-child(even) td:first-child {
+            background: #f8fafc !important;
+        }
+        .module-target #data-table tbody tr:nth-child(1) td:first-child {
+            background: #fff8e6 !important;
+        }
+        .module-target #data-table tbody tr:nth-child(2) td:first-child {
+            background: #f5f5f5 !important;
+        }
+        .module-target #data-table tbody tr:nth-child(3) td:first-child {
+            background: #fff3e0 !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="rynn-header">
+        <div class="logo">
+            <img src=".\img\20260303-134245.jpg" alt="EPIC-Bench Logo" class="logo-image">
+        </div>
+        <h1 id="epic-title" class="title">
+            <span class="epic-wrapper"><span class="epic-letter">E</span><span class="epic-letter">P</span><span class="epic-letter">I</span><span class="epic-letter">C</span></span>-Bench: <span> Can VLMs Perceive the </span><br>
+            <span>Embodied Real-world?</span>
+        </h1>
+        <div class="authors" style="display: none;">
+            <span class="author-name">xxx</span><sup>*</sup>
+            <span class="author-name">xxx</span><sup>*</sup>
+            <span class="author-name">xxx</span><sup>*</sup><br>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span><br>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span><sup>†</sup>
+            <span class="author-name">xxx</span><sup>†,</sup><sup>‡</sup>
+            <div class="author-notes">
+                <sup>*</sup> Core contributors &nbsp; <sup>†</sup> Project lead &nbsp; <sup>‡</sup> Correspondence
+            </div>
+        </div>
+        <div id="top-button-group" class="button-group">
+            <a href="#" class="btn" style="background: #000000; color: #ffffff; border-color: #000000;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <a href="#" class="btn" style="background: #ef4444; color: #ffffff; border-color: #ef4444;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Paper
+            </a>
+            <a href="#" class="btn" style="background: #fbbf24; color: #ffffff; border-color: #fbbf24;">
+                <span style="font-size: 16px; margin-right: 8px;">🤗</span>
+                Huggingface
+            </a>
+            <a href="#" class="btn" style="background: #3b82f6; color: #ffffff; border-color: #3b82f6;">
+                <img src=".\img\screenshot-20260303-101720.png" alt="modelscope" style="width: 24px; height: 24px; margin-right: 8px; object-fit: contain; vertical-align: middle;">
+                modelscope
+            </a>
+            <!-- 新增：独立的榜单/数据快捷按钮（放在四个按钮后面） -->
+            <button class="quick-jump-btn" onclick="goToLeaderboard()">🏆 <span>榜单</span></button>
+            <button class="quick-jump-btn" onclick="goToData()">📊 <span>数据</span></button>
+        </div>
+    </header>
+
+    <section class="overview-section">
+        <h2 class="overview-title">Overview</h2>
+        <img 
+            src="./img/20260302-192636.png" 
+            alt="Leaderboard" 
+            style="max-width: 100%; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"
+        >
+        <div class="overview-grid">
+            <div class="overview-card cognition">
+                <h3>Cognition</h3>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Object Understanding: What material is &lt;object&gt; made of?</div>
+                    <div class="answer">It is made of leather.</div>
+                </div>
+                <div class="overview-item">
+                    <div class="question">Counting: How many sofas are there in the video?</div>
+                    <div class="answer">3.</div>
+                </div>
+                <div class="overview-item">
+                    <div class="question">Spatial Understanding: Which is higher? object0 or object1?</div>
+                    <div class="answer">Object0 is higher.</div>
+                </div>
+                <div class="overview-item">
+                    <div class="question">Measuring from the closest point of each object, what is the distance between the table and the door?</div>
+                    <div class="answer">2.2 meters.</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">OCR: Which brand name is written on the white cup I keep near the stove while I'm cooking?</div>
+                    <div class="answer">CHASE.</div>
+                </div>
+                <div class="overview-item">
+                    <div class="question">General Egocentric Understanding: What did the user add to the dish?</div>
+                    <div class="answer">Salt...</div>
+                </div>
+            </div>
+
+            <div class="overview-card location">
+                <h3>Location</h3>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Area Location: Identify several points in the unoccupied region on the top surface of the toilet lid.</div>
+                    <div class="answer">&lt;area&gt;...</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Affordance Location: Push the drawer of the nightstand.</div>
+                    <div class="answer">&lt;affordance&gt;...</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Trajectory Location: Move the blue box from the center of the bed to the drawer on the right.</div>
+                    <div class="answer">&lt;trajectory&gt;...</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Object Location: I need something to wear for warmth while sitting at the dining table, what should I pick up from the chair?</div>
+                    <div class="answer">&lt;object&gt;...</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-images">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
+                    </div>
+                    <div class="question">Grasp Pose Location: Pick up the bottle at its neck.</div>
+                    <div class="answer">&lt;grasp pose&gt;...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
+    <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Leaderboard And Benchmark</h2>
+
+        <!-- 保留原有榜单/数据切换按钮 -->
+        <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
+            <button class="view-tab" id="tab-rank" style="background: #1e40af; color: white;">🏆榜单</button>
+            <button class="view-tab" id="tab-data" style="background: #fff; color: #1e293b;">数据</button>
+        </div>
+
+        <div id="sticky-nav-wrapper" class="data-button-group">
+            <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
+            <button class="data-btn" id="btn-target" style="background: white; color: #1e293b;">TargetLocalization-目标定位感知</button>
+            <button class="data-btn" id="btn-nav" style="background: white; color: #1e293b;">Navigation-导航移动感知</button>
+            <button class="data-btn" id="btn-manip" style="background: white; color: #1e293b;">Manipulation-操作感知</button>
+        </div>
+
+        <!-- 表格容器 -->
+        <div class="table-scroll-wrapper">
+            <button class="pagination-arrow left" id="prev-page">←</button>
+            <div class="data-table-container">
+                <table id="data-table" style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1000px; text-align: center;">
+                    <thead id="data-table-header"></thead>
+                    <tbody id="data-table-body"></tbody>
+                </table>
+            </div>
+            <button class="pagination-arrow right" id="next-page">→</button>
+        </div>
+    </section>
+
+    <div id="sticky-nav-clone"></div>
+
+    <script>
+        // 全局状态
+        let currentView = 'rank'; // rank | data
+        let currentModule = 'epic';
+        let sortKey = 'Average'; // 默认排序字段
+        let sortDirection = 'desc'; // 默认降序（从高到低）
+        
+        // 模型列表
+        // 替换原来的 fixedModelList
+        const fixedModelList = [
+            "Qwen3.5-397B-A17B (思考模式)",
+            "Qwen3.5-122B-A10B (思考模式)",
+            "Qwen3.5-35B-A3B (思考模式)",
+            "Qwen3.5-27B (思考模式)",
+            "Qwen3-VL-235B-A22B-Thinking",
+            "Qwen3-VL-30B-A3B-Thinking",
+            "Qwen3-VL-32B-Thinking",
+            "Qwen3-VL-8B-Thinking",
+            "Qwen3-VL-4B-Thinking",
+            "Qwen3-VL-2B-Thinking",
+            "gpt-4o",
+            "o4-mini",
+            "o3",
+            "gemini-2.5-pro",
+            "gemini-2.5-flash-lite",
+            "gemini-3-flash-preview",
+            "Gemini 3.1 Pro-preview",
+            "claude-opus-4-20250514",
+            "claude-haiku-4-5-20251001-thinking",
+            "claude-opus-4-1-20250805-thinking",
+            "claude-sonnet-4-6",
+            "claude-sonnet-4-6-thinking",
+            "GLM-4.6V",
+            "Step3-VL-10B",
+            "hunyuan-t1-vision-20250916",
+            "Qwen3.5-397B-A17B",
+            "Qwen3.5-122B-A10B",
+            "Qwen3.5-35B-A3B",
+            "Qwen3.5-27B",
+            "Qwen2.5-VL-72B-Instruct",
+            "Qwen3-VL-235B-A22B-Instruct",
+            "Qwen3-VL-30B-A3B-Instruct",
+            "Qwen3-VL-32B-Instruct",
+            "Qwen3-VL-8B-Instruct",
+            "Qwen3-VL-4B-Instruct",
+            "Qwen3-VL-2B-Instruct",
+            "gpt-5-mini-2025-08-07",
+            "GPT5.1",
+            "GPT5.2",
+            "InternVL3.5-8B",
+            "InternVL3.5-14B",
+            "InternVL3.5-38B",
+            "InternVL3.5-30B-A3B",
+            "InternVL3.5-241B-A28B",
+            "InternVL3-8B",
+            "InternVL3-14B",
+            "InternVL3-38B",
+            "InternVL3-78B",
+            "LLaVA-next-72b 2025.1",
+            "Gemma-3-4B-IT",
+            "Gemma-3-12B-IT",
+            "Gemma-3-27B-IT",
+            "gemini-2.5-flash-nothinking",
+            "gemini-3-flash-preview-nothinking",
+            "Tencent HY Vision 1.5 Instruct",
+            "hunyuan-turbos-vision-20250619",
+            "RoboBrain2-32B",
+            "RoboBrain2-7B",
+            "RoboBrain2.5-8B-NV",
+            "RoboBrain2.5-8B-MT",
+            "Pelican1.0-VL-72B",
+            "RynnBrain-8B",
+            "RynnBrain-CoP-8B",
+            "RynnBrain-Plan-8B",
+            "RynnBrain-2B",
+            "Cosmos-Reason1-7B",
+            "Doubao-seed-1.8-251228",
+            "Doubao-seed-1.6-vision-250615",
+            "Qwen3.5-9B",
+            "Qwen3.5-4B",
+            "Qwen3.5-2B",
+            "Qwen3.5-0.8B",
+            "Qwen3.5-9B (思考模式)",
+            "Qwen3.5-4B (思考模式)",
+            "Qwen3.5-2B (思考模式)",
+            "Qwen3.5-0.8B (思考模式)"
+        ];
+
+        // 生成模拟分数数据（0-100）
+        // 替换原来的 generateMockScores 函数
+        // 生成模拟分数数据（0-100）
+        // 替换原来的 generateMockScores 函数
+        function generateMockScores() {
+            // 真实的 EPIC 分数数据（对应你提供的表格）
+            const realEPICScores = {
+                "Qwen3.5-397B-A17B (思考模式)": [47.47,55.45,51.82,42.18,51.1,60.11,45.35,12.4,26.33,42.51],
+                "Qwen3.5-122B-A10B (思考模式)": [47.24,53.61,49.13,41.16,51.42,63.47,45.19,12.31,46.04,39.77],
+                "Qwen3.5-35B-A3B (思考模式)": [45.58,53.51,49.18,39.03,43.09,61.17,41.18,10.75,41.7,38.05],
+                "Qwen3.5-27B (思考模式)": [45.67,54.15,50.03,40.61,46.96,39.43,46.77,13.15,49.56,39.84],
+                "Qwen3-VL-235B-A22B-Thinking": [50.93,58,55.67,48.12,48.18,51.19,49.01,16.96,48.04,46.49],
+                "Qwen3-VL-30B-A3B-Thinking": [44.02,52.69,49.37,40.87,42.34,41.65,36.2,10.62,38.78,40.72],
+                "Qwen3-VL-32B-Thinking": [37.21,39.94,41.26,36.05,31.03,42.04,39.07,4.84,35.23,40.03],
+                "Qwen3-VL-8B-Thinking": [35.55,39.92,41.66,33.89,21.68,38.51,34.94,5.22,32.05,37.01],
+                "Qwen3-VL-4B-Thinking": [33.82,38.82,40.29,32.93,17.55,35.58,32.78,3.91,25.3,36.56],
+                "Qwen3-VL-2B-Thinking": [31.82,39.67,40.75,30.08,15.36,24.02,22.59,6.07,28.24,28.97],
+                "gpt-4o": [29.52,27.42,35.99,26.69,26.95,32.45,36.36,2.18,33.22,34.5],
+                "o4-mini": [32.83,36.75,38.02,32.73,18.27,20.49,45.63,3.54,33.58,38.75],
+                "o3": [36.05,39.37,40.96,32.86,36.24,30.64,40.73,5.49,32.43,43.64],
+                "gemini-2.5-pro": [37.63,42.86,41.62,36.43,9.63,46.29,42.7,8.72,33.94,42.78],
+                "gemini-2.5-flash-lite": [34.77,39.06,39.53,31.51,35.97,40.21,33.02,2.58,30.17,32.38],
+                "gemini-3-flash-preview": [44.69,50.26,41.7,37.79,51.11,52.63,49.92,22.62,46.51,50.89],
+                "Gemini 3.1 Pro-preview": [54.72,55.38,56.65,53.04,47.22,70.32,59.06,28.89,53.7,55.25],
+                "claude-opus-4-20250514": [29.1,28.95,35.23,27.14,13.83,32.07,37.45,2.4,35.25,33.47],
+                "claude-haiku-4-5-20251001-thinking": [29.82,30.59,34.88,27.71,17.32,36.65,37.27,2.88,27.66,34.81],
+                "claude-opus-4-1-20250805-thinking": [29.1,28.95,35.23,27.14,13.83,32.07,37.45,2.4,35.25,33.47],
+                "claude-sonnet-4-6": [40.6,45.27,45.54,36.71,38.08,39.45,43.07,8.16,41.11,42.73],
+                "claude-sonnet-4-6-thinking": [43.24,45.43,45.49,36.47,40.16,68.46,42.77,9.79,46.21,43.81],
+                "GLM-4.6V": [42.84,50.19,47.71,37.89,42.46,51.11,36.55,8.32,34.14,39.79],
+                "Step3-VL-10B": [35.94,42.65,41.02,36.38,24.79,39.88,26.67,5.95,31.52,29.24],
+                "hunyuan-t1-vision-20250916": [43,51.24,47.6,39.67,42.63,50.08,33.54,6.63,38.95,34.49],
+                "Qwen3.5-397B-A17B": [45.16,50.56,50.06,43.45,51.94,50.61,41.46,8.31,34.51,37.08],
+                "Qwen3.5-122B-A10B": [44.54,50.77,49.28,42.31,49.65,50.5,42.62,8.3,36.91,32.16],
+                "Qwen3.5-35B-A3B": [41.32,46.76,45.82,38.19,48,45.47,37.01,10.01,36.94,32.36],
+                "Qwen3.5-27B": [44.71,49.1,48.55,42.23,49.74,53.5,44.1,11.93,37.22,36.42],
+                "Qwen2.5-VL-72B-Instruct": [42.51,47.54,49.79,40.92,49.45,42.49,37.08,14.77,21.21,35.9],
+                "Qwen3-VL-235B-A22B-Instruct": [42.64,50.12,45.86,39.34,50.96,43.14,38.69,12,34.55,35.71],
+                "Qwen3-VL-30B-A3B-Instruct": [30.6,28.31,34.27,25.04,49.37,37.09,30.12,9.33,31.49,34.07],
+                "Qwen3-VL-32B-Instruct": [35.21,37.49,39.82,33.21,44.38,36.74,36.57,4.72,30.62,30.49],
+                "Qwen3-VL-8B-Instruct": [34.07,39.48,42.54,32.1,38.11,26.67,31.84,5.19,14.63,30.91],
+                "Qwen3-VL-4B-Instruct": [33.24,39.95,41.55,33.78,40.39,18.45,30.17,3.2,11.3,27],
+                "Qwen3-VL-2B-Instruct": [32.53,38.43,42.87,29.08,37.55,9.78,28.55,7.99,29.56,29.59],
+                "gpt-5-mini-2025-08-07": [35.21,38.7,39.43,30.24,24.36,38.53,45.97,3.86,41.32,38.78],
+                "GPT5.1": [34.81,35.31,39.66,32.05,36.62,38.62,44.69,4.34,26.44,38.63],
+                "GPT5.2": [36.82,38.26,41.53,32.02,33.06,48.72,44.1,5.01,35.25,37.26],
+                "InternVL3.5-8B": [33.58,40.67,45.4,32.05,32.15,22.77,15.94,10.79,17.42,25.57],
+                "InternVL3.5-14B": [38.92,43.95,49.96,37.13,46.11,31.82,24.57,11.23,25.98,28.66],
+                "InternVL3.5-38B": [42.54,48.69,52.6,39.95,43.21,35.01,28.07,17.22,34.05,35.83],
+                "InternVL3.5-30B-A3B": [29.71,30.96,39.11,27.03,45.43,24.11,17.24,8.41,18.75,25.3],
+                "InternVL3.5-241B-A28B": [40.75,44.65,50.59,37.61,35.94,35.47,33.73,16.85,36.41,37.6],
+                "InternVL3-8B": [30.23,35.51,40.72,26.69,33.38,21.53,23.16,3.83,16.08,26.07],
+                "InternVL3-14B": [30.17,31.98,38.44,25.41,32.29,29.53,27.64,3.25,27.49,31.19],
+                "InternVL3-38B": [28.5,34.88,28.85,23.22,36.69,22.31,34.88,3.99,30.43,30.44],
+                "InternVL3-78B": [36.04,40.68,44.56,32.78,35.98,30.55,34.93,6.9,29.07,31.69],
+                "LLaVA-next-72b 2025.1": [20.4,26.54,29.42,19.93,14.18,6.34,6.19,2.99,12.75,18.63],
+                "Gemma-3-4B-IT": [23.5,21.79,31.48,22.31,8.04,27.53,22.04,0.97,28.8,29.59],
+                "Gemma-3-12B-IT": [26.21,25.55,32.44,24.59,13.71,36.27,23.39,1.3,27.48,31.43],
+                "Gemma-3-27B-IT": [27.17,26.93,33.66,26.68,11.62,32.17,26.33,1.65,31.26,32.18],
+                "gemini-2.5-flash-nothinking": [36.33,38.46,39.16,34.05,27.28,51.98,40.79,2.88,37.15,36.28],
+                "gemini-3-flash-preview-nothinking": [37.04,46.4,31.48,32.29,48.98,22.89,47.25,11.91,42.29,48.09],
+                "Tencent HY Vision 1.5 Instruct": [32.55,38.37,39.6,29.67,31.72,17.07,35.71,6.38,32.88,29.25],
+                "hunyuan-turbos-vision-20250619": [24.61,24.72,33.33,25.58,4.49,17.88,36.14,0.67,22.02,26.69],
+                "RoboBrain2-32B": [39.32,50.66,49.67,38.83,38.85,0.61,37.63,0.08,36.22,39.61],
+                "RoboBrain2-7B": [30.09,35.93,36.01,30.52,42.92,0,24.31,2.29,31.58,32.95],
+                "RoboBrain2.5-8B-NV": [23.81,24.81,32.88,24.97,22.57,1.66,27.98,1.13,24.98,24.03],
+                "RoboBrain2.5-8B-MT": [29.83,31.2,37.41,26.76,33.52,30.89,27.84,2.65,25.45,24.34],
+                "Pelican1.0-VL-72B": [35.29,44.08,42.11,34.79,44.91,0,38.13,7.32,22.68,37.96],
+                "RynnBrain-8B": [22.34,28.31,33.28,24.81,7.98,5.95,15.04,0.13,13.84,11.26],
+                "RynnBrain-CoP-8B": [16.83,12.48,21.78,16.08,21.51,22.51,13.58,0.28,19.62,18.09],
+                "RynnBrain-Plan-8B": [23.59,23.53,32.53,26.08,2.12,19.57,21.41,0.11,18.79,31.02],
+                "RynnBrain-2B": [12.05,12.84,16.49,17.07,0,7.1,13.35,0.01,8.73,12.45],
+                "Cosmos-Reason1-7B": [23.25,29.74,26.64,19.67,24.68,3.03,25.44,5.37,22.12,32.75],
+                "Doubao-seed-1.8-251228":[46.32,55.29,49.68,46.1,46.02,53.43,45.9,10.94,14.36,40.79],
+                "Doubao-seed-1.6-vision-250615":[46.8,54.64,49.92,42.27,41.64,58.74,42.66,9.52,47.48,41.62],
+                "Qwen3.5-9B":[35.45,40.49,42.04,31.9,38.07,36.81,33.93,6.09,26.7,28.25],
+                "Qwen3.5-4B":[33.27,39.84,40.87,30.04,33.7,29.66,32.54,5.56,17.6,26.49],
+                "Qwen3.5-2B":[23.12,26.93,32.91,25.11,7.84,3.72,22.43,0.37,20.64,24.09],
+                "Qwen3.5-0.8B":[4.89,2.58,4.62,2.05,0.15,4.94,11.33,0.57,13.12,20.67],
+                "Qwen3.5-9B (思考模式)":[38.86, 44.6, 43.38, 33.87, 31.26, 49.06, 40.22, 6.07, 37.64, 34.92],
+                "Qwen3.5-4B (思考模式)":[35.59, 40.83, 42.34, 31.24, 24.09, 45.21, 35.33, 5.65, 24.79, 33.9],
+                "Qwen3.5-2B (思考模式)":[28.49, 33.36, 35.06, 27.34, 14.58, 25.31, 25.13, 3.39, 30.1, 27.01],
+                "Qwen3.5-0.8B (思考模式)":[19.27, 21.89, 28.72, 19.82, 0.77, 9.26, 13.02, 0.95, 18.88, 22.36]
+            };
+
+            // 真实的 TargetLocalization 分数数据
+            const realTargetScores = {
+                "Qwen3.5-397B-A17B (思考模式)": [57.92,50.81,59.79,48.39,53.39,69.3,51.67,41.16,53.2,54.92,39.82,51.24,48.07,39.82],
+                "Qwen3.5-122B-A10B (思考模式)": [52.53,48.17,63.57,47.07,52.52,62.97,42.83,38.74,51.85,52.32,37.31,44.68,45.51,40.4],
+                "Qwen3.5-35B-A3B (思考模式)": [54.87,47.24,59.03,46.94,52.32,66.51,49.88,36.42,51.53,51.83,34.93,46.91,47.77,35.6],
+                "Qwen3.5-27B (思考模式)": [53.47,50.1,59.88,47.61,53.19,65.69,44.21,41.2,52.67,52.48,37.64,47.21,48.84,37.18],
+                "Qwen3-VL-235B-A22B-Thinking": [60.89,48.48,62.13,50.81,59.56,71.19,50.1,42.96,57.39,60.82,42.94,54.48,56.41,45.78],
+                "Qwen3-VL-30B-A3B-Thinking": [51.5,43.17,60.66,47.13,53.89,65.77,37.16,37.71,50.97,56.09,34.18,47.95,51.23,38.27],
+                "Qwen3-VL-32B-Thinking": [40.02,33.96,41.84,41.68,33.11,59.34,36.95,32.2,39.05,49.02,31.31,40.06,46.02,33.51],
+                "Qwen3-VL-8B-Thinking": [36.75,35.67,38.48,42.29,38.65,53.45,35.6,32.54,39.15,50.29,26.85,38.45,43.6,32.36],
+                "Qwen3-VL-4B-Thinking": [37.42,33.15,37.44,41.68,36.64,53.11,35,29.08,38.03,49.31,26.71,38.78,41.66,31.04],
+                "Qwen3-VL-2B-Thinking": [37.31,36.71,38.89,40.58,39.86,47.85,28.16,29.8,39.33,50.77,26.43,36.92,39.37,26.52],
+                "gpt-4o": [25.79,24.32,33.13,22.38,27.38,35.76,30.63,32.53,32.65,42.9,25.55,18.38,36.84,30.62],
+                "o4-mini": [35.44,32.51,41.68,36.77,30.42,52.74,34.86,32.09,34.6,45.49,28.35,30.94,41.18,32.12],
+                "o3": [37.44,34.23,45.98,33.2,36.68,56.67,39.83,34.3,37.28,48.47,27.01,33.55,46.3,30.45],
+                "gemini-2.5-pro": [46.39,32.62,50.96,37.92,39.26,58.66,39.71,31.14,39.67,49.03,31.67,39.54,49.21,36.03],
+                "gemini-2.5-flash-lite": [37.04,33.79,46.79,34.62,37.19,51.24,32.15,29.38,38.19,47.63,29.46,33.89,39.25,28.96],
+                "gemini-3-flash-preview": [52.81,40.05,62.88,47.77,51.59,48.27,45.96,27.1,39.6,49.3,40.59,37.2,42.84,37.39],
+                "Gemini 3.1 Pro-preview": [60.36,48.34,52.92,45.26,57.74,71.86,55.82,42.87,57.76,60.82,45.56,46.91,60.55,55.41],
+                "claude-opus-4-20250514": [28.44,24.59,35.07,26.42,25.42,47.12,29.78,32.11,30.89,42.48,27.18,26.43,35.9,27.97],
+                "claude-haiku-4-5-20251001-thinking": [26.47,26.26,42.43,32.35,28.88,44.62,26.34,29.02,33.01,42.76,26.05,35.1,32.59,27.4],
+                "claude-opus-4-1-20250805-thinking": [30.3,28.47,43.08,36.53,32.74,52.06,32.63,33.23,33.36,46.37,28.75,34.81,37.88,30.68],
+                "claude-sonnet-4-6": [43.01,40.9,47.39,44.5,44.69,61.7,41.66,36.04,44.5,52.88,35.84,41.45,47.93,32.68],
+                "claude-sonnet-4-6-thinking": [44.72,38.9,45.96,46.29,43.45,60,41.11,37.1,43.96,52.17,32.78,41.81,47.73,32.59],
+                "GLM-4.6V": [45.71,41.57,64.46,39.54,51.64,65.14,38.44,36.1,49.69,53.13,30.73,43.7,42.94,37.82],
+                "Step3-VL-10B": [41.82,37.25,47.12,38.25,43.06,52.59,32.82,31.01,41.22,47.51,28.92,38.1,41.5,37.53],
+                "hunyuan-t1-vision-20250916": [50.18,45.17,62.88,43.06,50.07,61.9,46.8,36.74,47.7,52.46,35.44,43.87,43.45,39.11],
+                "Qwen3.5-397B-A17B": [49.88,44.76,55.65,40.3,52.77,64.48,47.46,37.64,52.98,52.82,38.81,46.36,43.72,44.74],
+                "Qwen3.5-122B-A10B": [50.69,43.5,57.38,41.17,52.48,64.41,43.49,38.01,51.69,53.05,37.92,49.49,43.42,42.04],
+                "Qwen3.5-35B-A3B": [47.75,39.47,53.57,36.16,47.79,61.33,37.39,32.23,48.11,51.51,34.13,40.14,39.91,38.94],
+                "Qwen3.5-27B": [48.23,43.23,54.61,39.76,49.96,64.38,40.67,38.91,50.94,52.23,37.73,48.1,42.82,42.54],
+                "Qwen2.5-VL-72B-Instruct": [55.27,36.94,43.34,30.06,55.79,68.18,43.15,36.59,50.47,56.76,37.24,46.3,49.84,44.79],
+                "Qwen3-VL-235B-A22B-Instruct": [53.25,39.83,57.78,33.91,55.67,63.7,46.11,36.75,49.03,46.1,29.58,45.46,42.95,40.93],
+                "Qwen3-VL-30B-A3B-Instruct": [28.2,24.16,25.7,27.29,25.94,45.3,19.97,33.41,32.91,40.33,17.23,15.69,31.83,28.68],
+                "Qwen3-VL-32B-Instruct": [38.22,32.21,43.45,29.47,33.86,56.18,36.14,33.63,37.32,46.48,28.22,36.18,43.22,31.04],
+                "Qwen3-VL-8B-Instruct": [37.13,35.08,41.84,32.14,39.65,57.26,36.88,37.64,39.3,50.05,24.73,35.29,39.62,31.92],
+                "Qwen3-VL-4B-Instruct": [42.6,33.01,39.1,35.62,39.95,54.73,37.38,32.75,39.16,49.37,29.63,36.54,42.65,31.7],
+                "Qwen3-VL-2B-Instruct": [36.42,31.96,33.57,33.86,42.21,57.4,37.31,29.68,41.54,51.77,21.26,23.33,43.61,28.89],
+                "gpt-5-mini-2025-08-07": [37.1,35,43.2,37.67,33.73,55.12,38.61,34.87,34.86,46.99,25.98,29.81,42.69,29.33],
+                "GPT5.1": [35.28,28.62,37.61,29.85,34.21,55.79,36.59,32.69,36.65,47.07,28.5,35.17,45.36,31.88],
+                "GPT5.2": [35.78,32.39,44.9,34.12,36.78,57.68,42.97,36.16,36.6,47.79,27.53,27.72,45.26,27.31],
+                "InternVL3.5-8B": [45.76,31.4,47.02,26.68,44.3,52.1,28.77,36.11,45.91,53.64,30.64,40.36,35.52,29.21],
+                "InternVL3.5-14B": [47.77,32.81,48.67,27.51,48.93,63.19,31.15,40.05,51.14,58.31,34.46,49.38,41.94,33.32],
+                "InternVL3.5-38B": [49.39,37.28,56.77,34.45,53.47,66.33,44.68,39.23,54.25,58.8,36.79,48.21,46.39,36.84],
+                "InternVL3.5-30B-A3B": [38.44,24.32,30.69,18.73,36.14,37.1,27.56,31.3,38.22,46.87,25.99,28.61,34.81,24.22],
+                "InternVL3.5-241B-A28B": [41.89,35.82,54.67,32.47,48.63,59.64,44.94,35.45,51.88,57.34,29.31,36.32,46.84,38.42],
+                "InternVL3-8B": [33.65,29.09,43.58,29.18,37.5,43.55,30.78,32.85,37.95,50.22,23.17,27.4,36.48,24.52],
+                "InternVL3-14B": [31.16,25.55,35.89,26.43,31.35,48.14,34.63,32.37,34.52,46.75,22.49,24.2,35.77,23.27],
+                "InternVL3-38B": [36.44,27.37,41.33,28.02,33.21,49.86,28.65,28.07,29.17,28.87,21.21,19.15,33.74,21.35],
+                "InternVL3-78B": [41,29.88,43.47,31.88,41.19,58.35,35.94,35.75,42.69,52.52,28.96,36.74,44.62,28.72],
+                "LLaVA-next-72b 2025.1": [24.47,21.59,24,27.67,29,34.94,28.96,22.64,27.1,35.21,16.42,18.26,30.12,18.26],
+                "Gemma-3-4B-IT": [17.1,20.79,18.89,21.36,21.13,36.48,17.71,25.52,28.55,41.44,17.81,27.09,26.11,21.73],
+                "Gemma-3-12B-IT": [21.48,22.96,28.47,24.39,21.57,42.41,19.33,28.3,29.68,41.22,24.52,32.05,26.62,21.87],
+                "Gemma-3-27B-IT": [26.61,23.25,31.63,22.58,22.24,43.26,23.71,28.52,29.96,43.08,26.56,32.57,29.73,24.02],
+                "gemini-2.5-flash-nothinking": [38.34,32.93,45.85,38.32,31.91,53.99,33.64,35.02,35.85,46.4,31.02,36.54,42.25,37.5],
+                "gemini-3-flash-preview-nothinking": [44.57,36.81,59.32,45.46,48.29,46.46,45.72,23.12,34.56,27.47,30.99,33.26,34.78,34.74],
+                "Tencent HY Vision 1.5 Instruct": [35.88,31.49,50.37,30.23,37.17,53.8,35.25,32.74,39.02,44.51,28.97,34.43,35.33,30.31],
+                "hunyuan-turbos-vision-20250619": [24.92,19.6,33.88,15.1,23.85,37.79,28.79,27.06,33.41,37.27,22.07,24.31,26.97,30.49],
+                "RoboBrain2-32B": [49.3,41.44,62.17,35.5,53.93,69.7,35.59,39.41,51.38,56.2,33.55,42,45.07,40.37],
+                "RoboBrain2-7B": [39.01,26.12,36.09,24.06,41.92,53.47,24.34,30.43,36.33,41.43,26.07,34.94,31.03,33.04],
+                "RoboBrain2.5-8B-NV": [20.08,19.8,29.99,18.13,24.39,46.42,23.7,30.94,28.88,41.02,15.47,27.1,27.31,30.61],
+                "RoboBrain2.5-8B-MT": [26.03,27.08,35.03,20.21,33.91,53.07,29.98,33.79,34.53,44.48,20.79,30.44,33.78,28.36],
+                "Pelican1.0-VL-72B": [47.17,37.67,47.16,36.02,42.75,61.96,42.69,25.62,44.5,46.37,32.72,38.68,39.11,37.05],
+                "RynnBrain-8B": [26.86,22.17,36.16,17.93,29.14,45.27,23.95,27.87,30.63,41.39,19.1,31.15,32.29,24.23],
+                "RynnBrain-CoP-8B": [7.98,9.53,21.39,4.81,10.98,28.23,12.09,20.5,20.81,26.23,12.4,16.24,18.11,17.57],
+                "RynnBrain-Plan-8B": [20.06,19.2,33.71,14.53,20.68,43.49,25.97,28.25,29.15,40.21,18.33,27.53,27.57,29.02],
+                "RynnBrain-2B": [8.21,14.44,24.99,8.25,8.57,17.08,8.62,9.47,18.34,19.64,16.14,24.43,6.73,19.77],
+                "Cosmos-Reason1-7B": [31.47,21.8,32.36,22.11,33.07,40.83,16.34,27.23,27.29,28.58,17.08,17.17,22.74,20.41],
+                "Doubao-seed-1.8-251228":[58.48,50.01,64.74,48.59,51.89,63.39,50.68,37.24,51.74,52.43,45.8,48.92,48.88,44.46],
+                "Doubao-seed-1.6-vision-250615":[57.09,50.13,63.62,44.72,53.37,64.13,49.32,37.95,51.09,53.95,39.35,49,49.14,43.22],
+                "Qwen3.5-9B":[40.36,34.99,39.23,33.55,43.81,54.43,34.91,31.55,42.17,48.5,29.49,32.47,38.79,30.33],
+                "Qwen3.5-4B":[37.4,35.21,44.02,33.15,40.12,54.77,35.2,30.7,38.65,49.52,27.49,36.95,36.8,26.89],
+                "Qwen3.5-2B":[26.74,22.74,28.87,24.63,26.42,36.07,22.51,25.12,32.12,40.22,21.75,22.48,31.2,25.14],
+                "Qwen3.5-0.8B":[0.27,2.54,3.1,3.21,2.97,3.88,4.33,3.7,4.1,5.72,0.56,2.59,2.52,2.43],
+                "Qwen3.5-9B (思考模式)":[42.5,38.99,47.77,39.35,45.68,58.36,42.19,34.37,40.22,51.32,31.87,41.47,41.88,29.81],
+                "Qwen3.5-4B (思考模式)":[39.14,35.04,44.76,34.72,40.09,58.2,35.74,37.29,39.45,49.79,27.57,39.5,40.87,27.19],
+                "Qwen3.5-2B (思考模式)":[33.64,29.88,38.71,28.67,28.62,48.21,24.89,28.23,32.37,44.09,23.29,30.91,35.05,25.43],
+                "Qwen3.5-0.8B (思考模式)":[18.1,19.8,23.87,19.19,20.05,36.3,15.82,26.36,25.87,36.76,18.25,18.35,21.47,20.33]
+            };
+
+            const mockScores = {};
+            // 遍历所有模型
+            Object.keys(realEPICScores).forEach(model => {
+                const epicScores = realEPICScores[model];
+                const targetScores = realTargetScores[model] || [];
+                
+                mockScores[model] = {
+                    // EPIC 字段（对应真实分数）
+                    Average: epicScores[0],
+                    Basic: epicScores[1],
+                    SpatialRelated: epicScores[2],
+                    EmbodiedCompositional: epicScores[3],
+                    GroundDetection: epicScores[4],
+                    FeasiblePath: epicScores[5],
+                    VisualMatching: epicScores[6],
+                    Affordance: epicScores[7],
+                    ContactRelationship: epicScores[8],
+                    PlacementRegion: epicScores[9],
+                    
+                    // ========== 新增空的 Average 字段 ==========
+                    NavAvg: '',       // 导航移动感知 Average（空值，后续填充）
+                    ManipAvg: '',     // 操作感知 Average（空值，后续填充）
+                    TargetAvg: '',    // 目标定位感知 Average（空值，后续填充）
+                    BasicAvg: '',     // 基础属性 Average（空值，后续填充）
+                    SpatialAvg: '',   // 空间相关属性 Average（空值，后续填充）
+                    EmbodiedAvg: '',  // 具身组合属性 Average（空值，后续填充）
+                    
+                    // TargetLocalization 字段（使用真实分数）
+                    Category: targetScores[0] || 0,
+                    Color: targetScores[1] || 0,
+                    Geometry: targetScores[2] || 0,
+                    Material: targetScores[3] || 0,
+                    RelativePerception: targetScores[4] || 0,
+                    ObjectProjections: targetScores[5] || 0,
+                    Orientation: targetScores[6] || 0,
+                    OrientationHuman: targetScores[7] || 0,
+                    SpatialRelation: targetScores[8] || 0,
+                    SpatialRelationHuman: targetScores[9] || 0,
+                    PartWhole: targetScores[10] || 0,
+                    PartWholeHuman: targetScores[11] || 0,
+                    ObjectState: targetScores[12] || 0,
+                    Spoken: targetScores[13] || 0
+                };
+            });
+            return mockScores;
+        }
+        const modelScores = generateMockScores();
+
+        // 列配置
+        const moduleColumnConfigs = {
+            'epic': [
+                { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
+                { key: 'Average', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'TargetAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'Basic', label: 'Basic<br>基础属性(1599)', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelated', label: 'SpatialRelated<br>空间相关属性(1501)', minWidth: '120px', sortable: true },
+                { key: 'EmbodiedCompositional', label: 'EmbodiedCompositional<br>具身组合属性(1291)', minWidth: '120px', sortable: true },
+                { key: 'NavAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'GroundDetection', label: 'GroundDetection<br>地面识别(391)', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'FeasiblePath<br>可行路径感知(482)', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'VisualMatching<br>视觉匹配(352)', minWidth: '120px', sortable: true },
+                { key: 'ManipAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'Affordance', label: 'Affordance<br>可供性(315)', minWidth: '120px', sortable: true },
+                { key: 'ContactRelationship', label: 'ContactRelationship<br>接触关系(292)', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'PlacementRegion<br>放置区域(402)', minWidth: '120px', sortable: true }
+            ],
+            'target': [
+                { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
+                { key: 'BasicAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'Category', label: 'Category<br>基础类别', minWidth: '100px', sortable: true },
+                { key: 'Color', label: 'Color<br>颜色', minWidth: '100px', sortable: true },
+                { key: 'Geometry', label: 'Geometry<br>几何形状', minWidth: '100px', sortable: true },
+                { key: 'Material', label: 'Material<br>材质', minWidth: '100px', sortable: true },
+                { key: 'RelativePerception', label: 'RelativePerception<br>相对感官', minWidth: '120px', sortable: true },
+                { key: 'ObjectProjections', label: 'ObjectProjections<br>本体/镜像', minWidth: '120px', sortable: true },
+                { key: 'SpatialAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'Orientation', label: 'Orientation<br>朝向', minWidth: '100px', sortable: true },
+                { key: 'OrientationHuman', label: 'OrientationHuman<br>人类朝向', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelation', label: 'SpatialRelation<br>空间方位', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelationHuman', label: 'SpatialRelationHuman<br>与人相关空间方位', minWidth: '140px', sortable: true },
+                { key: 'EmbodiedAvg', label: 'Average', minWidth: '100px', sortable: true },
+                { key: 'PartWhole', label: 'PartWhole<br>部分与整体', minWidth: '120px', sortable: true },
+                { key: 'PartWholeHuman', label: 'PartWholeHuman<br>人体部位识别', minWidth: '120px', sortable: true },
+                { key: 'ObjectState', label: 'ObjectState<br>目标状态', minWidth: '120px', sortable: true },
+                { key: 'Spoken', label: 'Spoken<br>口语描述', minWidth: '100px', sortable: true }
+            ],
+            // ========== 导航移动感知（nav）配置修改 ==========
+            'nav': [
+                { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
+                { key: 'NavAvg', label: 'Average', minWidth: '100px', sortable: true }, // 新增 Average 列
+                { key: 'GroundDetection', label: 'GroundDetection<br>地面识别(391)', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'FeasiblePath<br>可行路径感知(482)', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'VisualMatching<br>视觉匹配(352)', minWidth: '120px', sortable: true }
+            ],
+            // ========== 操作感知（manip）配置修改 ==========
+            'manip': [
+                { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
+                { key: 'ManipAvg', label: 'Average', minWidth: '100px', sortable: true }, // 新增 Average 列
+                { key: 'Affordance', label: 'Affordance<br>可供性(315)', minWidth: '120px', sortable: true },
+                { key: 'ContactRelationship', label: 'ContactRelationship<br>接触关系(292)', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'PlacementRegion<br>放置区域(402)', minWidth: '120px', sortable: true }
+            ]
+        };
+
+        // 排序函数
+        // 在 sortModels 函数中，确保处理浮点数排序
+        function sortModels(module, key, direction) {
+            const modelsWithScores = fixedModelList.filter(model => modelScores[model]);
+            
+            return modelsWithScores.sort((a, b) => {
+                const scoreA = parseFloat(modelScores[a][key]) || 0;
+                const scoreB = parseFloat(modelScores[b][key]) || 0;
+                
+                if (direction === 'asc') {
+                    return scoreA - scoreB; // 升序
+                } else {
+                    return scoreB - scoreA; // 降序
+                }
+            });
+        }
+
+        function renderHeader(module) {
+            const thead = document.getElementById('data-table-header');
+            thead.innerHTML = '';
+            const table = document.getElementById('data-table');
+            table.className = 'module-' + module;
+
+            const cols = moduleColumnConfigs[module];
+
+            // 两行表头：第一行分组/空，第二行字段
+            const tr1 = document.createElement('tr');
+            const tr2 = document.createElement('tr');
+            tr1.style.background = '#f1f5f9';
+            tr2.style.background = '#f1f5f9';
+
+            // ========== 第一行（tr1）处理 ==========
+            // Model 列：第一行留空 + 右侧分隔线
+            const thModel1 = document.createElement('th');
+            thModel1.colSpan = 1;
+            thModel1.style.padding = '12px';
+            thModel1.style.borderBottom = '2px solid #e2e8f0';
+            thModel1.style.borderRight = '2px solid #e2e8f0';
+            thModel1.textContent = '';
+            tr1.appendChild(thModel1);
+
+            if (module === 'epic') {
+                // EPIC 表：Average 列第一行留空（移除右侧分隔线）
+                const thAvg1 = document.createElement('th');
+                thAvg1.colSpan = 1;
+                thAvg1.style.padding = '12px';
+                thAvg1.style.borderBottom = '2px solid #e2e8f0';
+                thAvg1.textContent = '';
+                tr1.appendChild(thAvg1);
+
+                // 【关键修改】修正分组列数，和下方列严格对应
+                // BasicAttributes 分组：对应下方 4 列（TargetAvg+Basic+SpatialRelated+EmbodiedCompositional）
+                const g1 = document.createElement('th');
+                g1.colSpan = 4; // 原 7 → 改为 4
+                g1.style.padding = '12px';
+                g1.style.borderBottom = '2px solid #e2e8f0';
+                g1.style.borderRight = '2px solid #e2e8f0';
+                g1.style.fontWeight = '700';
+                g1.textContent = 'BasicAttributes-基础属性';
+                tr1.appendChild(g1);
+
+                // Navigation 分组：对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
+                const g2 = document.createElement('th');
+                g2.colSpan = 4; // 原 5 → 改为 4
+                g2.style.padding = '12px';
+                g2.style.borderBottom = '2px solid #e2e8f0';
+                g2.style.borderRight = '2px solid #e2e8f0';
+                g2.style.fontWeight = '700';
+                g2.textContent = 'SpatialRelatedAttributes-空间相关属性';
+                tr1.appendChild(g2);
+
+                // Manipulation 分组：对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
+                const g3 = document.createElement('th');
+                g3.colSpan = 4; // 原 5 → 改为 4
+                g3.style.padding = '12px';
+                g3.style.borderBottom = '2px solid #e2e8f0';
+                g3.style.fontWeight = '700';
+                g3.textContent = 'EmbodiedCompositionalAttributes-具身组合属性';
+                tr1.appendChild(g3);
+            } else if (module === 'target') {
+                // Target 表：统一边框样式（和EPIC一致）
+                const g1 = document.createElement('th');
+                g1.colSpan = 7;
+                g1.style.padding = '12px';
+                g1.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                g1.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
+                g1.style.fontWeight = '700';
+                g1.textContent = 'BasicAttributes-基础属性';
+                tr1.appendChild(g1);
+
+                const g2 = document.createElement('th');
+                g2.colSpan = 5;
+                g2.style.padding = '12px';
+                g2.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                g2.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
+                g2.style.fontWeight = '700';
+                g2.textContent = 'SpatialRelatedAttributes-空间相关属性';
+                tr1.appendChild(g2);
+
+                const g3 = document.createElement('th');
+                g3.colSpan = 5;
+                g3.style.padding = '12px';
+                g3.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                g3.style.fontWeight = '700';
+                g3.textContent = 'EmbodiedCompositionalAttributes-具身组合属性';
+                tr1.appendChild(g3);
+            } else {
+                // nav / manip 模块：原有逻辑不变
+                for (let i = 1; i < cols.length; i++) {
+                    const th = document.createElement('th');
+                    th.colSpan = 1;
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    th.textContent = '';
+                    tr1.appendChild(th);
+                }
+            }
+
+            // ========== 第二行（tr2）处理 ==========
+            // Model 列：文字 + 右侧分隔线
+            const thModel2 = document.createElement('th');
+            thModel2.style.padding = '12px';
+            thModel2.style.borderBottom = '2px solid #e2e8f0';
+            thModel2.style.borderRight = '2px solid #e2e8f0';
+            thModel2.style.fontWeight = '600';
+            thModel2.style.minWidth = cols[0].minWidth;
+            thModel2.innerHTML = cols[0].label;
+            tr2.appendChild(thModel2);
+
+            if (module === 'epic') {
+                // EPIC 表：Average 列文字（移除右侧分隔线）
+                // EPIC 表：Average 列文字（移除右侧分隔线）+ 添加排序功能
+                const thAvg2 = document.createElement('th');
+                thAvg2.style.padding = '12px';
+                thAvg2.style.borderBottom = '2px solid #e2e8f0';
+                // 移除 Average 右侧分隔线
+                thAvg2.style.fontWeight = '600';
+                thAvg2.style.minWidth = cols[1].minWidth;
+                thAvg2.innerHTML = cols[1].label;
+
+                // 给 Average 列添加排序功能
+                if (cols[1].sortable) {
+                    thAvg2.classList.add('sortable-header');
+                    thAvg2.dataset.sortKey = cols[1].key;
+                    const ind = document.createElement('span');
+                    ind.className = 'sort-indicator';
+                    ind.textContent = cols[1].key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                    thAvg2.appendChild(ind);
+                    thAvg2.addEventListener('click', () => {
+                        sortDirection = (cols[1].key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                        sortKey = cols[1].key;
+                        refreshTable();
+                    });
+                }
+
+                tr2.appendChild(thAvg2);
+
+                // 其他列：给第一组第一个列（i=2）加左侧分隔线
+                for (let i = 2; i < cols.length; i++) {
+                    const col = cols[i];
+                    const th = document.createElement('th');
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
+                    
+                    // 核心修改：第一组第一个列（i=2）左侧加分隔线
+                    if (i === 2) {
+                        th.style.borderLeft = '2px solid #e2e8f0 !important';
+                    }
+                    // 原有分组分隔线保留
+                    if (i === 5) th.style.borderRight = '2px solid #e2e8f0';
+                    if (i === 9) th.style.borderRight = '2px solid #e2e8f0';
+                    
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                }
+            } else if (module === 'target') {
+                // Target 表：原有逻辑不变
+                // Target 表第二行渲染（替换原有代码）
+                const colCount = cols.length - 1;
+                let currentCol = 1;
+
+                // 第一组：BasicAttributes
+                // 第一组：BasicAttributes（新增 Average 后循环 7 次）
+                for (let i = 1; i <= 7; i++) { // 6 → 7
+                    const col = cols[currentCol];
+                    const th = document.createElement('th');
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                    if (i === 7) th.style.borderRight = '2px solid #e2e8f0'; // 改为2px
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
+                    
+                    // 排序逻辑保留（不变）
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                    currentCol++;
+                }
+
+                // 第二组：SpatialRelatedAttributes（新增 Average 后循环 5 次）
+                for (let i = 1; i <= 5; i++) { // 4 → 5
+                    const col = cols[currentCol];
+                    const th = document.createElement('th');
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                    if (i === 5) th.style.borderRight = '2px solid #e2e8f0'; // 改为2px
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
+                    
+                    // 排序逻辑保留
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                    currentCol++;
+                }
+
+                // 第三组：EmbodiedCompositionalAttributes（新增 Average 后循环 5 次）
+                for (let i = 1; i <= 5; i++) { // 4 → 5
+                    const col = cols[currentCol];
+                    const th = document.createElement('th');
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
+                    
+                    // 排序逻辑保留
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                    currentCol++;
+                }
+            } else {
+                // nav / manip 模块：原有逻辑不变
+                for (let i = 1; i < cols.length; i++) {
+                    const col = cols[i];
+                    const th = document.createElement('th');
+                    th.colSpan = 1;
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                }
+            }
+
+            thead.appendChild(tr1);
+            thead.appendChild(tr2);
+        }
+
+        // 渲染表格内容（显示所有模型，表格容器滚动）
+        function renderBody(module, view) {
+            const tbody = document.getElementById('data-table-body');
+            tbody.innerHTML = '';
+            const columns = moduleColumnConfigs[module];
+            const sortedModels = sortModels(module, sortKey, sortDirection);
+
+            // 渲染所有模型（不再限制数量，表格容器滚动显示）
+            sortedModels.forEach((model, globalIdx) => {
+                const tr = document.createElement('tr');
+                tr.style.background = globalIdx % 2 === 0 ? '#fff' : '#f8fafc';
+                tr.style.borderBottom = '1px solid #e2e8f0';
+                
+                // 前三名背景色
+                if (globalIdx === 0) tr.style.background = '#fff8e6';
+                if (globalIdx === 1) tr.style.background = '#f5f5f5';
+                if (globalIdx === 2) tr.style.background = '#fff3e0';
+
+                columns.forEach((col, idx) => {
+                    const td = document.createElement('td');
+                    td.style.padding = '12px';
+                    td.style.textAlign = 'center';
+                    
+                    if (idx === 0) {
+                        // 第一列：排名数字 + 奖牌 + 模型名
+                        const rankNumber = document.createElement('span');
+                        rankNumber.className = 'rank-number';
+                        rankNumber.textContent = globalIdx + 1;
+                        td.appendChild(rankNumber);
+                        
+                        // 添加奖牌图标（前三名）
+                        let medal = '';
+                        if (globalIdx === 0) medal = '🥇 ';
+                        if (globalIdx === 1) medal = '🥈 ';
+                        if (globalIdx === 2) medal = '🥉 ';
+                        
+                        td.appendChild(document.createTextNode(medal + model));
+                        td.style.fontWeight = '500';
+                        td.style.color = '#1e293b';
+                        if (globalIdx < 3) td.style.fontWeight = '700';
+                    } else {
+                        if (view === 'rank') {
+                            const score = modelScores[model][col.key] ?? '-';
+                            td.textContent = score;
+                            td.style.color = '#1e293b';
+                            if (globalIdx < 3) td.style.fontWeight = '600';
+                        } else {
+                            td.textContent = '*';
+                            td.style.color = '#94a3b8';
+                        }
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 刷新表格
+        function refreshTable() {
+            renderHeader(currentModule);
+            renderBody(currentModule, currentView);
+        }
+
+        // 榜单/数据切换（保留原有功能）
+        document.querySelectorAll('.view-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-tab').forEach(b => {
+                    b.style.background = '#fff';
+                    b.style.color = '#1e293b';
+                    b.style.border = '1px solid #e2e8f0';
+                });
+                btn.style.background = '#1e40af';
+                btn.style.color = '#fff';
+                btn.style.border = 'none';
+
+                currentView = btn.id === 'tab-rank' ? 'rank' : 'data';
+                refreshTable();
+            });
+        });
+
+        // 模块切换
+        function bindButtonEvents() {
+            document.querySelectorAll('.data-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.data-btn, #sticky-nav-clone .data-btn').forEach(b => {
+                        b.style.background = '#fff';
+                        b.style.color = '#1e293b';
+                        b.style.border = '1px solid #e2e8f0';
+                    });
+                    btn.style.background = '#1e40af';
+                    btn.style.color = '#fff';
+                    btn.style.border = 'none';
+                    
+                    const cloneBtn = document.querySelector(`#sticky-nav-clone #${btn.id}`);
+                    if (cloneBtn) {
+                        cloneBtn.style.background = '#1e40af';
+                        cloneBtn.style.color = '#fff';
+                        cloneBtn.style.border = 'none';
+                    }
+
+                    if (btn.id === 'btn-epic') currentModule = 'epic';
+                    else if (btn.id === 'btn-target') currentModule = 'target';
+                    else if (btn.id === 'btn-nav') currentModule = 'nav';
+                    else if (btn.id === 'btn-manip') currentModule = 'manip';
+
+                    const firstSortableCol = moduleColumnConfigs[currentModule].find(col => col.sortable);
+                    if (firstSortableCol) {
+                        sortKey = firstSortableCol.key;
+                        sortDirection = 'desc';
+                    }
+                    
+                    refreshTable();
+                });
+            });
+
+            document.querySelectorAll('#sticky-nav-clone .data-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const originalBtn = document.querySelector(`#sticky-nav-wrapper #${btn.id}`);
+                    if (originalBtn) {
+                        originalBtn.click();
+                    }
+                });
+            });
+        }
+
+        // 粘性导航
+        function initStickyNav() {
+            const stickyWrapper = document.getElementById('sticky-nav-wrapper');
+            const stickyClone = document.getElementById('sticky-nav-clone');
+            const dataSection = document.querySelector('.data-example-section');
+            
+            stickyClone.innerHTML = stickyWrapper.innerHTML;
+            
+            function checkSticky() {
+                const sectionRect = dataSection.getBoundingClientRect();
+                const wrapperRect = stickyWrapper.getBoundingClientRect();
+                
+                if (sectionRect.top <= window.innerHeight && wrapperRect.top <= 0) {
+                    stickyClone.style.display = 'flex';
+                } else {
+                    stickyClone.style.display = 'none';
+                }
+            }
+
+            bindButtonEvents();
+            window.addEventListener('scroll', checkSticky);
+            checkSticky();
+        }
+
+        // 初始化
+        function init() {
+            // 初始化粘性导航
+            initStickyNav();
+            // 刷新表格
+            refreshTable();
+        }
+        // 跳转到榜单：自动切换到 榜单视图 + EPIC-Bench
+        function goToLeaderboard() {
+        document.getElementById('tab-rank').click();
+        document.getElementById('btn-epic').click();
+        document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 跳转到数据：自动切换到 数据视图 + EPIC-Bench
+        function goToData() {
+        document.getElementById('tab-data').click();
+        document.getElementById('btn-epic').click();
+        document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+        // 标题悬浮显示作者信息
+        const titleEl = document.getElementById('epic-title');
+        const authorsEl = document.querySelector('.authors');
+
+        titleEl.addEventListener('mouseenter', () => {
+            authorsEl.classList.remove('hide');
+            authorsEl.classList.add('show');
+        });
+
+        titleEl.addEventListener('mouseleave', () => {
+            authorsEl.classList.remove('show');
+            authorsEl.classList.add('hide');
+            // 动画结束后彻底隐藏
+            setTimeout(() => {
+                authorsEl.style.display = 'none';
+                authorsEl.classList.remove('hide');
+            }, 300); // 动画时长 0.3s
+        });
+    </script>
+
+    <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
+        <div style="background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <span style="font-size: 28px; font-weight: 700; color: #333; display: inline-flex; align-items: center; gap: 8px;">
+                    📝 Citation
+                </span>
+                <div style="width: 60%; height: 4px; background: linear-gradient(90deg, #4ade80, #f87171); margin: 8px auto 0; border-radius: 2px;"></div>
+            </div>
+            <div style="background: #f8fafc; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 14px; line-height: 1.6; color: #1e293b; overflow-x: auto;">
+                <pre style="margin: 0;">
+    @article{2026,
+    title={xxx},
+    journal={xxx},
+    year={2026}
+    }
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="logos-section">
+        <div class="logos-container">
+            <img src=".\img\logo2.png" alt="logo2" class="logo-img logo2-img">
+            <img src=".\img\logo.png" alt="logo" class="logo-img logo1-img">
+        </div>
+    </section>
+
+    <footer style="width: 100%; padding: 30px 20px; text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0;">
+        <p style="color: #64748b; font-size: 14px; font-weight: 500;">
+            © 2026 X-Humanoid Team
+        </p>
+    </footer>
+</body>
+</html>
