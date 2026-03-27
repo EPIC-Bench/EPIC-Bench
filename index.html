@@ -895,12 +895,8 @@
             "Qwen3.5-0.8B (思考模式)"
         ];
 
-        // 生成模拟分数数据（0-100）
-        // 替换原来的 generateMockScores 函数
-        // 生成模拟分数数据（0-100）
-        // 替换原来的 generateMockScores 函数
         function generateMockScores() {
-            // 真实的 EPIC 分数数据（对应你提供的表格）
+    // 真实的 EPIC 分数数据（对应你提供的表格）
             const realEPICScores = {
                 "Qwen3.5-397B-A17B (思考模式)": [47.47,55.45,51.82,42.18,51.1,60.11,45.35,12.4,26.33,42.51],
                 "Qwen3.5-122B-A10B (思考模式)": [47.24,53.61,49.13,41.16,51.42,63.47,45.19,12.31,46.04,39.77],
@@ -1060,14 +1056,173 @@
                 "Qwen3.5-0.8B (思考模式)":[18.1,19.8,23.87,19.19,20.05,36.3,15.82,26.36,25.87,36.76,18.25,18.35,21.47,20.33]
             };
 
+            // 你提供的三列平均值（严格按顺序）
+            const avgData = [
+                [50.47, 52.99, 28.43],
+                [48.44, 54.51, 32.97],
+                [47.8, 49.84, 30.55],
+                [48.78, 43.87, 34.27],
+                [54.32, 49.63, 37.69],
+                [48.1, 40.32, 30.74],
+                [39.25, 37.74, 27.63],
+                [38.75, 32.22, 25.63],
+                [37.59, 29.12, 23.1],
+                [37.23, 20.9, 21.59],
+                [30.82, 31.82, 24.04],
+                [36, 26.9, 26.24],
+                [38.01, 35.25, 28.47],
+                [40.96, 33.77, 29.52],
+                [37.01, 36.83, 22.42],
+                [44.06, 51.39, 40.68],
+                [55.13, 59.89, 46.55],
+                [31.23, 29.95, 24.07],
+                [32.19, 36.31, 22.68],
+                [35.26, 40.77, 26.31],
+                [43.26, 50.73, 31.59],
+                [42.83, 52.32, 33.85],
+                [45.75, 44.28, 28.32],
+                [40.26, 31.41, 22.6],
+                [46.61, 43.06, 27.05],
+                [48.31, 48.44, 27.33],
+                [47.79, 48.01, 26.05],
+                [43.93, 43.85, 26.68],
+                [46.9, 49.66, 28.98],
+                [47.34, 43.15, 25.05],
+                [45.51, 44.34, 27.95],
+                [29.38, 38.98, 25.58],
+                [37.03, 39.09, 22.46],
+                [38.36, 31.72, 18.18],
+                [38.69, 28.66, 15.04],
+                [37.2, 23.81, 22.82],
+                [36.68, 36.14, 28.61],
+                [36.39, 39.73, 24.39],
+                [37.08, 41.73, 26.55],
+                [39.76, 23.79, 18.6],
+                [44, 34.26, 22.43],
+                [47.46, 35.62, 29.49],
+                [32.59, 28.86, 18.13],
+                [44.61, 35.13, 30.76],
+                [34.7, 25.71, 16.24],
+                [32.26, 29.86, 21.38],
+                [29.41, 30.4, 22.16],
+                [39.25, 34.4, 22.4],
+                [25.59, 8.76, 12.05],
+                [25.24, 19.87, 20.4],
+                [27.62, 25.54, 20.86],
+                [29.15, 24.08, 22.36],
+                [38.2, 40.87, 26.1],
+                [37.57, 38.23, 35.12],
+                [36.75, 27.11, 23.16],
+                [28.4, 18.85, 17.22],
+                [47.15, 23.45, 26.29],
+                [34.62, 20.68, 22.98],
+                [27.99, 15.9, 17.16],
+                [32.35, 30.87, 17.89],
+                [41.23, 25.29, 23.97],
+                [29.15, 9.21, 8.53],
+                [16.79, 19.62, 12.97],
+                [27.39, 14.53, 17.83],
+                [15.39, 6.63, 7.49],
+                [25.74, 16.17, 21.12],
+                [50.69, 48.98, 23.85],
+                [49.94, 48.66, 33.3],
+                [38.5, 36.38, 20.87],
+                [37.32, 31.74, 17.38],
+                [28.43, 10.3, 15.67],
+                [3.12, 5.24, 12.21],
+                [41.04, 40.97, 26.67],
+                [38.54, 35.78, 22.44],
+                [32.18, 21.89, 20.5],
+                [23.61, 7.65, 14.66]
+            ];
+
+            // 模型顺序（必须严格一致）
+            const modelOrder = [
+                "Qwen3.5-397B-A17B (思考模式)",
+                "Qwen3.5-122B-A10B (思考模式)",
+                "Qwen3.5-35B-A3B (思考模式)",
+                "Qwen3.5-27B (思考模式)",
+                "Qwen3-VL-235B-A22B-Thinking",
+                "Qwen3-VL-30B-A3B-Thinking",
+                "Qwen3-VL-32B-Thinking",
+                "Qwen3-VL-8B-Thinking",
+                "Qwen3-VL-4B-Thinking",
+                "Qwen3-VL-2B-Thinking",
+                "gpt-4o",
+                "o4-mini",
+                "o3",
+                "gemini-2.5-pro",
+                "gemini-2.5-flash-lite",
+                "gemini-3-flash-preview",
+                "Gemini 3.1 Pro-preview",
+                "claude-opus-4-20250514",
+                "claude-haiku-4-5-20251001-thinking",
+                "claude-opus-4-1-20250805-thinking",
+                "claude-sonnet-4-6",
+                "claude-sonnet-4-6-thinking",
+                "GLM-4.6V",
+                "Step3-VL-10B",
+                "hunyuan-t1-vision-20250916",
+                "Qwen3.5-397B-A17B",
+                "Qwen3.5-122B-A10B",
+                "Qwen3.5-35B-A3B",
+                "Qwen3.5-27B",
+                "Qwen2.5-VL-72B-Instruct",
+                "Qwen3-VL-235B-A22B-Instruct",
+                "Qwen3-VL-30B-A3B-Instruct",
+                "Qwen3-VL-32B-Instruct",
+                "Qwen3-VL-8B-Instruct",
+                "Qwen3-VL-4B-Instruct",
+                "Qwen3-VL-2B-Instruct",
+                "gpt-5-mini-2025-08-07",
+                "GPT5.1",
+                "GPT5.2",
+                "InternVL3.5-8B",
+                "InternVL3.5-14B",
+                "InternVL3.5-38B",
+                "InternVL3.5-30B-A3B",
+                "InternVL3.5-241B-A28B",
+                "InternVL3-8B",
+                "InternVL3-14B",
+                "InternVL3-38B",
+                "InternVL3-78B",
+                "LLaVA-next-72b 2025.1",
+                "Gemma-3-4B-IT",
+                "Gemma-3-12B-IT",
+                "Gemma-3-27B-IT",
+                "gemini-2.5-flash-nothinking",
+                "gemini-3-flash-preview-nothinking",
+                "Tencent HY Vision 1.5 Instruct",
+                "hunyuan-turbos-vision-20250619",
+                "RoboBrain2-32B",
+                "RoboBrain2-7B",
+                "RoboBrain2.5-8B-NV",
+                "RoboBrain2.5-8B-MT",
+                "Pelican1.0-VL-72B",
+                "RynnBrain-8B",
+                "RynnBrain-CoP-8B",
+                "RynnBrain-Plan-8B",
+                "RynnBrain-2B",
+                "Cosmos-Reason1-7B",
+                "Doubao-seed-1.8-251228",
+                "Doubao-seed-1.6-vision-250615",
+                "Qwen3.5-9B",
+                "Qwen3.5-4B",
+                "Qwen3.5-2B",
+                "Qwen3.5-0.8B",
+                "Qwen3.5-9B (思考模式)",
+                "Qwen3.5-4B (思考模式)",
+                "Qwen3.5-2B (思考模式)",
+                "Qwen3.5-0.8B (思考模式)"
+            ];
+
             const mockScores = {};
-            // 遍历所有模型
-            Object.keys(realEPICScores).forEach(model => {
-                const epicScores = realEPICScores[model];
+            modelOrder.forEach((model, idx) => {
+                const epicScores = realEPICScores[model] || [];
                 const targetScores = realTargetScores[model] || [];
-                
+                const [targetAvg, navAvg, manipAvg] = avgData[idx] || [0, 0, 0];
+
                 mockScores[model] = {
-                    // EPIC 字段（对应真实分数）
                     Average: epicScores[0],
                     Basic: epicScores[1],
                     SpatialRelated: epicScores[2],
@@ -1078,16 +1233,16 @@
                     Affordance: epicScores[7],
                     ContactRelationship: epicScores[8],
                     PlacementRegion: epicScores[9],
-                    
-                    // ========== 新增空的 Average 字段 ==========
-                    NavAvg: '',       // 导航移动感知 Average（空值，后续填充）
-                    ManipAvg: '',     // 操作感知 Average（空值，后续填充）
-                    TargetAvg: '',    // 目标定位感知 Average（空值，后续填充）
-                    BasicAvg: '',     // 基础属性 Average（空值，后续填充）
-                    SpatialAvg: '',   // 空间相关属性 Average（空值，后续填充）
-                    EmbodiedAvg: '',  // 具身组合属性 Average（空值，后续填充）
-                    
-                    // TargetLocalization 字段（使用真实分数）
+
+                    // ========== 你要的三列平均值已填入 ==========
+                    TargetAvg: targetAvg,
+                    NavAvg: navAvg,
+                    ManipAvg: manipAvg,
+
+                    BasicAvg: epicScores[1],
+                    SpatialAvg: epicScores[2],
+                    EmbodiedAvg: epicScores[3],
+
                     Category: targetScores[0] || 0,
                     Color: targetScores[1] || 0,
                     Geometry: targetScores[2] || 0,
@@ -1222,7 +1377,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0';
                 g1.style.borderRight = '2px solid #e2e8f0';
                 g1.style.fontWeight = '700';
-                g1.textContent = 'BasicAttributes-基础属性';
+                g1.textContent = 'TargetLocalization-目标定位感知';
                 tr1.appendChild(g1);
 
                 // Navigation 分组：对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
@@ -1232,7 +1387,7 @@
                 g2.style.borderBottom = '2px solid #e2e8f0';
                 g2.style.borderRight = '2px solid #e2e8f0';
                 g2.style.fontWeight = '700';
-                g2.textContent = 'SpatialRelatedAttributes-空间相关属性';
+                g2.textContent = 'Navigation-导航移动感知';
                 tr1.appendChild(g2);
 
                 // Manipulation 分组：对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
@@ -1241,7 +1396,7 @@
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0';
                 g3.style.fontWeight = '700';
-                g3.textContent = 'EmbodiedCompositionalAttributes-具身组合属性';
+                g3.textContent = 'Manipulation-操作感知';
                 tr1.appendChild(g3);
             } else if (module === 'target') {
                 // Target 表：统一边框样式（和EPIC一致）
