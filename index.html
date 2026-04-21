@@ -2291,10 +2291,10 @@
                         "Navigation/4-3.png"
                     ],
                     commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
-                    lastTopText: "[GT]: GT Mask",
+                    lastTopText:"[GT]: GT Mask",
                     imageBottomTexts: [
                         "",
-                        "TAD：the rightmost table <br>TAD：the smallest bookshelf area"
+                        "TAD：the rightmost table\nTAD：the smallest bookshelf area"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
                     additionalLabels: "[Additional Labels]: None"
@@ -2310,7 +2310,8 @@
                     commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
                     lastTopText: "[GT]: GT Mask",
                     imageBottomTexts: [
-                        "TAD：the door <br> TAD：the sink"
+                        "",
+                        "TAD：the door\nTAD：the sink"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
                     additionalLabels: "[Additional Labels]: None"
@@ -2567,13 +2568,15 @@
             Manipulation: 0
         };
 
-        // 渲染当前模块的当前条数据
+        // 渲染当前模块的当前条数据（新版：独立模块 + 相对定位 + 整洁排版）
         function renderFixedImages(folder) {
             const grid = document.querySelector('.data-image-grid');
             grid.innerHTML = '';
+
+            // 整体网格布局
+            grid.style.display = 'grid';
             grid.style.gridTemplateColumns = '1fr';
-            grid.style.position = 'relative';
-            grid.style.paddingTop = '40px';
+            grid.style.gap = '0';
 
             const list = dataset[folder];
             if (!list || list.length === 0) return;
@@ -2582,89 +2585,96 @@
             const data = list[idx];
 
             // ======================
-            // ✅ 1. 左上角任务标签（所有图片共用）
+            // ✅ 外层独立模块（所有内容都在这里面）
+            // ======================
+            const card = document.createElement('div');
+            card.style.position = 'relative';
+            card.style.width = '100%';
+            card.style.background = '#ffffff';
+            card.style.borderRadius = '16px';
+            card.style.padding = '24px';
+            card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+            card.style.boxSizing = 'border-box';
+
+            // ======================
+            // ✅ 任务标签（左上角，相对定位）
             // ======================
             const taskLabel = document.createElement('div');
             taskLabel.style.position = 'absolute';
-            taskLabel.style.top = '0px';
-            taskLabel.style.left = '0px';
+            taskLabel.style.top = '16px';
+            taskLabel.style.left = '16px';
             taskLabel.style.background = '#1e40af';
             taskLabel.style.color = '#fff';
             taskLabel.style.padding = '6px 14px';
-            taskLabel.style.borderRadius = '6px';
+            taskLabel.style.borderRadius = '8px';
             taskLabel.style.fontSize = '15px';
             taskLabel.style.fontWeight = '600';
-            taskLabel.style.zIndex = '9999';
+            taskLabel.style.zIndex = '10';
             taskLabel.textContent = `Task Type: ${data.taskType}`;
-            grid.appendChild(taskLabel);
+            card.appendChild(taskLabel);
 
             // ======================
-            // ✅ 2. 整条数据左下角：Additional Labels（只显示一次）
+            // ✅ Additional Labels（左下角，相对定位）
             // ======================
             const additionalLabel = document.createElement('div');
             additionalLabel.style.position = 'absolute';
-            additionalLabel.style.top = '410px';
-            additionalLabel.style.left = '0px';
+            additionalLabel.style.bottom = '16px';
+            additionalLabel.style.left = '16px';
             additionalLabel.style.fontSize = '14px';
             additionalLabel.style.fontWeight = '500';
             additionalLabel.style.color = '#1e293b';
-            additionalLabel.style.padding = '4px 0';
-            additionalLabel.style.zIndex = '9999';
-            additionalLabel.style.whiteSpace = 'pre-wrap';
-
-            if (data.additionalLabels) {
-                additionalLabel.textContent = data.additionalLabels;
-            } else {
-                additionalLabel.textContent = '';
-            }
-
-            grid.appendChild(additionalLabel);
+            additionalLabel.style.zIndex = '10';
+            additionalLabel.textContent = data.additionalLabels || '';
+            card.appendChild(additionalLabel);
 
             // ======================
-            // 图片容器
+            // ✅ 图片 + 文字主体区域
             // ======================
             const imgContainer = document.createElement('div');
             imgContainer.style.display = 'flex';
             imgContainer.style.gap = '16px';
-            imgContainer.style.marginTop = '20px';
-            imgContainer.style.position = 'relative';
-            imgContainer.style.paddingBottom = '30px';
+            imgContainer.style.marginTop = '50px';
+            imgContainer.style.marginBottom = '40px';
+            imgContainer.style.alignItems = 'flex-start';
 
             const totalImages = data.images.length;
 
             data.images.slice(0, data.imageCount).forEach((src, i) => {
                 const wrapper = document.createElement('div');
                 wrapper.style.flex = '1';
-                wrapper.style.position = 'relative';
                 wrapper.style.display = 'flex';
                 wrapper.style.flexDirection = 'column';
                 wrapper.style.gap = '8px';
+                wrapper.style.alignItems = 'center';
 
-                // 最后一张图片不显示共用文字
-                if (i !== totalImages - 1) {
-                    const commonTopText = document.createElement('div');
-                    commonTopText.style.textAlign = 'center';
-                    commonTopText.style.fontSize = '14px';
-                    commonTopText.style.fontWeight = '500';
-                    commonTopText.style.color = '#1e293b';
-                    commonTopText.style.minHeight = '20px';
-                    commonTopText.textContent = data.commonTopText;
-                    wrapper.appendChild(commonTopText);
-                }
+                // --------------------
+                // 图片上方文字
+                // --------------------
+                const topText = document.createElement('div');
+                // 👇 关键修改：固定高度，保证所有文字容器高度一致
+                topText.style.height = '60px';  // 比如设为60px，足够容纳2行文字
+                topText.style.display = 'flex';
+                topText.style.alignItems = 'center'; // 文字在容器内垂直居中
+                topText.style.justifyContent = 'center';
+                topText.style.fontSize = '14px';
+                topText.style.fontWeight = '500';
+                topText.style.color = '#1e293b';
+                topText.style.textAlign = 'center';
+                // 👇 移除 minHeight，改用固定 height
+                // topText.style.minHeight = '20px'; 
 
-                // 最后一张图片上方：本条数据独立文字
                 if (i === totalImages - 1) {
-                    const lastTopText = document.createElement('div');
-                    lastTopText.style.textAlign = 'center';
-                    lastTopText.style.fontSize = '14px';
-                    lastTopText.style.fontWeight = '600';
-                    lastTopText.style.color = '#e64980';
-                    lastTopText.style.minHeight = '20px';
-                    lastTopText.textContent = data.lastTopText;
-                    wrapper.appendChild(lastTopText);
+                    topText.style.color = '#e64980';
+                    topText.style.fontWeight = '600';
+                    topText.textContent = data.lastTopText || '';
+                } else {
+                    topText.textContent = data.commonTopText || '';
                 }
+                wrapper.appendChild(topText);
 
+                // --------------------
                 // 图片
+                // --------------------
                 const img = document.createElement('img');
                 img.src = src;
                 img.style.width = '100%';
@@ -2673,32 +2683,28 @@
                 img.style.borderRadius = '12px';
                 img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
                 img.style.transition = 'transform 0.3s';
-                img.onmouseover = () => img.style.transform = 'scale(1.05)';
+                img.onmouseover = () => img.style.transform = 'scale(1.03)';
                 img.onmouseout = () => img.style.transform = 'scale(1)';
+                wrapper.appendChild(img);
 
-                const cornerLabel = document.createElement('div');
-                cornerLabel.style.display = 'none';
-
-                // ======================
-                // ✅ 每张图片下方原有文字
-                // ======================
+                // --------------------
+                // 图片下方文字
+                // --------------------
                 const bottomText = document.createElement('div');
-                bottomText.style.textAlign = 'center';
-                bottomText.style.padding = '8px 10px';
                 bottomText.style.fontSize = '14px';
                 bottomText.style.color = '#1e293b';
                 bottomText.style.fontWeight = '500';
+                bottomText.style.textAlign = 'center';
                 bottomText.style.whiteSpace = 'pre-wrap';
-                bottomText.style.wordBreak = 'break-all';
+                bottomText.style.minHeight = '20px';
                 bottomText.textContent = data.imageBottomTexts[i] || '';
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(cornerLabel);
                 wrapper.appendChild(bottomText);
+
                 imgContainer.appendChild(wrapper);
             });
 
-            grid.appendChild(imgContainer);
+            card.appendChild(imgContainer);
+            grid.appendChild(card);
         }
 
         // 换一批：切换到下一条（每个模块独立切换）
