@@ -784,24 +784,43 @@
             <button class="view-tab" id="tab-rank" style="background: #1e40af; color: white;">🏆榜单</button>
             <button class="view-tab" id="tab-data" style="background: #fff; color: #1e293b;">数据</button>
         </div>
+        <img 
+            id="data-view-image" 
+            src="img\screenshot-20260306-181202.png"
+            style="max-width: 100%; border-radius: 16px; margin: 0 auto 24px; display: none;"
+        >
 
         <div id="sticky-nav-wrapper" class="data-button-group">
+            <!-- 榜单保留 EPIC，数据视图隐藏 EPIC -->
             <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
             <button class="data-btn" id="btn-target" style="background: white; color: #1e293b;">TargetLocalization-目标定位感知</button>
             <button class="data-btn" id="btn-nav" style="background: white; color: #1e293b;">Navigation-导航移动感知</button>
             <button class="data-btn" id="btn-manip" style="background: white; color: #1e293b;">Manipulation-操作感知</button>
         </div>
 
-        <!-- 表格容器 -->
-        <div class="table-scroll-wrapper">
-            <button class="pagination-arrow left" id="prev-page">←</button>
-            <div class="data-table-container">
-                <table id="data-table" style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1000px; text-align: center;">
-                    <thead id="data-table-header"></thead>
-                    <tbody id="data-table-body"></tbody>
-                </table>
+        <!-- 榜单表格容器（仅榜单视图显示） -->
+        <div class="data-table-container" style="display: block;">
+            <table id="data-table" style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1000px; text-align: center;">
+                <thead id="data-table-header"></thead>
+                <tbody id="data-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- 数据模块：图片展示区域（仅数据视图显示，榜单不影响） -->
+        <div id="data-image-container" style="display: none;">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <button id="refresh-images-btn" class="quick-jump-btn" style="background:#1e40af; color:white; border:none;">🔄 换一批</button>
             </div>
-            <button class="pagination-arrow right" id="next-page">→</button>
+            <div class="data-image-grid" style="
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 16px;
+                padding: 16px;
+                max-width: 1400px;
+                margin: 0 auto;
+            ">
+                <!-- 图片自动插入 -->
+            </div>
         </div>
     </section>
 
@@ -817,10 +836,10 @@
         // 模型列表
         // 替换原来的 fixedModelList
         const fixedModelList = [
-            "Qwen3.5-397B-A17B (思考模式)",
-            "Qwen3.5-122B-A10B (思考模式)",
-            "Qwen3.5-35B-A3B (思考模式)",
-            "Qwen3.5-27B (思考模式)",
+            "Qwen3.5-397B-A17B-Thinking mode",
+            "Qwen3.5-122B-A10B-Thinking mode",
+            "Qwen3.5-35B-A3B-Thinking mode",
+            "Qwen3.5-27B-Thinking mode",
             "Qwen3-VL-235B-A22B-Thinking",
             "Qwen3-VL-30B-A3B-Thinking",
             "Qwen3-VL-32B-Thinking",
@@ -889,20 +908,24 @@
             "Qwen3.5-4B",
             "Qwen3.5-2B",
             "Qwen3.5-0.8B",
-            "Qwen3.5-9B (思考模式)",
-            "Qwen3.5-4B (思考模式)",
-            "Qwen3.5-2B (思考模式)",
-            "Qwen3.5-0.8B (思考模式)",
-            "Qwen3.6-plus"
+            "Qwen3.5-9B-Thinking mode",
+            "Qwen3.5-4B-Thinking mode",
+            "Qwen3.5-2B-Thinking mode",
+            "Qwen3.5-0.8B-Thinking mode",
+            "Qwen3.6-plus",
+            "MiMo-VL-7B-SFT-2508",
+            "MiMo-VL-7B-RL-2508",
+            "MiMo-Embodied-7B",
+            "VeBrain"
         ];
 
         function generateMockScores() {
     // 真实的 EPIC 分数数据（对应你提供的表格）
             const realEPICScores = {
-                "Qwen3.5-397B-A17B (思考模式)": [47.47,55.45,51.82,42.18,51.1,60.11,45.35,12.4,26.33,42.51],
-                "Qwen3.5-122B-A10B (思考模式)": [47.24,53.61,49.13,41.16,51.42,63.47,45.19,12.31,46.04,39.77],
-                "Qwen3.5-35B-A3B (思考模式)": [45.58,53.51,49.18,39.03,43.09,61.17,41.18,10.75,41.7,38.05],
-                "Qwen3.5-27B (思考模式)": [45.67,54.15,50.03,40.61,46.96,39.43,46.77,13.15,49.56,39.84],
+                "Qwen3.5-397B-A17B-Thinking mode": [47.47,55.45,51.82,42.18,51.1,60.11,45.35,12.4,26.33,42.51],
+                "Qwen3.5-122B-A10B-Thinking mode": [47.24,53.61,49.13,41.16,51.42,63.47,45.19,12.31,46.04,39.77],
+                "Qwen3.5-35B-A3B-Thinking mode": [45.58,53.51,49.18,39.03,43.09,61.17,41.18,10.75,41.7,38.05],
+                "Qwen3.5-27B-Thinking mode": [45.67,54.15,50.03,40.61,46.96,39.43,46.77,13.15,49.56,39.84],
                 "Qwen3-VL-235B-A22B-Thinking": [50.93,58,55.67,48.12,48.18,51.19,49.01,16.96,48.04,46.49],
                 "Qwen3-VL-30B-A3B-Thinking": [44.02,52.69,49.37,40.87,42.34,41.65,36.2,10.62,38.78,40.72],
                 "Qwen3-VL-32B-Thinking": [37.21,39.94,41.26,36.05,31.03,42.04,39.07,4.84,35.23,40.03],
@@ -971,19 +994,23 @@
                 "Qwen3.5-4B":[33.27,39.84,40.87,30.04,33.7,29.66,32.54,5.56,17.6,26.49],
                 "Qwen3.5-2B":[23.12,26.93,32.91,25.11,7.84,3.72,22.43,0.37,20.64,24.09],
                 "Qwen3.5-0.8B":[4.89,2.58,4.62,2.05,0.15,4.94,11.33,0.57,13.12,20.67],
-                "Qwen3.5-9B (思考模式)":[38.86, 44.6, 43.38, 33.87, 31.26, 49.06, 40.22, 6.07, 37.64, 34.92],
-                "Qwen3.5-4B (思考模式)":[35.59, 40.83, 42.34, 31.24, 24.09, 45.21, 35.33, 5.65, 24.79, 33.9],
-                "Qwen3.5-2B (思考模式)":[28.49, 33.36, 35.06, 27.34, 14.58, 25.31, 25.13, 3.39, 30.1, 27.01],
-                "Qwen3.5-0.8B (思考模式)":[19.27, 21.89, 28.72, 19.82, 0.77, 9.26, 13.02, 0.95, 18.88, 22.36],
-                "Qwen3.6-plus":[45.48, 47.66, 50.17, 41.07, 44.47, 62.12, 41.57, 11.95, 47.84, 41.59]
+                "Qwen3.5-9B-Thinking mode":[38.86, 44.6, 43.38, 33.87, 31.26, 49.06, 40.22, 6.07, 37.64, 34.92],
+                "Qwen3.5-4B-Thinking mode":[35.59, 40.83, 42.34, 31.24, 24.09, 45.21, 35.33, 5.65, 24.79, 33.9],
+                "Qwen3.5-2B-Thinking mode":[28.49, 33.36, 35.06, 27.34, 14.58, 25.31, 25.13, 3.39, 30.1, 27.01],
+                "Qwen3.5-0.8B-Thinking mode":[19.27, 21.89, 28.72, 19.82, 0.77, 9.26, 13.02, 0.95, 18.88, 22.36],
+                "Qwen3.6-plus":[45.48, 47.66, 50.17, 41.07, 44.47, 62.12, 41.57, 11.95, 47.84, 41.59],
+                "MiMo-VL-7B-SFT-2508":[31.18,33.01,37.17,32.98,17.59,29.14,36.89,4.91,23.2,32.82],
+                "MiMo-VL-7B-RL-2508":[34.65,36.65,42.31,34.92,18.31,36.9,37.45,6.51,30.37,32.86],
+                "MiMo-Embodied-7B":[37.16,41.22,44.17,38.74,24.67,32.22,40.23,8.71,28.23,33.88],
+                "VeBrain":[29.27,33.63,35.98,27.69,29.56,20.04,27.58,2.85,19.25,32.3]
             };
 
             // 真实的 TargetLocalization 分数数据
             const realTargetScores = {
-                "Qwen3.5-397B-A17B (思考模式)": [57.92,50.81,59.79,48.39,53.39,69.3,51.67,41.16,53.2,54.92,39.82,51.24,48.07,39.82],
-                "Qwen3.5-122B-A10B (思考模式)": [52.53,48.17,63.57,47.07,52.52,62.97,42.83,38.74,51.85,52.32,37.31,44.68,45.51,40.4],
-                "Qwen3.5-35B-A3B (思考模式)": [54.87,47.24,59.03,46.94,52.32,66.51,49.88,36.42,51.53,51.83,34.93,46.91,47.77,35.6],
-                "Qwen3.5-27B (思考模式)": [53.47,50.1,59.88,47.61,53.19,65.69,44.21,41.2,52.67,52.48,37.64,47.21,48.84,37.18],
+                "Qwen3.5-397B-A17B-Thinking mode": [57.92,50.81,59.79,48.39,53.39,69.3,51.67,41.16,53.2,54.92,39.82,51.24,48.07,39.82],
+                "Qwen3.5-122B-A10B-Thinking mode": [52.53,48.17,63.57,47.07,52.52,62.97,42.83,38.74,51.85,52.32,37.31,44.68,45.51,40.4],
+                "Qwen3.5-35B-A3B-Thinking mode": [54.87,47.24,59.03,46.94,52.32,66.51,49.88,36.42,51.53,51.83,34.93,46.91,47.77,35.6],
+                "Qwen3.5-27B-Thinking mode": [53.47,50.1,59.88,47.61,53.19,65.69,44.21,41.2,52.67,52.48,37.64,47.21,48.84,37.18],
                 "Qwen3-VL-235B-A22B-Thinking": [60.89,48.48,62.13,50.81,59.56,71.19,50.1,42.96,57.39,60.82,42.94,54.48,56.41,45.78],
                 "Qwen3-VL-30B-A3B-Thinking": [51.5,43.17,60.66,47.13,53.89,65.77,37.16,37.71,50.97,56.09,34.18,47.95,51.23,38.27],
                 "Qwen3-VL-32B-Thinking": [40.02,33.96,41.84,41.68,33.11,59.34,36.95,32.2,39.05,49.02,31.31,40.06,46.02,33.51],
@@ -1052,11 +1079,15 @@
                 "Qwen3.5-4B":[37.4,35.21,44.02,33.15,40.12,54.77,35.2,30.7,38.65,49.52,27.49,36.95,36.8,26.89],
                 "Qwen3.5-2B":[26.74,22.74,28.87,24.63,26.42,36.07,22.51,25.12,32.12,40.22,21.75,22.48,31.2,25.14],
                 "Qwen3.5-0.8B":[0.27,2.54,3.1,3.21,2.97,3.88,4.33,3.7,4.1,5.72,0.56,2.59,2.52,2.43],
-                "Qwen3.5-9B (思考模式)":[42.5,38.99,47.77,39.35,45.68,58.36,42.19,34.37,40.22,51.32,31.87,41.47,41.88,29.81],
-                "Qwen3.5-4B (思考模式)":[39.14,35.04,44.76,34.72,40.09,58.2,35.74,37.29,39.45,49.79,27.57,39.5,40.87,27.19],
-                "Qwen3.5-2B (思考模式)":[33.64,29.88,38.71,28.67,28.62,48.21,24.89,28.23,32.37,44.09,23.29,30.91,35.05,25.43],
-                "Qwen3.5-0.8B (思考模式)":[18.1,19.8,23.87,19.19,20.05,36.3,15.82,26.36,25.87,36.76,18.25,18.35,21.47,20.33],
-                "Qwen3.6-plus":[49.48,41.65,48.13,44.2,46.17,62.36,53.83,40.53,50.62,52.8,37.38,50.71,44.63,38.9]
+                "Qwen3.5-9B-Thinking mode":[42.5,38.99,47.77,39.35,45.68,58.36,42.19,34.37,40.22,51.32,31.87,41.47,41.88,29.81],
+                "Qwen3.5-4B-Thinking mode":[39.14,35.04,44.76,34.72,40.09,58.2,35.74,37.29,39.45,49.79,27.57,39.5,40.87,27.19],
+                "Qwen3.5-2B-Thinking mode":[33.64,29.88,38.71,28.67,28.62,48.21,24.89,28.23,32.37,44.09,23.29,30.91,35.05,25.43],
+                "Qwen3.5-0.8B-Thinking mode":[18.1,19.8,23.87,19.19,20.05,36.3,15.82,26.36,25.87,36.76,18.25,18.35,21.47,20.33],
+                "Qwen3.6-plus":[49.48,41.65,48.13,44.2,46.17,62.36,53.83,40.53,50.62,52.8,37.38,50.71,44.63,38.9],
+                "MiMo-VL-7B-SFT-2508":[30.06,26.87,39.31,30.95,30.51,48,30.57,34.95,33.46,44.35,29.48,38.28,36.86,31.75],
+                "MiMo-VL-7B-RL-2508":[32.49,30.84,38.45,34.56,38.39,50.02,30.46,37.97,39.42,50.97,25.73,39.97,43.76,34.59],
+                "MiMo-Embodied-7B":[37.42,34.62,42.72,37.59,42.34,59.23,31.02,38.22,42.45,52.54,32.84,43.99,45.4,37.63],
+                "VeBrain":[34.99,24.15,40.97,30.84,30.95,47.69,18.63,32.22,32.65,46.48,21.55,29.3,33.17,28.11]
             };
 
             // 你提供的三列平均值（严格按顺序）
@@ -1137,15 +1168,19 @@
                 [38.54, 35.78, 22.44],
                 [32.18, 21.89, 20.5],
                 [23.61, 7.65, 14.66],
-                [46.58, 50.77, 34.1]
+                [46.58, 50.77, 34.1],
+                [34.42,27.7,21.32],
+                [38.07,31.22,23.89],
+                [41.5,32.11,24.38],
+                [32.69,25.16,19.33]
             ];
 
             // 模型顺序（必须严格一致）
             const modelOrder = [
-                "Qwen3.5-397B-A17B (思考模式)",
-                "Qwen3.5-122B-A10B (思考模式)",
-                "Qwen3.5-35B-A3B (思考模式)",
-                "Qwen3.5-27B (思考模式)",
+                "Qwen3.5-397B-A17B-Thinking mode",
+                "Qwen3.5-122B-A10B-Thinking mode",
+                "Qwen3.5-35B-A3B-Thinking mode",
+                "Qwen3.5-27B-Thinking mode",
                 "Qwen3-VL-235B-A22B-Thinking",
                 "Qwen3-VL-30B-A3B-Thinking",
                 "Qwen3-VL-32B-Thinking",
@@ -1214,11 +1249,15 @@
                 "Qwen3.5-4B",
                 "Qwen3.5-2B",
                 "Qwen3.5-0.8B",
-                "Qwen3.5-9B (思考模式)",
-                "Qwen3.5-4B (思考模式)",
-                "Qwen3.5-2B (思考模式)",
-                "Qwen3.5-0.8B (思考模式)",
-                "Qwen3.6-plus"
+                "Qwen3.5-9B-Thinking mode",
+                "Qwen3.5-4B-Thinking mode",
+                "Qwen3.5-2B-Thinking mode",
+                "Qwen3.5-0.8B-Thinking mode",
+                "Qwen3.6-plus",
+                "MiMo-VL-7B-SFT-2508",
+                "MiMo-VL-7B-RL-2508",
+                "MiMo-Embodied-7B",
+                "VeBrain"
             ];
 
             const mockScores = {};
@@ -1638,61 +1677,88 @@
             thead.appendChild(tr2);
         }
 
-        // 渲染表格内容（显示所有模型，表格容器滚动）
+        // 渲染表格/图片：榜单正常显示表格，数据显示图片（EPIC数据视图隐藏）
         function renderBody(module, view) {
             const tbody = document.getElementById('data-table-body');
-            tbody.innerHTML = '';
+            const tableContainer = document.querySelector('.data-table-container');
+            const imageContainer = document.getElementById('data-image-container');
             const columns = moduleColumnConfigs[module];
             const sortedModels = sortModels(module, sortKey, sortDirection);
 
-            // 渲染所有模型（不再限制数量，表格容器滚动显示）
-            sortedModels.forEach((model, globalIdx) => {
-                const tr = document.createElement('tr');
-                tr.style.background = globalIdx % 2 === 0 ? '#fff' : '#f8fafc';
-                tr.style.borderBottom = '1px solid #e2e8f0';
-                
-                // 前三名背景色
-                if (globalIdx === 0) tr.style.background = '#fff8e6';
-                if (globalIdx === 1) tr.style.background = '#f5f5f5';
-                if (globalIdx === 2) tr.style.background = '#fff3e0';
+            // ============== 榜单视图：正常渲染表格（完全保留原有逻辑） ==============
+            if (view === 'rank') {
+                tableContainer.style.display = 'block';
+                imageContainer.style.display = 'none';
+                tbody.innerHTML = '';
 
-                columns.forEach((col, idx) => {
-                    const td = document.createElement('td');
-                    td.style.padding = '12px';
-                    td.style.textAlign = 'center';
+                sortedModels.forEach((model, globalIdx) => {
+                    const tr = document.createElement('tr');
+                    tr.style.background = globalIdx % 2 === 0 ? '#fff' : '#f8fafc';
+                    tr.style.borderBottom = '1px solid #e2e8f0';
                     
-                    if (idx === 0) {
-                        // 第一列：排名数字 + 奖牌 + 模型名
-                        const rankNumber = document.createElement('span');
-                        rankNumber.className = 'rank-number';
-                        rankNumber.textContent = globalIdx + 1;
-                        td.appendChild(rankNumber);
+                    // 前三名背景色
+                    if (globalIdx === 0) tr.style.background = '#fff8e6';
+                    if (globalIdx === 1) tr.style.background = '#f5f5f5';
+                    if (globalIdx === 2) tr.style.background = '#fff3e0';
+
+                    columns.forEach((col, idx) => {
+                        const td = document.createElement('td');
+                        td.style.padding = '12px';
+                        td.style.textAlign = 'center';
                         
-                        // 添加奖牌图标（前三名）
-                        let medal = '';
-                        if (globalIdx === 0) medal = '🥇 ';
-                        if (globalIdx === 1) medal = '🥈 ';
-                        if (globalIdx === 2) medal = '🥉 ';
-                        
-                        td.appendChild(document.createTextNode(medal + model));
-                        td.style.fontWeight = '500';
-                        td.style.color = '#1e293b';
-                        if (globalIdx < 3) td.style.fontWeight = '700';
-                    } else {
-                        if (view === 'rank') {
+                        if (idx === 0) { // 模型名列：排名+奖牌+名称
+                            const rankNumber = document.createElement('span');
+                            rankNumber.className = 'rank-number';
+                            rankNumber.textContent = globalIdx + 1;
+                            td.appendChild(rankNumber);
+                            
+                            let medal = '';
+                            if (globalIdx === 0) medal = '🥇 ';
+                            if (globalIdx === 1) medal = '🥈 ';
+                            if (globalIdx === 2) medal = '🥉 ';
+                            
+                            td.appendChild(document.createTextNode(medal + model));
+                            td.style.fontWeight = '500';
+                            td.style.color = '#1e293b';
+                            if (globalIdx < 3) td.style.fontWeight = '700';
+                        } else { // 分数列
                             const score = modelScores[model][col.key] ?? '-';
                             td.textContent = score;
                             td.style.color = '#1e293b';
                             if (globalIdx < 3) td.style.fontWeight = '600';
-                        } else {
-                            td.textContent = '*';
-                            td.style.color = '#94a3b8';
                         }
-                    }
-                    tr.appendChild(td);
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
                 });
-                tbody.appendChild(tr);
-            });
+                return;
+            }
+
+            // ============== 数据视图：显示图片（EPIC模块隐藏，只显示target/nav/manip） ==============
+            tableContainer.style.display = 'none';
+            imageContainer.style.display = 'block';
+
+            // 模块对应图片文件夹（按你要求：3个独立文件夹）
+            const moduleFolderMap = {
+                target: 'TargetLocalization',
+                nav: 'Navigation',
+                manip: 'Manipulation'
+            };
+            const folder = moduleFolderMap[module];
+
+            // EPIC模块数据视图：不显示任何内容（你要求删除EPIC数据）
+            if (module === 'epic') {
+                document.querySelector('.data-image-grid').innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:60px; color:#94a3b8; font-size:16px;">
+                        EPIC-Bench 数据已隐藏，选择下方模块查看
+                    </div>
+                `;
+                return;
+            }
+
+            // 非EPIC模块：渲染随机5张图片
+            if (!folder) return;
+            renderRandomImages(folder);
         }
 
         // 刷新表格
@@ -1714,6 +1780,31 @@
                 btn.style.border = 'none';
 
                 currentView = btn.id === 'tab-rank' ? 'rank' : 'data';
+
+                // 新增：控制图片只在数据视图显示
+                const img = document.getElementById('data-view-image');
+                img.style.display = currentView === 'data' ? 'block' : 'none';
+
+                if (currentView === 'data') {
+                    currentModule = 'target';       // 强制默认显示 Target
+                    document.getElementById('btn-target').click();              
+                }
+                
+                // 新增：切换视图时控制EPIC按钮显示/隐藏
+                if (currentView === 'rank') {
+                    // 榜单：显示所有按钮
+                    document.getElementById('btn-epic').style.display = 'inline-flex';
+                    document.getElementById('btn-target').style.display = 'inline-flex';
+                    document.getElementById('btn-nav').style.display = 'inline-flex';
+                    document.getElementById('btn-manip').style.display = 'inline-flex';
+                } else {
+                    // 数据：隐藏EPIC，只显示后三个
+                    document.getElementById('btn-epic').style.display = 'none';
+                    document.getElementById('btn-target').style.display = 'inline-flex';
+                    document.getElementById('btn-nav').style.display = 'inline-flex';
+                    document.getElementById('btn-manip').style.display = 'inline-flex';
+                }
+                
                 refreshTable();
             });
         });
@@ -1742,6 +1833,16 @@
                     else if (btn.id === 'btn-target') currentModule = 'target';
                     else if (btn.id === 'btn-nav') currentModule = 'nav';
                     else if (btn.id === 'btn-manip') currentModule = 'manip';
+                    // 切换模块时自动刷新图片
+                    if (currentView === 'data') {
+                        currentImageIndex = 1;
+                        const moduleFolderMap = {
+                            target: 'TargetLocalization',
+                            nav: 'Navigation',
+                            manip: 'Manipulation'
+                        };
+                        renderFixedImages(moduleFolderMap[currentModule]);
+                    }
 
                     const firstSortableCol = moduleColumnConfigs[currentModule].find(col => col.sortable);
                     if (firstSortableCol) {
@@ -1794,18 +1895,845 @@
             // 刷新表格
             refreshTable();
         }
-        // 跳转到榜单：自动切换到 榜单视图 + EPIC-Bench
-        function goToLeaderboard() {
-        document.getElementById('tab-rank').click();
-        document.getElementById('btn-epic').click();
-        document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+        // // ====================== 数据模块：图片+文字 循环展示（自动识别条数） ======================
+        // let currentImageIndex = 1; // 全局记录当前从第几条开始
+        // let moduleDataCounts = {}; // 存储每个模块的总条数
+
+        // // 1. 先定义每个模块的总条数（你自己改数字，比如TargetLocalization有6条就写6）
+        // function initModuleDataCounts() {
+        //     moduleDataCounts = {
+        //         TargetLocalization: 19,  // 这里改：你文件夹里最大的x值，比如有1-1/1-2到3-1/3-2，就是3条
+        //         Navigation: 7,         // 同理，Navigation有几组就写几
+        //         Manipulation: 12        // Manipulation有几组就写几
+        //     };
+        // }
+
+
+        // // 3. 生成固定顺序的「一组数据」（1条数据包含2张图+对应文字）
+        // function getNextDataPair(folder) {
+        //     const totalCount = moduleDataCounts[folder] || 1;
+        //     const dataIndex = (currentImageIndex - 1) % totalCount + 1; // 循环取1~max的序号
+
+        //     // 生成当前序号的两张图路径（相对路径，直接写你要的格式）
+        //     const img1 = `${folder}/${dataIndex}-1.png`;
+        //     const img2 = `${folder}/${dataIndex}-2.png`;
+        //     // 取对应序号的文字（数组索引从0开始，所以减1）
+        //     const text = moduleTextData[folder][dataIndex - 1] || `第${dataIndex}条数据说明`;
+
+        //     // 每次换一批，序号+1，循环回到1
+        //     currentImageIndex++;
+        //     if (currentImageIndex > totalCount) {
+        //         currentImageIndex = 1;
+        //     }
+
+        //     return { img1, img2, text };
+        // }
+
+        // ==============================================
+        // 🎯 三套独立数据：Target / Navigation / Manipulation
+        // 每条数据的文字全部独立，你只需要在这里改！！！
+        // ==============================================
+        const dataset = {
+            // ======================
+            // 1. TargetLocalization 数据
+            // ======================
+            TargetLocalization: [
+                {
+                    imageCount: 2,
+                    taskType: "[Basic Attributes - object category]",
+                    images: [
+                        "TargetLocalization/1-1.png",
+                        "TargetLocalization/1-2.png"
+                    ],
+                    // 👇 第1条：所有图片上方共用文字
+                    commonTopText: "[Input]: Original Img & Target Object Description",
+                    // 👇 第1条：最后一张图片上方单独文字
+                    lastTopText: "[GT]: GT Mask & GT Count",
+                    // 👇 第1条：每张图片下方文字（数组，顺序对应图片）
+                    imageBottomTexts: [
+                        "TOD: packaging box",
+                        "GT Count: 19"
+                    ],
+                    additionalLabels: "[Additional Labels] :  Precise Count - False"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Basic Attributes - color",
+                    images: [
+                        "TargetLocalization/2-1.png",
+                        "TargetLocalization/2-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : Items with alternating white and pink colors",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Basic Attributes - geometry",
+                    images: [
+                        "TargetLocalization/4-1.png",
+                        "TargetLocalization/4-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : circular area",
+                        "GT Couont ： 8"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Basic Attributes - material",
+                    images: [
+                        "TargetLocalization/5-1.png",
+                        "TargetLocalization/5-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : fabric items",
+                        "GT Count ： 6"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Basic Attributes - projection",
+                    images: [
+                        "TargetLocalization/6-1.png",
+                        "TargetLocalization/6-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : mirror image of the green box",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Basic Attributes - relative",
+                    images: [
+                        "TargetLocalization/7-1.png",
+                        "TargetLocalization/7-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : four larger mirrors",
+                        "GT Count ： 4"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - orientation",
+                    images: [
+                        "TargetLocalization/8-1.png",
+                        "TargetLocalization/8-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : shooping cater pointing to the left side of the photo",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - orientation",
+                    images: [
+                        "TargetLocalization/9-1.png",
+                        "TargetLocalization/9-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : chair oriented to the flowerpot on the ground",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - human orientation",
+                    images: [
+                        "TargetLocalization/10-1.png",
+                        "TargetLocalization/10-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : people facing their own up left directoin",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - spatial relation",
+                    images: [
+                        "TargetLocalization/11-1.png",
+                        "TargetLocalization/11-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Number",
+                    imageBottomTexts: [
+                        "TOD : bread outside the toaster",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - human spatial relation",
+                    images: [
+                        "TargetLocalization/12-1.png",
+                        "TargetLocalization/12-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Spatial-Related Attributes - human spatial relation",
+                    images: [
+                        "TargetLocalization/13-1.png",
+                        "TargetLocalization/13-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : clock closest to the person in the upper left from camera’s perceptive",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - part-whole",
+                    images: [
+                        "TargetLocalization/14-1.png",
+                        "TargetLocalization/14-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : the left half of the screen",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - human part-whole",
+                    images: [
+                        "TargetLocalization/15-1.png",
+                        "TargetLocalization/15-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : human part below the ears",
+                        "GT Count ： 7"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - object state",
+                    images: [
+                        "TargetLocalization/16-1.png",
+                        "TargetLocalization/16-2.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : glass that is almost full of liquid",
+                        "GT Count ： 3"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - object state",
+                    images: [
+                        "TargetLocalization/17-1.png",
+                        "TargetLocalization/17-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : glowing button on water dispenser",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - spoken",
+                    images: [
+                        "TargetLocalization/18-1.png",
+                        "TargetLocalization/18-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : garbage in the middle of the scene",
+                        "GT Count ： 1"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - spoken",
+                    images: [
+                        "TargetLocalization/19-1.png",
+                        "TargetLocalization/19-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : fruit in the plastic bag under robot gripper",
+                        "GT Count ： 2"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                },    
+                {
+                    imageCount: 2,
+                    taskType: "Embodied Compositional Attributes - human part-whole",
+                    images: [
+                        "TargetLocalization/20-1.png",
+                        "TargetLocalization/20-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Target Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "TOD : fingers",
+                        "GT Count ： 4"
+                    ],
+                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                }                                       
+            ],
+
+            // ======================
+            // 2. Navigation 数据
+            // ======================
+            // ======================
+            // 2. Navigation 数据
+            // ======================
+            Navigation: [
+                {
+                    imageCount: 2,
+                    taskType: "[Ground Detection]",
+                    images: [
+                        "Navigation/1-1.png",
+                        "Navigation/1-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image",
+                    lastTopText: "[GT]: GT Mask",
+                    imageBottomTexts: [
+                        "",
+                        ""
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "[Ground Detection]",
+                    images: [
+                        "Navigation/2-1.png",
+                        "Navigation/2-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image",
+                    lastTopText: "[GT]: GT Mask",
+                    imageBottomTexts: [
+                        "",
+                        ""
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 2,
+                    taskType: "[Feasible Path - egocentric]",
+                    images: [
+                        "Navigation/3-1.png",
+                        "Navigation/3-2.png"
+                    ],
+                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                    lastTopText: "[GT]: GT Mask",
+                    imageBottomTexts: [
+                        "",
+                        "TAD：the blue inflatable mattress"
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "[Feasible Path - exocentric]",
+                    images: [
+                        "Navigation/4-1.png",
+                        "Navigation/4-2.png",
+                        "Navigation/4-3.png"
+                    ],
+                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                    lastTopText: "[GT]: GT Mask",
+                    imageBottomTexts: [
+                        "",
+                        "TAD：the rightmost table <br>TAD：the smallest bookshelf area"
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "[Feasible Path - exocentric]",
+                    images: [
+                        "Navigation/5-1.png",
+                        "Navigation/5-2.png",
+                        "Navigation/5-3.png"
+                    ],
+                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                    lastTopText: "[GT]: GT Mask",
+                    imageBottomTexts: [
+                        "TAD：the door <br> TAD：the sink"
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 4,
+                    taskType: "[Visual Matching]",
+                    images: [
+                        "Navigation/6-1.png",
+                        "Navigation/6-2.png",
+                        "Navigation/6-3.png",
+                        "Navigation/6-4.png"
+                    ],
+                    commonTopText: "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                    lastTopText: "[GT]: GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "Original Image",
+                        "Reference Area Overlay",
+                        "Scene from different view", 
+                        "GT Count : 2"
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 4,
+                    taskType: "[Visual Matching]",
+                    images: [
+                        "Navigation/7-1.png",
+                        "Navigation/7-2.png",
+                        "Navigation/7-3.png",
+                        "Navigation/7-4.png"
+                    ],
+                    commonTopText: "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "Original Image", 
+                        "Reference Area Overlay",
+                        "Scene from different view",
+                        "GT Count : 3"
+                    ],
+                    // ✅ 这条数据自己的 Additional Labels
+                    additionalLabels: "[Additional Labels]: None"
+                },
+            ],
+
+            // ======================
+            // 3. Manipulation 数据
+            // ======================
+            Manipulation: [
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/1-1.png",
+                        "Manipulation/1-2.png",
+                        "Manipulation/1-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD: move the kettle",
+                        "ROD : kettle on the right"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/2-1.png",
+                        "Manipulation/2-2.png",
+                        "Manipulation/2-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD : pick up the pan",
+                        "ROD : pan"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/3-1.png",
+                        "Manipulation/3-2.png",
+                        "Manipulation/3-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD : turn on the faucet",
+                        "ROD : faucet"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/4-1.png",
+                        "Manipulation/4-2.png",
+                        "Manipulation/4-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD: put the toilet lid down",
+                        "ROD : toilet lid"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/5-1.png",
+                        "Manipulation/5-2.png",
+                        "Manipulation/5-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD: open the microwave",
+                        "ROD : microwave oven"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Affordance Region",
+                    images: [
+                        "Manipulation/6-1.png",
+                        "Manipulation/6-2.png",
+                        "Manipulation/6-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageBottomTexts: [
+                        "TD : start the microwave",
+                        "ROD : microwave oven"
+                    ],
+                    additionalLabels: "[Additional Labels]: None"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Placement Region",
+                    images: [
+                        "Manipulation/7-1.png",
+                        "Manipulation/7-2.png",
+                        "Manipulation/7-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageBottomTexts: [
+                        "PRD : inner area of the white basin",
+                        "ROD : blue plastic box"
+                    ],
+                    additionalLabels: "[Additional Labels]: Placement Feasibility - True"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Placement Region",
+                    images: [
+                        "Manipulation/8-1.png",
+                        "Manipulation/8-2.png",
+                        "Manipulation/8-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageBottomTexts: [
+                        "PRD : the back of the chair",
+                        "ROD : Plastic cup with a green straw"
+                    ],
+                    additionalLabels: "[Additional Labels] :  Placement Feasibility - False"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Placement Region",
+                    images: [
+                        "Manipulation/9-1.png",
+                        "Manipulation/9-2.png",
+                        "Manipulation/9-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
+                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageBottomTexts: [
+                        "PRD : from the camera's perspective, the right side of the stove",
+                        "ROD : white plastic bottle"
+                    ],
+                    additionalLabels: "[Additional Labels]: Placement Feasibility - True"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Contact Relationship - Type one",
+                    images: [
+                        "Manipulation/10-1.png",
+                        "Manipulation/10-2.png",
+                        "Manipulation/10-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "Task : find all target in contact with one ref object",
+                        "ROD : The second slice of bread from the top in the right column of breads",
+                        "GT Count : 2"
+                    ],
+                    additionalLabels: "[Additional Labels]: Precise Count -True"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Contact Relationship - Type two",
+                    images: [
+                        "Manipulation/11-1.png",
+                        "Manipulation/11-2.png",
+                        "Manipulation/11-3.png"
+                    ],
+                    commonTopText: "[Input]: Original Image & Reference Object Overlay &  Reference Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "Task : find target in contact with ref object simultaneously",
+                        "ROD : the third egg from left to right",
+                        "GT Count : 1"
+                    ],
+                    additionalLabels: "[Additional Labels]: Precise Count -True"
+                },
+                {
+                    imageCount: 3,
+                    taskType: "Contact Relationship - Type three",
+                    images: [
+                        "Manipulation/12-1.png",
+                        "Manipulation/12-2.png",
+                        "Manipulation/12-3.png"
+                    ],
+                    commonTopText: "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageBottomTexts: [
+                        "Task : find all targets in contact with multiple ref object",
+                        "ROD : Right robot gripper",
+                        "GT Count : 2"
+                    ],
+                    additionalLabels: "[Additional Labels] :  Precise Count -True"
+                }
+            ]
+        };
+
+        // ====================== 数据模块：图片+文字 循环展示（自动识别条数） ======================
+        // 当前显示的索引（每个模块独立计数）
+        let currentIndex = {
+            TargetLocalization: 0,
+            Navigation: 0,
+            Manipulation: 0
+        };
+
+        // 渲染当前模块的当前条数据
+        function renderFixedImages(folder) {
+            const grid = document.querySelector('.data-image-grid');
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = '1fr';
+            grid.style.position = 'relative';
+            grid.style.paddingTop = '40px';
+
+            const list = dataset[folder];
+            if (!list || list.length === 0) return;
+
+            const idx = currentIndex[folder];
+            const data = list[idx];
+
+            // ======================
+            // ✅ 1. 左上角任务标签（所有图片共用）
+            // ======================
+            const taskLabel = document.createElement('div');
+            taskLabel.style.position = 'absolute';
+            taskLabel.style.top = '0px';
+            taskLabel.style.left = '0px';
+            taskLabel.style.background = '#1e40af';
+            taskLabel.style.color = '#fff';
+            taskLabel.style.padding = '6px 14px';
+            taskLabel.style.borderRadius = '6px';
+            taskLabel.style.fontSize = '15px';
+            taskLabel.style.fontWeight = '600';
+            taskLabel.style.zIndex = '9999';
+            taskLabel.textContent = `Task Type: ${data.taskType}`;
+            grid.appendChild(taskLabel);
+
+            // ======================
+            // ✅ 2. 整条数据左下角：Additional Labels（只显示一次）
+            // ======================
+            const additionalLabel = document.createElement('div');
+            additionalLabel.style.position = 'absolute';
+            additionalLabel.style.top = '410px';
+            additionalLabel.style.left = '0px';
+            additionalLabel.style.fontSize = '14px';
+            additionalLabel.style.fontWeight = '500';
+            additionalLabel.style.color = '#1e293b';
+            additionalLabel.style.padding = '4px 0';
+            additionalLabel.style.zIndex = '9999';
+            additionalLabel.style.whiteSpace = 'pre-wrap';
+
+            if (data.additionalLabels) {
+                additionalLabel.textContent = data.additionalLabels;
+            } else {
+                additionalLabel.textContent = '';
+            }
+
+            grid.appendChild(additionalLabel);
+
+            // ======================
+            // 图片容器
+            // ======================
+            const imgContainer = document.createElement('div');
+            imgContainer.style.display = 'flex';
+            imgContainer.style.gap = '16px';
+            imgContainer.style.marginTop = '20px';
+            imgContainer.style.position = 'relative';
+            imgContainer.style.paddingBottom = '30px';
+
+            const totalImages = data.images.length;
+
+            data.images.slice(0, data.imageCount).forEach((src, i) => {
+                const wrapper = document.createElement('div');
+                wrapper.style.flex = '1';
+                wrapper.style.position = 'relative';
+                wrapper.style.display = 'flex';
+                wrapper.style.flexDirection = 'column';
+                wrapper.style.gap = '8px';
+
+                // 最后一张图片不显示共用文字
+                if (i !== totalImages - 1) {
+                    const commonTopText = document.createElement('div');
+                    commonTopText.style.textAlign = 'center';
+                    commonTopText.style.fontSize = '14px';
+                    commonTopText.style.fontWeight = '500';
+                    commonTopText.style.color = '#1e293b';
+                    commonTopText.style.minHeight = '20px';
+                    commonTopText.textContent = data.commonTopText;
+                    wrapper.appendChild(commonTopText);
+                }
+
+                // 最后一张图片上方：本条数据独立文字
+                if (i === totalImages - 1) {
+                    const lastTopText = document.createElement('div');
+                    lastTopText.style.textAlign = 'center';
+                    lastTopText.style.fontSize = '14px';
+                    lastTopText.style.fontWeight = '600';
+                    lastTopText.style.color = '#e64980';
+                    lastTopText.style.minHeight = '20px';
+                    lastTopText.textContent = data.lastTopText;
+                    wrapper.appendChild(lastTopText);
+                }
+
+                // 图片
+                const img = document.createElement('img');
+                img.src = src;
+                img.style.width = '100%';
+                img.style.height = '280px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '12px';
+                img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                img.style.transition = 'transform 0.3s';
+                img.onmouseover = () => img.style.transform = 'scale(1.05)';
+                img.onmouseout = () => img.style.transform = 'scale(1)';
+
+                const cornerLabel = document.createElement('div');
+                cornerLabel.style.display = 'none';
+
+                // ======================
+                // ✅ 每张图片下方原有文字
+                // ======================
+                const bottomText = document.createElement('div');
+                bottomText.style.textAlign = 'center';
+                bottomText.style.padding = '8px 10px';
+                bottomText.style.fontSize = '14px';
+                bottomText.style.color = '#1e293b';
+                bottomText.style.fontWeight = '500';
+                bottomText.style.whiteSpace = 'pre-wrap';
+                bottomText.style.wordBreak = 'break-all';
+                bottomText.textContent = data.imageBottomTexts[i] || '';
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(cornerLabel);
+                wrapper.appendChild(bottomText);
+                imgContainer.appendChild(wrapper);
+            });
+
+            grid.appendChild(imgContainer);
         }
 
-        // 跳转到数据：自动切换到 数据视图 + EPIC-Bench
+        // 换一批：切换到下一条（每个模块独立切换）
+        function nextImageSet() {
+            const folderMap = {
+                target: 'TargetLocalization',
+                nav: 'Navigation',
+                manip: 'Manipulation'
+            };
+            const folder = folderMap[currentModule];
+            if (!folder) return;
+
+            const list = dataset[folder];
+            if (!list) return;
+
+            // 索引 +1，循环
+            currentIndex[folder] = (currentIndex[folder] + 1) % list.length;
+            renderFixedImages(folder);
+        }
+
+        // 绑定换一批按钮
+        document.getElementById('refresh-images-btn').onclick = nextImageSet;
+
+        // 跳转到榜单：自动切换到 榜单视图 + EPIC-Bench
+        function goToLeaderboard() {
+            document.getElementById('tab-rank').click();
+            document.getElementById('btn-epic').click();
+            document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 跳转到数据：自动切换到 数据视图 + TargetLocalization
         function goToData() {
-        document.getElementById('tab-data').click();
-        document.getElementById('btn-epic').click();
-        document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('tab-data').click();
+            document.getElementById('btn-target').click();
+            document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
         }
         // 页面加载完成后初始化
         window.addEventListener('DOMContentLoaded', init);
@@ -1851,14 +2779,14 @@
 
     <section class="logos-section">
         <div class="logos-container">
-            <img src="" alt="logo2" class="logo-img logo2-img">
-            <img src="" alt="logo" class="logo-img logo1-img">
+            <img src=".\img\logo2.png" alt="logo2" class="logo-img logo2-img">
+            <img src=".\img\logo.png" alt="logo" class="logo-img logo1-img">
         </div>
     </section>
 
     <footer style="width: 100%; padding: 30px 20px; text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0;">
         <p style="color: #64748b; font-size: 14px; font-weight: 500;">
-            © 2026
+            © 2026 X-Humanoid Team
         </p>
     </footer>
 </body>
