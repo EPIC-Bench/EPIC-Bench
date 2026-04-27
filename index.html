@@ -443,6 +443,8 @@
             z-index: 30; /* 提高层级，确保压过所有内容 */
             min-width: 250px; /* 固定列宽度，防止被挤压 */
             width: 250px; /* 强制宽度 */
+            text-align: left !important;
+            padding-left: 16px !important;
         }
 
         /* 表格行的Model列背景适配 */
@@ -734,6 +736,18 @@
             ">
                 <!-- 图片自动插入 -->
             </div>
+        </div>
+    </section>
+    <!-- 新增：Why EPIC-Bench 模块 -->
+    <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
+        <h2 style="font-size: 32px; font-weight: 700; color: #333; margin-bottom: 24px;">
+            Why EPIC-Bench: Comprehensive Coverage of Embodied Perception
+        </h2>
+        <div style="text-align: center;">
+            <img 
+                src="img\20260427-190316.jpg"
+                style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+                alt="Why EPIC-Bench">
         </div>
     </section>
 
@@ -1859,12 +1873,13 @@
                         "TargetLocalization/1-2.png"
                     ],
                     // 👇 第1条：所有图片上方共用文字
-                    commonTopText: "[Input]: Original Img & Target Object Description",
-                    // 👇 第1条：最后一张图片上方单独文字
-                    lastTopText: "[GT]: GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     // 👇 第1条：每张图片下方文字（数组，顺序对应图片）
                     imageBottomTexts: [
-                        "TOD: packaging box",
+                        "Reference Object Description: packaging box",
                         "GT Count: 19"
                     ],
                     additionalLabels: "[Additional Labels] :  Precise Count - False"
@@ -1876,10 +1891,12 @@
                         "TargetLocalization/2-1.png",
                         "TargetLocalization/2-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : Items with alternating white and pink colors",
+                        "Reference Object Description : Items with alternating white and pink colors",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1891,10 +1908,12 @@
                         "TargetLocalization/4-1.png",
                         "TargetLocalization/4-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : circular area",
+                        "Reference Object Description : circular area",
                         "GT Couont ： 8"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1906,10 +1925,12 @@
                         "TargetLocalization/5-1.png",
                         "TargetLocalization/5-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : fabric items",
+                        "Reference Object Description : fabric items",
                         "GT Count ： 6"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - False"
@@ -1921,10 +1942,12 @@
                         "TargetLocalization/6-1.png",
                         "TargetLocalization/6-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : mirror image of the green box",
+                        "Reference Object Description : mirror image of the green box",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1936,10 +1959,12 @@
                         "TargetLocalization/7-1.png",
                         "TargetLocalization/7-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : four larger mirrors",
+                        "Reference Object Description : four larger mirrors",
                         "GT Count ： 4"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1951,10 +1976,12 @@
                         "TargetLocalization/8-1.png",
                         "TargetLocalization/8-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : shooping cater pointing to the left side of the photo",
+                        "Reference Object Description : shooping cater pointing to the left side of the photo",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1966,10 +1993,12 @@
                         "TargetLocalization/9-1.png",
                         "TargetLocalization/9-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : chair oriented to the flowerpot on the ground",
+                        "Reference Object Description : chair oriented to the flowerpot on the ground",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1981,10 +2010,12 @@
                         "TargetLocalization/10-1.png",
                         "TargetLocalization/10-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : people facing their own up left directoin",
+                        "Reference Object Description : people facing their own up left directoin",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -1996,10 +2027,12 @@
                         "TargetLocalization/11-1.png",
                         "TargetLocalization/11-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Number",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : bread outside the toaster",
+                        "Reference Object Description : bread outside the toaster",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2011,10 +2044,12 @@
                         "TargetLocalization/12-1.png",
                         "TargetLocalization/12-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
+                        "Reference Object Description : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2026,10 +2061,12 @@
                         "TargetLocalization/13-1.png",
                         "TargetLocalization/13-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : clock closest to the person in the upper left from camera’s perceptive",
+                        "Reference Object Description : clock closest to the person in the upper left from camera’s perceptive",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2041,10 +2078,12 @@
                         "TargetLocalization/14-1.png",
                         "TargetLocalization/14-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : the left half of the screen",
+                        "Reference Object Description : the left half of the screen",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2056,10 +2095,12 @@
                         "TargetLocalization/15-1.png",
                         "TargetLocalization/15-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : human part below the ears",
+                        "Reference Object Description : human part below the ears",
                         "GT Count ： 7"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - False"
@@ -2071,10 +2112,12 @@
                         "TargetLocalization/16-1.png",
                         "TargetLocalization/16-2.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : glass that is almost full of liquid",
+                        "Reference Object Description : glass that is almost full of liquid",
                         "GT Count ： 3"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2086,10 +2129,12 @@
                         "TargetLocalization/17-1.png",
                         "TargetLocalization/17-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : glowing button on water dispenser",
+                        "Reference Object Description : glowing button on water dispenser",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2101,10 +2146,12 @@
                         "TargetLocalization/18-1.png",
                         "TargetLocalization/18-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Img & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : garbage in the middle of the scene",
+                        "Reference Object Description : garbage in the middle of the scene",
                         "GT Count ： 1"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - False"
@@ -2116,10 +2163,12 @@
                         "TargetLocalization/19-1.png",
                         "TargetLocalization/19-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : fruit in the plastic bag under robot gripper",
+                        "Reference Object Description : fruit in the plastic bag under robot gripper",
                         "GT Count ： 2"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - True"
@@ -2131,10 +2180,12 @@
                         "TargetLocalization/20-1.png",
                         "TargetLocalization/20-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Target Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Image & Target Object Description",
+                        "[Input]: [GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
-                        "TOD : fingers",
+                        "Reference Object Description : fingers",
                         "GT Count ： 4"
                     ],
                     additionalLabels: "[Additional Labels] : Precise Count - False"
@@ -2155,8 +2206,10 @@
                         "Navigation/1-1.png",
                         "Navigation/1-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image",
-                    lastTopText: "[GT]: GT Mask",
+                    imageTopTexts: [
+                        "[Input]: Original Image",
+                        "[GT]: GT Mask"
+                    ],
                     imageBottomTexts: [
                         "",
                         ""
@@ -2171,8 +2224,10 @@
                         "Navigation/2-1.png",
                         "Navigation/2-2.png"
                     ],
-                    commonTopText: "[Input]: Original Image",
-                    lastTopText: "[GT]: GT Mask",
+                    imageTopTexts: [
+                        "[Input]: Original Image",
+                        "[GT]: GT Mask"
+                    ],
                     imageBottomTexts: [
                         "",
                         ""
@@ -2187,8 +2242,11 @@
                         "Navigation/3-2.png",
                         "Navigation/3-3.png"
                     ],
-                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
-                    lastTopText: "[GT]: GT Mask",
+                    imageTopTexts: [
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[GT]: GT Mask"
+                    ],
                     imageBottomTexts: [
                         "",
                         "TAD：the blue inflatable mattress"
@@ -2204,8 +2262,11 @@
                         "Navigation/4-2.png",
                         "Navigation/4-3.png"
                     ],
-                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
-                    lastTopText:"[GT]: GT Mask",
+                    imageTopTexts: [
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[GT]: GT Mask"
+                    ],
                     imageBottomTexts: [
                         "",
                         "TAD：the rightmost table\nTAD：the smallest bookshelf area"
@@ -2221,8 +2282,11 @@
                         "Navigation/5-2.png",
                         "Navigation/5-3.png"
                     ],
-                    commonTopText: "[Input]: Original Image &Target Area Overlay & Target Area Description",
-                    lastTopText: "[GT]: GT Mask",
+                    imageTopTexts: [
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[Input]: Original Image &Target Area Overlay & Target Area Description",
+                        "[GT]: GT Mask"
+                    ],
                     imageBottomTexts: [
                         "",
                         "TAD：the door\nTAD：the sink"
@@ -2239,8 +2303,12 @@
                         "Navigation/6-3.png",
                         "Navigation/6-4.png"
                     ],
-                    commonTopText: "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                    lastTopText: "[GT]: GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[GT]: GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
                         "Original Image",
                         "Reference Area Overlay",
@@ -2259,8 +2327,12 @@
                         "Navigation/7-3.png",
                         "Navigation/7-4.png"
                     ],
-                    commonTopText: "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[GT] : GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
                         "Original Image", 
                         "Reference Area Overlay",
@@ -2284,11 +2356,14 @@
                         "Manipulation/1-2.png",
                         "Manipulation/1-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD: move the kettle",
-                        "ROD : kettle on the right"
+                        "Task Description: move the kettle",
+                        "Reference Object Description : kettle on the right"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2300,11 +2375,14 @@
                         "Manipulation/2-2.png",
                         "Manipulation/2-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD : pick up the pan",
-                        "ROD : pan"
+                        "Task Description : pick up the pan",
+                        "Reference Object Description : pan"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2316,11 +2394,14 @@
                         "Manipulation/3-2.png",
                         "Manipulation/3-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD : turn on the faucet",
-                        "ROD : faucet"
+                        "Task Description : turn on the faucet",
+                        "Reference Object Description : faucet"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2332,11 +2413,14 @@
                         "Manipulation/4-2.png",
                         "Manipulation/4-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD: put the toilet lid down",
-                        "ROD : toilet lid"
+                        "Task Description: put the toilet lid down",
+                        "Reference Object Description : toilet lid"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2348,11 +2432,14 @@
                         "Manipulation/5-2.png",
                         "Manipulation/5-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD: open the microwave",
-                        "ROD : microwave oven"
+                        "Task Description: open the microwave",
+                        "Reference Object Description : microwave oven"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2364,11 +2451,14 @@
                         "Manipulation/6-2.png",
                         "Manipulation/6-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Task Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Affordance Region",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Task Description ",
+                        "[Input]:  Original Image Reference Object Description",
+                        "[GT] : GT Mask-Affordance Region"
+                    ],
                     imageBottomTexts: [
-                        "TD : start the microwave",
-                        "ROD : microwave oven"
+                        "Task Description : start the microwave",
+                        "Reference Object Description : microwave oven"
                     ],
                     additionalLabels: "[Additional Labels]: None"
                 },
@@ -2380,11 +2470,14 @@
                         "Manipulation/7-2.png",
                         "Manipulation/7-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Placement Region Description",
+                        "[Input]:  Original Image & Reference Object Description",
+                        "[GT] : GT Mask-Placement region & Placement Feasibility"
+                    ],
                     imageBottomTexts: [
                         "PRD : inner area of the white basin",
-                        "ROD : blue plastic box"
+                        "Reference Object Description : blue plastic box"
                     ],
                     additionalLabels: "[Additional Labels]: Placement Feasibility - True"
                 },
@@ -2396,11 +2489,14 @@
                         "Manipulation/8-2.png",
                         "Manipulation/8-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Placement Region Description",
+                        "[Input]:  Original Image & Reference Object Description",
+                        "[GT] : GT Mask-Placement region & Placement Feasibility"
+                    ],
                     imageBottomTexts: [
                         "PRD : the back of the chair",
-                        "ROD : Plastic cup with a green straw"
+                        "Reference Object Description : Plastic cup with a green straw"
                     ],
                     additionalLabels: "[Additional Labels] :  Placement Feasibility - False"
                 },
@@ -2412,11 +2508,14 @@
                         "Manipulation/9-2.png",
                         "Manipulation/9-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Placement Region Description & Reference Object Description & Reference Object Overlay",
-                    lastTopText: "[GT] : GT Mask-Placement region & Placement Feasibility",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Placement Region Description",
+                        "[Input]:  Original Image & Reference Object Description",
+                        "[GT] : GT Mask-Placement region & Placement Feasibility"
+                    ],
                     imageBottomTexts: [
                         "PRD : from the camera's perspective, the right side of the stove",
-                        "ROD : white plastic bottle"
+                        "Reference Object Description : white plastic bottle"
                     ],
                     additionalLabels: "[Additional Labels]: Placement Feasibility - True"
                 },
@@ -2428,11 +2527,14 @@
                         "Manipulation/10-2.png",
                         "Manipulation/10-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[GT] : GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
                         "Task : find all target in contact with one ref object",
-                        "ROD : The second slice of bread from the top in the right column of breads",
+                        "Reference Object Description : The second slice of bread from the top in the right column of breads",
                         "GT Count : 2"
                     ],
                     additionalLabels: "[Additional Labels]: Precise Count -True"
@@ -2445,11 +2547,14 @@
                         "Manipulation/11-2.png",
                         "Manipulation/11-3.png"
                     ],
-                    commonTopText: "[Input]: Original Image & Reference Object Overlay &  Reference Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[GT] : GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
                         "Task : find target in contact with ref object simultaneously",
-                        "ROD : The leftmost egg\nROD : the third egg from left to right",
+                        "Reference Object Description : The leftmost egg\nReference Object Description : the third egg from left to right",
                         "GT Count : 1"
                     ],
                     additionalLabels: "[Additional Labels]: Precise Count -True"
@@ -2462,11 +2567,14 @@
                         "Manipulation/12-2.png",
                         "Manipulation/12-3.png"
                     ],
-                    commonTopText: "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
-                    lastTopText: "[GT] : GT Mask & GT Count",
+                    imageTopTexts: [
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[Input]:  Original Image & Reference Object Overlay &  Reference Object Description",
+                        "[GT] : GT Mask & GT Count"
+                    ],
                     imageBottomTexts: [
                         "Task : find all targets in contact with multiple ref object",
-                        "ROD : dishcloth\nROD : Right robot gripper",
+                        "Reference Object Description : dishcloth\nReference Object Description : Right robot gripper",
                         "GT Count : 2"
                     ],
                     additionalLabels: "[Additional Labels] :  Precise Count -True"
@@ -2562,27 +2670,23 @@
                 wrapper.style.alignItems = 'center';
 
                 // --------------------
-                // 图片上方文字
+                // 图片上方文字（最终修复版）
                 // --------------------
                 const topText = document.createElement('div');
-                // 👇 关键修改：固定高度，保证所有文字容器高度一致
-                topText.style.height = '60px';  // 比如设为60px，足够容纳2行文字
+                topText.style.height = '60px';
                 topText.style.display = 'flex';
-                topText.style.alignItems = 'center'; // 文字在容器内垂直居中
+                topText.style.alignItems = 'center';
                 topText.style.justifyContent = 'center';
                 topText.style.fontSize = '14px';
                 topText.style.fontWeight = '500';
                 topText.style.color = '#1e293b';
                 topText.style.textAlign = 'center';
-                // 👇 移除 minHeight，改用固定 height
-                // topText.style.minHeight = '20px'; 
 
-                if (i === totalImages - 1) {
-                    topText.style.color = '#e64980';
-                    topText.style.fontWeight = '600';
-                    topText.textContent = data.lastTopText || '';
+                // ✅ 只保留这一个赋值，其他全部删除
+                if (data.imageTopTexts && data.imageTopTexts[i]) {
+                    topText.textContent = data.imageTopTexts[i];
                 } else {
-                    topText.textContent = data.commonTopText || '';
+                    topText.textContent = '';
                 }
                 wrapper.appendChild(topText);
 
