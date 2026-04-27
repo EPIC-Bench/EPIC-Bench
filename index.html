@@ -44,8 +44,22 @@
             animation: slideUp 0.3s ease forwards;
         }
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
+            /* 基础背景色（顶部 100px 区域的颜色） */
+            background-color: #fff; 
+            
+            /* 你的渐变背景 */
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
+            
+            /* 关键：渐变从距离顶部 100px 开始渲染 */
+            background-position: 0 380px;
+            
+            /* 关键：渐变只渲染「剩余区域」，不重复平铺 */
+            background-size: 100% calc(100% - 100px);
+            background-repeat: no-repeat;
+            
             padding-top: 0;
+            margin: 0;
+            min-height: 100vh;
         }
         .rynn-header {
             width: 100%;
@@ -532,12 +546,32 @@
             padding: 0; /* 关键：移除内边距，紧贴顶部 */
         }
 
-        .data-table-container thead tr {
+        /* 双行表头全部固定：第一行 top:0，第二行紧贴第一行下面 */
+        .data-table-container thead tr:nth-child(1) {
             position: sticky;
             top: 0;
-            z-index: 40; /* 提高层级，避免内容穿透 */
+            z-index: 38;
             background: #f1f5f9 !important;
-            box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1); /* 新增：遮挡下方内容 */
+            box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
+            height: 48px;        /* 统一高度 */
+            padding: 0;
+        }
+        .data-table-container thead tr:nth-child(2) {
+            position: sticky;
+            top: 48px;           /* 必须和第一行高度一致 */
+            z-index: 38;
+            background: #f1f5f9 !important;
+            box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
+            height: 48px;        /* 统一高度 */
+            padding: 0;
+        }
+
+        /* 统一所有 th 内边距，保证高度一致 */
+        .data-table-container th {
+            padding: 12px !important;
+            height: 48px !important;
+            line-height: 1.2 !important;
+            box-sizing: border-box !important;
         }
 
         /* EPIC模块第一组左侧分隔线 */
@@ -659,7 +693,7 @@
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span><sup>†</sup>
-            <span class="author-name">xxx</span><sup>†,</sup><sup>‡</sup>
+            <span class="author-name">xxx</span><sup></sup><sup>‡</sup>
             <div class="author-notes">
                 <sup>*</sup> Core contributors &nbsp; <sup>†</sup> Project lead &nbsp; <sup>‡</sup> Correspondence
             </div>
@@ -705,7 +739,7 @@
     <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
     <!-- ====================== 第一部分：Leaderboard ====================== -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Leaderboard</h2>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">🏆Leaderboard</h2>
 
         <div id="sticky-nav-wrapper" class="data-button-group">
             <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
@@ -724,7 +758,7 @@
 
     <!-- ====================== 第二部分：Benchmark ====================== -->
     <section id="benchmark-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Benchmark</h2>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">📊Benchmark</h2>
 
         <div id="data-view-image" style="max-width:100%; margin:0 auto 24px; display:block;">
             <div style="text-align:center; margin-bottom:16px;">
@@ -1416,9 +1450,10 @@
                 g3.style.fontWeight = '700';
                 g3.textContent = 'EmbodiedCompositionalAttributes';
                 tr1.appendChild(g3);
-            } else {
-                // nav / manip 模块：原有逻辑不变
-                for (let i = 1; i < cols.length; i++) {
+            } else if (module === 'nav' || module === 'manip') {
+                // ✅ 统一导航/操作模块表头高度，与 EPIC / Target 完全一致
+                const totalNeeded = module === 'nav' ? 4 : 4; // nav:4列 / manip:4列
+                for (let i = 0; i < totalNeeded; i++) {
                     const th = document.createElement('th');
                     th.colSpan = 1;
                     th.style.padding = '12px';
