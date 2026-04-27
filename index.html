@@ -16,7 +16,7 @@
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-8px);
             }
             to {
                 opacity: 1;
@@ -31,7 +31,7 @@
             }
             to {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-8px);
             }
         }
 
@@ -97,10 +97,10 @@
         }
         .authors {
             max-width: 1200px;
-            margin: 0 auto 30px;
+            margin: -30px auto 4px; /* 关键：负上边距，往上拉20px，紧贴标题 */
             color: #334155;
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.1;
             text-align: center;
         }
         .authors sup {
@@ -121,7 +121,7 @@
             font-size: 30px;
             font-weight: 500;
             display: inline-block;
-            margin: 0 4px;
+            margin: 0 3px;
             position: relative;
         }
         .button-group {
@@ -493,7 +493,7 @@
         #top-button-group .btn,
         #top-button-group .quick-jump-btn {
             width: 150px !important;  /* 统一宽度 */
-            height: 50px !important; /* 统一高度 */
+            height: 35px !important; /* 统一高度 */
             padding: 0 16px !important; /* 清除原有padding，改为内边距统一 */
             display: inline-flex !important;
             align-items: center !important;
@@ -630,14 +630,11 @@
 </head>
 <body>
     <header class="rynn-header">
-        <div class="logo">
-            <img src=".\img\20260303-134245.jpg" alt="EPIC-Bench Logo" class="logo-image">
-        </div>
         <h1 id="epic-title" class="title">
             <span class="epic-wrapper"><span class="epic-letter">E</span><span class="epic-letter">P</span><span class="epic-letter">I</span><span class="epic-letter">C</span></span>-Bench: <span> Can VLMs Perceive the </span><br>
             <span>Embodied Real-world?</span>
         </h1>
-        <div class="authors" style="display: none;">
+        <div class="authors">
             <span class="author-name">xxx</span><sup>*</sup>
             <span class="author-name">xxx</span><sup>*</sup>
             <span class="author-name">xxx</span><sup>*</sup><br>
@@ -657,7 +654,7 @@
         <div id="top-button-group" class="button-group">
             <a href="#" class="btn" style="background: #000000; color: #ffffff; border-color: #000000;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                GitHub
+                Release soon!
             </a>
             <a href="#" class="btn" style="background: #ef4444; color: #ffffff; border-color: #ef4444;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -672,109 +669,10 @@
                 modelscope
             </a>
             <!-- 新增：独立的榜单/数据快捷按钮（放在四个按钮后面） -->
-            <button class="quick-jump-btn" onclick="goToLeaderboard()">🏆 <span>榜单</span></button>
-            <button class="quick-jump-btn" onclick="goToData()">📊 <span>数据</span></button>
+            <button class="quick-jump-btn" onclick="goToLeaderboard()">🏆<span>Leaderboard</span></button>
+            <button class="quick-jump-btn" onclick="goToData()">📊<span>Benchmark</span></button>
         </div>
     </header>
-
-    <section class="overview-section">
-        <h2 class="overview-title">Overview</h2>
-        <img 
-            src="./img/20260302-192636.png" 
-            alt="Leaderboard" 
-            style="max-width: 100%; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"
-        >
-        <div class="overview-grid">
-            <div class="overview-card cognition">
-                <h3>Cognition</h3>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Object Understanding: What material is &lt;object&gt; made of?</div>
-                    <div class="answer">It is made of leather.</div>
-                </div>
-                <div class="overview-item">
-                    <div class="question">Counting: How many sofas are there in the video?</div>
-                    <div class="answer">3.</div>
-                </div>
-                <div class="overview-item">
-                    <div class="question">Spatial Understanding: Which is higher? object0 or object1?</div>
-                    <div class="answer">Object0 is higher.</div>
-                </div>
-                <div class="overview-item">
-                    <div class="question">Measuring from the closest point of each object, what is the distance between the table and the door?</div>
-                    <div class="answer">2.2 meters.</div>
-                </div>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">OCR: Which brand name is written on the white cup I keep near the stove while I'm cooking?</div>
-                    <div class="answer">CHASE.</div>
-                </div>
-                <div class="overview-item">
-                    <div class="question">General Egocentric Understanding: What did the user add to the dish?</div>
-                    <div class="answer">Salt...</div>
-                </div>
-            </div>
-
-            <div class="overview-card location">
-                <h3>Location</h3>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Area Location: Identify several points in the unoccupied region on the top surface of the toilet lid.</div>
-                    <div class="answer">&lt;area&gt;...</div>
-                </div>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Affordance Location: Push the drawer of the nightstand.</div>
-                    <div class="answer">&lt;affordance&gt;...</div>
-                </div>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Trajectory Location: Move the blue box from the center of the bed to the drawer on the right.</div>
-                    <div class="answer">&lt;trajectory&gt;...</div>
-                </div>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Object Location: I need something to wear for warmth while sitting at the dining table, what should I pick up from the chair?</div>
-                    <div class="answer">&lt;object&gt;...</div>
-                </div>
-                <div class="overview-item">
-                    <div class="overview-images">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="placeholder">
-                    </div>
-                    <div class="question">Grasp Pose Location: Pick up the bottle at its neck.</div>
-                    <div class="answer">&lt;grasp pose&gt;...</div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
@@ -782,21 +680,35 @@
 
         <!-- 保留原有榜单/数据切换按钮 -->
         <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
-            <button class="view-tab" id="tab-rank" style="background: #1e40af; color: white;">🏆榜单</button>
-            <button class="view-tab" id="tab-data" style="background: #fff; color: #1e293b;">📊数据</button>
+            <button class="view-tab" id="tab-rank" style="background: #1e40af; color: white;">🏆Leaderboard</button>
+            <button class="view-tab" id="tab-data" style="background: #fff; color: #1e293b;">📊Benchmark</button>
         </div>
-        <img 
-            id="data-view-image" 
-            src="img\screenshot-20260306-181202.png"
-            style="max-width: 100%; border-radius: 16px; margin: 0 auto 24px; display: none;"
-        >
+        <div id="data-view-image" style="max-width:100%; margin:0 auto 24px; display:none;">
+            <div style="text-align:center; margin-bottom:16px;">
+                <h2 style="font-size:24px; font-weight:700; color:#1e293b; margin:0;">EPIC-Bench - Key Features and Statistics</h2>
+            </div>
+
+            <!-- 带圆点 + 完全和图片左侧对齐 -->
+            <div style="max-width:100%; margin:0 auto 20px; padding:0;">
+                <ul style="padding-left:20px; margin:0; list-style-position: outside;">
+                    <li style="margin-bottom:12px;">6.6K mask-level samples move embodied perception beyond QA/MCQ, testing whether VLMs can truly see, localize, and understand the physical world.</li>
+                    <li style="margin-bottom:12px;">23 fine-grained tasks across 3 embodied stages cover the full interaction pipeline, from target localization to navigation and manipulation, including affordance, contact, and placement.</li>
+                    <li>70+ VLMs evaluated expose where today’s models still fail, revealing critical gaps in multi-target grounding, spatial understanding, and action-oriented visual perception.</li>
+                </ul>
+            </div>
+
+            <img 
+                src="img\screenshot-20260306-181202.png"
+                style="max-width:100%; border-radius:16px; display:block; margin:0 auto;"
+            >
+        </div>
 
         <div id="sticky-nav-wrapper" class="data-button-group">
             <!-- 榜单保留 EPIC，数据视图隐藏 EPIC -->
             <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
-            <button class="data-btn" id="btn-target" style="background: white; color: #1e293b;">TargetLocalization-目标定位感知</button>
-            <button class="data-btn" id="btn-nav" style="background: white; color: #1e293b;">Navigation-导航移动感知</button>
-            <button class="data-btn" id="btn-manip" style="background: white; color: #1e293b;">Manipulation-操作感知</button>
+            <button class="data-btn" id="btn-target" style="background: white; color: #1e293b;">TargetLocalization</button>
+            <button class="data-btn" id="btn-nav" style="background: white; color: #1e293b;">Navigation</button>
+            <button class="data-btn" id="btn-manip" style="background: white; color: #1e293b;">Manipulation</button>
         </div>
 
         <!-- 榜单表格容器（仅榜单视图显示） -->
@@ -1312,55 +1224,55 @@
         const moduleColumnConfigs = {
             'epic': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
-                { key: 'Average', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'TargetAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'Basic', label: 'Basic<br>基础属性(1599)', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelated', label: 'SpatialRelated<br>空间相关属性(1501)', minWidth: '120px', sortable: true },
-                { key: 'EmbodiedCompositional', label: 'EmbodiedCompositional<br>具身组合属性(1291)', minWidth: '120px', sortable: true },
-                { key: 'NavAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'GroundDetection', label: 'GroundDetection<br>地面识别(391)', minWidth: '120px', sortable: true },
-                { key: 'FeasiblePath', label: 'FeasiblePath<br>可行路径感知(482)', minWidth: '120px', sortable: true },
-                { key: 'VisualMatching', label: 'VisualMatching<br>视觉匹配(352)', minWidth: '120px', sortable: true },
-                { key: 'ManipAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'Affordance', label: 'Affordance<br>可供性(315)', minWidth: '120px', sortable: true },
-                { key: 'ContactRelationship', label: 'ContactRelationship<br>接触关系(292)', minWidth: '120px', sortable: true },
-                { key: 'PlacementRegion', label: 'PlacementRegion<br>放置区域(402)', minWidth: '120px', sortable: true }
+                { key: 'Average', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'Basic', label: 'Basic', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelated', label: 'SpatialRelated', minWidth: '120px', sortable: true },
+                { key: 'EmbodiedCompositional', label: 'EmbodiedCompositional', minWidth: '120px', sortable: true },
+                { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'GroundDetection', label: 'GroundDetection', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'FeasiblePath', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'VisualMatching', minWidth: '120px', sortable: true },
+                { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'Affordance', label: 'Affordance', minWidth: '120px', sortable: true },
+                { key: 'ContactRelationship', label: 'ContactRelationship', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'PlacementRegion', minWidth: '120px', sortable: true }
             ],
             'target': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
-                { key: 'BasicAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'Category', label: 'Category<br>基础类别', minWidth: '100px', sortable: true },
-                { key: 'Color', label: 'Color<br>颜色', minWidth: '100px', sortable: true },
-                { key: 'Geometry', label: 'Geometry<br>几何形状', minWidth: '100px', sortable: true },
-                { key: 'Material', label: 'Material<br>材质', minWidth: '100px', sortable: true },
-                { key: 'RelativePerception', label: 'RelativePerception<br>相对感官', minWidth: '120px', sortable: true },
-                { key: 'ObjectProjections', label: 'ObjectProjections<br>本体/镜像', minWidth: '120px', sortable: true },
-                { key: 'SpatialAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'Orientation', label: 'Orientation<br>朝向', minWidth: '100px', sortable: true },
-                { key: 'OrientationHuman', label: 'OrientationHuman<br>人类朝向', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelation', label: 'SpatialRelation<br>空间方位', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelationHuman', label: 'SpatialRelationHuman<br>与人相关空间方位', minWidth: '140px', sortable: true },
-                { key: 'EmbodiedAvg', label: 'Average', minWidth: '100px', sortable: true },
-                { key: 'PartWhole', label: 'PartWhole<br>部分与整体', minWidth: '120px', sortable: true },
-                { key: 'PartWholeHuman', label: 'PartWholeHuman<br>人体部位识别', minWidth: '120px', sortable: true },
-                { key: 'ObjectState', label: 'ObjectState<br>目标状态', minWidth: '120px', sortable: true },
-                { key: 'Spoken', label: 'Spoken<br>口语描述', minWidth: '100px', sortable: true }
+                { key: 'BasicAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'Category', label: 'Category', minWidth: '100px', sortable: true },
+                { key: 'Color', label: 'Color', minWidth: '100px', sortable: true },
+                { key: 'Geometry', label: 'Geometry', minWidth: '100px', sortable: true },
+                { key: 'Material', label: 'Material', minWidth: '100px', sortable: true },
+                { key: 'RelativePerception', label: 'RelativePerception', minWidth: '120px', sortable: true },
+                { key: 'ObjectProjections', label: 'ObjectProjections', minWidth: '120px', sortable: true },
+                { key: 'SpatialAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'Orientation', label: 'Orientation', minWidth: '100px', sortable: true },
+                { key: 'OrientationHuman', label: 'OrientationHuman', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelation', label: 'SpatialRelation', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelationHuman', label: 'SpatialRelationHuman', minWidth: '140px', sortable: true },
+                { key: 'EmbodiedAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+                { key: 'PartWhole', label: 'PartWhole', minWidth: '120px', sortable: true },
+                { key: 'PartWholeHuman', label: 'PartWholeHuman', minWidth: '120px', sortable: true },
+                { key: 'ObjectState', label: 'ObjectState', minWidth: '120px', sortable: true },
+                { key: 'Spoken', label: 'Spoken', minWidth: '100px', sortable: true }
             ],
             // ========== 导航移动感知（nav）配置修改 ==========
             'nav': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
-                { key: 'NavAvg', label: 'Average', minWidth: '100px', sortable: true }, // 新增 Average 列
-                { key: 'GroundDetection', label: 'GroundDetection<br>地面识别(391)', minWidth: '120px', sortable: true },
-                { key: 'FeasiblePath', label: 'FeasiblePath<br>可行路径感知(482)', minWidth: '120px', sortable: true },
-                { key: 'VisualMatching', label: 'VisualMatching<br>视觉匹配(352)', minWidth: '120px', sortable: true }
+                { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
+                { key: 'GroundDetection', label: 'GroundDetection', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'FeasiblePath', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'VisualMatching', minWidth: '120px', sortable: true }
             ],
             // ========== 操作感知（manip）配置修改 ==========
             'manip': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
-                { key: 'ManipAvg', label: 'Average', minWidth: '100px', sortable: true }, // 新增 Average 列
-                { key: 'Affordance', label: 'Affordance<br>可供性(315)', minWidth: '120px', sortable: true },
-                { key: 'ContactRelationship', label: 'ContactRelationship<br>接触关系(292)', minWidth: '120px', sortable: true },
-                { key: 'PlacementRegion', label: 'PlacementRegion<br>放置区域(402)', minWidth: '120px', sortable: true }
+                { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
+                { key: 'Affordance', label: 'Affordance', minWidth: '120px', sortable: true },
+                { key: 'ContactRelationship', label: 'ContactRelationship', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'PlacementRegion', minWidth: '120px', sortable: true }
             ]
         };
 
@@ -1422,7 +1334,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0';
                 g1.style.borderRight = '2px solid #e2e8f0';
                 g1.style.fontWeight = '700';
-                g1.textContent = 'TargetLocalization-目标定位感知';
+                g1.textContent = 'TargetLocalization';
                 tr1.appendChild(g1);
 
                 // Navigation 分组：对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
@@ -1432,7 +1344,7 @@
                 g2.style.borderBottom = '2px solid #e2e8f0';
                 g2.style.borderRight = '2px solid #e2e8f0';
                 g2.style.fontWeight = '700';
-                g2.textContent = 'Navigation-导航移动感知';
+                g2.textContent = 'Navigation';
                 tr1.appendChild(g2);
 
                 // Manipulation 分组：对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
@@ -1441,7 +1353,7 @@
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0';
                 g3.style.fontWeight = '700';
-                g3.textContent = 'Manipulation-操作感知';
+                g3.textContent = 'Manipulation';
                 tr1.appendChild(g3);
             } else if (module === 'target') {
                 // Target 表：统一边框样式（和EPIC一致）
@@ -1451,7 +1363,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g1.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g1.style.fontWeight = '700';
-                g1.textContent = 'BasicAttributes-基础属性';
+                g1.textContent = 'BasicAttributes';
                 tr1.appendChild(g1);
 
                 const g2 = document.createElement('th');
@@ -1460,7 +1372,7 @@
                 g2.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g2.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g2.style.fontWeight = '700';
-                g2.textContent = 'SpatialRelatedAttributes-空间相关属性';
+                g2.textContent = 'SpatialRelatedAttributes';
                 tr1.appendChild(g2);
 
                 const g3 = document.createElement('th');
@@ -1468,7 +1380,7 @@
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g3.style.fontWeight = '700';
-                g3.textContent = 'EmbodiedCompositionalAttributes-具身组合属性';
+                g3.textContent = 'EmbodiedCompositionalAttributes';
                 tr1.appendChild(g3);
             } else {
                 // nav / manip 模块：原有逻辑不变
@@ -2746,23 +2658,6 @@
         // 页面加载完成后初始化
         window.addEventListener('DOMContentLoaded', init);
         // 标题悬浮显示作者信息
-        const titleEl = document.getElementById('epic-title');
-        const authorsEl = document.querySelector('.authors');
-
-        titleEl.addEventListener('mouseenter', () => {
-            authorsEl.classList.remove('hide');
-            authorsEl.classList.add('show');
-        });
-
-        titleEl.addEventListener('mouseleave', () => {
-            authorsEl.classList.remove('show');
-            authorsEl.classList.add('hide');
-            // 动画结束后彻底隐藏
-            setTimeout(() => {
-                authorsEl.style.display = 'none';
-                authorsEl.classList.remove('hide');
-            }, 300); // 动画时长 0.3s
-        });
     </script>
 
     <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
