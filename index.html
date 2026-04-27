@@ -446,7 +446,18 @@
             text-align: left !important;
             padding-left: 16px !important;
         }
-
+        /* 仅针对 Model 表头文字居中 */
+        #data-table th:first-child {
+            text-align: center !important; 
+            padding-left: 0 !important; /* 居中时通常需要取消左内边距，否则会因左偏移而视觉不居中 */
+        }
+        #sticky-nav-wrapper-benchmark {
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            gap: 12px; /* 按钮之间的间距，可自己调 */
+            flex-wrap: wrap; /* 小屏幕自动换行 */
+            margin: 20px 0; /* 上下留白，可选 */
+        }
         /* 表格行的Model列背景适配 */
         #data-table tbody tr td:first-child {
             background-color: #fff !important; /* 普通行背景 */
@@ -668,63 +679,74 @@
             </a>
             <a href="#" class="btn" style="background: #3b82f6; color: #ffffff; border-color: #3b82f6;">
                 <img src=".\img\screenshot-20260303-101720.png" alt="modelscope" style="width: 24px; height: 24px; margin-right: 8px; object-fit: contain; vertical-align: middle;">
-                modelscope
+                ModelScope
             </a>
             <!-- 新增：独立的榜单/数据快捷按钮（放在四个按钮后面） -->
             <button class="quick-jump-btn" onclick="goToLeaderboard()">🏆<span>Leaderboard</span></button>
             <button class="quick-jump-btn" onclick="goToData()">📊<span>Benchmark</span></button>
         </div>
     </header>
+    <!-- ====================== 新增：Abstract 模块 ====================== -->
+    <section class="abstract-section">
+        <h2 class="abstract-title">Abstract</h2>
+        <div class="abstract-card">
+            <p class="abstract-text">
+                This work presents <strong>EPIC-Bench</strong>, <strong>E</strong>mbodied <strong>P</strong>ercept<strong>I</strong>on Ben<strong>C</strong>hmark, a grounding benchmark designed to systematically evaluate the visual perceptual capabilities required for large vision-language models (VLMs) in embodied environments. We construct a dataset of 6.6k meticulously annotated (Image, Text, Mask) tuples, to answer the question: <em>Can VLMs perceive the embodied real-world?</em>
+            </p>
+            <p class="abstract-text">
+                EPIC-Bench is characterized by three key design principles. First, it encourages genuine visually grounded perception without exploiting linguistic priors. Second, it comprises 23 fine-grained tasks spanning the embodied interaction pipeline from Target Localization to Navigation and Manipulation. Third, its fine-grained taxonomy supports diagnostic analysis of embodied visual perception.
+            </p>
+            <p class="abstract-text">
+                Comprehensive experiments show that VLMs still struggle to align visual–text information for downstream physical interactions, especially in affordance region detection, where the target is only part of an object.
+            </p>
+        </div>
+    </section>
 
     <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
+    <!-- ====================== 第一部分：Leaderboard ====================== -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Leaderboard And Benchmark</h2>
-
-        <!-- 保留原有榜单/数据切换按钮 -->
-        <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
-            <button class="view-tab" id="tab-rank" style="background: #1e40af; color: white;">🏆Leaderboard</button>
-            <button class="view-tab" id="tab-data" style="background: #fff; color: #1e293b;">📊Benchmark</button>
-        </div>
-        <div id="data-view-image" style="max-width:100%; margin:0 auto 24px; display:none;">
-            <div style="text-align:center; margin-bottom:16px;">
-                <h2 style="font-size:24px; font-weight:700; color:#1e293b; margin:0;">EPIC-Bench - Key Features and Statistics</h2>
-            </div>
-
-            <!-- 带圆点 + 完全和图片左侧对齐 -->
-            <div style="max-width:100%; margin:0 auto 20px; padding:0;">
-                <ul style="padding-left:20px; margin:0; list-style-position: outside;">
-                    <li style="margin-bottom:12px;">6.6K mask-level samples move embodied perception beyond QA/MCQ, testing whether VLMs can truly see, localize, and understand the physical world.</li>
-                    <li style="margin-bottom:12px;">23 fine-grained tasks across 3 embodied stages cover the full interaction pipeline, from target localization to navigation and manipulation, including affordance, contact, and placement.</li>
-                    <li>70+ VLMs evaluated expose where today’s models still fail, revealing critical gaps in multi-target grounding, spatial understanding, and action-oriented visual perception.</li>
-                </ul>
-            </div>
-
-            <img 
-                src="img\screenshot-20260306-181202.png"
-                style="max-width:100%; border-radius:16px; display:block; margin:0 auto;"
-            >
-        </div>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Leaderboard</h2>
 
         <div id="sticky-nav-wrapper" class="data-button-group">
-            <!-- 榜单保留 EPIC，数据视图隐藏 EPIC -->
             <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
             <button class="data-btn" id="btn-target" style="background: white; color: #1e293b;">TargetLocalization</button>
             <button class="data-btn" id="btn-nav" style="background: white; color: #1e293b;">Navigation</button>
             <button class="data-btn" id="btn-manip" style="background: white; color: #1e293b;">Manipulation</button>
         </div>
 
-        <!-- 榜单表格容器（仅榜单视图显示） -->
         <div class="data-table-container" style="display: block;">
             <table id="data-table" style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1000px; text-align: center;">
                 <thead id="data-table-header"></thead>
                 <tbody id="data-table-body"></tbody>
             </table>
         </div>
+    </section>
 
-        <!-- 数据模块：图片展示区域（仅数据视图显示，榜单不影响） -->
-        <div id="data-image-container" style="display: none;">
+    <!-- ====================== 第二部分：Benchmark ====================== -->
+    <section id="benchmark-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">Benchmark</h2>
+
+        <div id="data-view-image" style="max-width:100%; margin:0 auto 24px; display:block;">
+            <div style="text-align:center; margin-bottom:16px;">
+                <h2 style="font-size:24px; font-weight:700; color:#1e293b; margin:0;">EPIC-Bench - Key Features and Statistics</h2>
+            </div>
+            <ul style="padding-left:20px; margin:0; list-style-position: outside;">
+                <li style="margin-bottom:12px;">6.6K mask-level samples move embodied perception beyond QA/MCQ, testing whether VLMs can truly see, localize, and understand the physical world.</li>
+                <li style="margin-bottom:12px;">23 fine-grained tasks across 3 embodied stages cover the full interaction pipeline, from target localization to navigation and manipulation, including affordance, contact, and placement.</li>
+                <li>70+ VLMs evaluated expose where today’s models still fail, revealing critical gaps in multi-target grounding, spatial understanding, and action-oriented visual perception.</li>
+            </ul>
+            <img src="img\screenshot-20260306-181202.png" style="max-width:100%; border-radius:16px; display:block; margin:0 auto;">
+        </div>
+
+        <div id="sticky-nav-wrapper-benchmark" class="data-button-group">
+            <button class="data-btn" id="btn-target-bench" style="background: #1e40af; color: white; border: none;">TargetLocalization</button>
+            <button class="data-btn" id="btn-nav-bench" style="background: white; color: #1e293b;">Navigation</button>
+            <button class="data-btn" id="btn-manip-bench" style="background: white; color: #1e293b;">Manipulation</button>
+        </div>
+
+        <div id="data-image-container" style="display: block;">
             <div style="text-align: center; margin-bottom: 16px;">
-                <button id="refresh-images-btn" class="quick-jump-btn" style="background:#1e40af; color:white; border:none;">🔄 换一批</button>
+                <button id="refresh-images-btn-bench" class="quick-jump-btn" style="background:#1e40af; color:white; border:none;">🔄 换一批</button>
             </div>
             <div class="data-image-grid" style="
                 display: grid;
@@ -733,9 +755,7 @@
                 padding: 16px;
                 max-width: 1400px;
                 margin: 0 auto;
-            ">
-                <!-- 图片自动插入 -->
-            </div>
+            "></div>
         </div>
     </section>
     <!-- 新增：Why EPIC-Bench 模块 -->
@@ -1417,7 +1437,9 @@
             thModel2.style.fontWeight = '600';
             thModel2.style.minWidth = cols[0].minWidth;
             thModel2.innerHTML = cols[0].label;
+            thModel2.style.textAlign = 'center';
             tr2.appendChild(thModel2);
+
 
             if (module === 'epic') {
                 // EPIC 表：Average 列文字（移除右侧分隔线）
@@ -1660,6 +1682,7 @@
                 });
                 return;
             }
+            document.getElementById('data-image-container').style.display = 'block';
 
             // ============== 数据视图：显示图片（EPIC模块隐藏，只显示target/nav/manip） ==============
             tableContainer.style.display = 'none';
@@ -1781,15 +1804,36 @@
                 });
             });
 
-            document.querySelectorAll('#sticky-nav-clone .data-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const originalBtn = document.querySelector(`#sticky-nav-wrapper #${btn.id}`);
-                    if (originalBtn) {
-                        originalBtn.click();
-                    }
+                // Benchmark 模块按钮
+                document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(b => {
+                            b.style.background = '#fff';
+                            b.style.color = '#1e293b';
+                            b.style.border = '1px solid #e2e8f0';
+                        });
+                        btn.style.background = '#1e40af';
+                        btn.style.color = '#fff';
+                        btn.style.border = 'none';
+                        
+
+                        if (btn.id === 'btn-target-bench') currentModule = 'target';
+                        if (btn.id === 'btn-nav-bench') currentModule = 'nav';
+                        if (btn.id === 'btn-manip-bench') currentModule = 'manip';
+
+                        // ✅ 强制显示图片容器
+                        document.getElementById('data-image-container').style.display = 'block';
+
+                        // ✅ 正确渲染当前模块图片
+                        const moduleFolderMap = {
+                            target: 'TargetLocalization',
+                            nav: 'Navigation',
+                            manip: 'Manipulation'
+                        };
+                        renderFixedImages(moduleFolderMap[currentModule]);
+                    });
                 });
-            });
-        }
+            }
 
         // 粘性导航
         function initStickyNav() {
@@ -1816,10 +1860,22 @@
         }
 
         // 初始化
+        // 初始化
         function init() {
-            // 初始化粘性导航
             initStickyNav();
-            // 刷新表格
+            bindButtonEvents();
+            
+            // ✅ 强制初始化图片索引
+            currentIndex = {
+                TargetLocalization: 0,
+                Navigation: 0,
+                Manipulation: 0
+            };
+
+            // ✅ 默认显示 Target 图片
+            renderFixedImages('TargetLocalization');
+
+            document.getElementById('btn-target-bench').click();
             refreshTable();
         }
         // // ====================== 数据模块：图片+文字 循环展示（自动识别条数） ======================
@@ -1882,7 +1938,7 @@
                         "Reference Object Description: packaging box",
                         "GT Count: 19"
                     ],
-                    additionalLabels: "[Additional Labels] :  Precise Count - False"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1899,7 +1955,7 @@
                         "Reference Object Description : Items with alternating white and pink colors",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1916,7 +1972,7 @@
                         "Reference Object Description : circular area",
                         "GT Couont ： 8"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1933,7 +1989,7 @@
                         "Reference Object Description : fabric items",
                         "GT Count ： 6"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1950,7 +2006,7 @@
                         "Reference Object Description : mirror image of the green box",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1967,7 +2023,7 @@
                         "Reference Object Description : four larger mirrors",
                         "GT Count ： 4"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -1984,7 +2040,7 @@
                         "Reference Object Description : shooping cater pointing to the left side of the photo",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2001,7 +2057,7 @@
                         "Reference Object Description : chair oriented to the flowerpot on the ground",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2018,7 +2074,7 @@
                         "Reference Object Description : people facing their own up left directoin",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2035,7 +2091,7 @@
                         "Reference Object Description : bread outside the toaster",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2052,7 +2108,7 @@
                         "Reference Object Description : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2069,7 +2125,7 @@
                         "Reference Object Description : clock closest to the person in the upper left from camera’s perceptive",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2086,7 +2142,7 @@
                         "Reference Object Description : the left half of the screen",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2103,7 +2159,7 @@
                         "Reference Object Description : human part below the ears",
                         "GT Count ： 7"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2120,7 +2176,7 @@
                         "Reference Object Description : glass that is almost full of liquid",
                         "GT Count ： 3"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2137,7 +2193,7 @@
                         "Reference Object Description : glowing button on water dispenser",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2154,7 +2210,7 @@
                         "Reference Object Description : garbage in the middle of the scene",
                         "GT Count ： 1"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2171,7 +2227,7 @@
                         "Reference Object Description : fruit in the plastic bag under robot gripper",
                         "GT Count ： 2"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - True"
+                    additionalLabels: ""
                 },    
                 {
                     imageCount: 2,
@@ -2188,7 +2244,7 @@
                         "Reference Object Description : fingers",
                         "GT Count ： 4"
                     ],
-                    additionalLabels: "[Additional Labels] : Precise Count - False"
+                    additionalLabels: ""
                 }                                       
             ],
 
@@ -2215,7 +2271,7 @@
                         ""
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 2,
@@ -2232,7 +2288,7 @@
                         "",
                         ""
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2252,7 +2308,7 @@
                         "TAD：the blue inflatable mattress"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2272,7 +2328,7 @@
                         "TAD：the rightmost table\nTAD：the smallest bookshelf area"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2292,7 +2348,7 @@
                         "TAD：the door\nTAD：the sink"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 4,
@@ -2316,7 +2372,7 @@
                         "GT Count : 2"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 4,
@@ -2340,7 +2396,7 @@
                         "GT Count : 3"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
             ],
 
@@ -2365,7 +2421,7 @@
                         "Task Description: move the kettle",
                         "Reference Object Description : kettle on the right"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2384,7 +2440,7 @@
                         "Task Description : pick up the pan",
                         "Reference Object Description : pan"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2403,7 +2459,7 @@
                         "Task Description : turn on the faucet",
                         "Reference Object Description : faucet"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2422,7 +2478,7 @@
                         "Task Description: put the toilet lid down",
                         "Reference Object Description : toilet lid"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2441,7 +2497,7 @@
                         "Task Description: open the microwave",
                         "Reference Object Description : microwave oven"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2460,7 +2516,7 @@
                         "Task Description : start the microwave",
                         "Reference Object Description : microwave oven"
                     ],
-                    additionalLabels: "[Additional Labels]: None"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2479,7 +2535,7 @@
                         "PRD : inner area of the white basin",
                         "Reference Object Description : blue plastic box"
                     ],
-                    additionalLabels: "[Additional Labels]: Placement Feasibility - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2498,7 +2554,7 @@
                         "PRD : the back of the chair",
                         "Reference Object Description : Plastic cup with a green straw"
                     ],
-                    additionalLabels: "[Additional Labels] :  Placement Feasibility - False"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2517,7 +2573,7 @@
                         "PRD : from the camera's perspective, the right side of the stove",
                         "Reference Object Description : white plastic bottle"
                     ],
-                    additionalLabels: "[Additional Labels]: Placement Feasibility - True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2537,7 +2593,7 @@
                         "Reference Object Description : The second slice of bread from the top in the right column of breads",
                         "GT Count : 2"
                     ],
-                    additionalLabels: "[Additional Labels]: Precise Count -True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2557,7 +2613,7 @@
                         "Reference Object Description : The leftmost egg\nReference Object Description : the third egg from left to right",
                         "GT Count : 1"
                     ],
-                    additionalLabels: "[Additional Labels]: Precise Count -True"
+                    additionalLabels: ""
                 },
                 {
                     imageCount: 3,
@@ -2577,7 +2633,7 @@
                         "Reference Object Description : dishcloth\nReference Object Description : Right robot gripper",
                         "GT Count : 2"
                     ],
-                    additionalLabels: "[Additional Labels] :  Precise Count -True"
+                    additionalLabels: ""
                 }
             ]
         };
@@ -2696,7 +2752,7 @@
                 const img = document.createElement('img');
                 img.src = src;
                 img.style.width = '100%';
-                img.style.height = '280px';
+                img.style.height = 'auto';
                 img.style.objectFit = 'cover';
                 img.style.borderRadius = '12px';
                 img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
@@ -2744,7 +2800,7 @@
         }
 
         // 绑定换一批按钮
-        document.getElementById('refresh-images-btn').onclick = nextImageSet;
+        document.getElementById('refresh-images-btn-bench').onclick = nextImageSet;
 
         // 跳转到榜单：自动切换到 榜单视图 + EPIC-Bench
         function goToLeaderboard() {
@@ -2760,7 +2816,19 @@
             document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
         }
         // 页面加载完成后初始化
-        window.addEventListener('DOMContentLoaded', init);
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+
+            // ✅ 强制显示 Benchmark 图片区域
+            document.getElementById('data-image-container').style.display = 'block';
+
+            // ✅ 强制渲染 Target 图片
+            renderFixedImages('TargetLocalization');
+
+            // ✅ 点击默认按钮
+            document.getElementById('btn-target-bench').click();
+        });
         // 标题悬浮显示作者信息
     </script>
 
