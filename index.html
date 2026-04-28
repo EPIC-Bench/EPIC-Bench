@@ -51,7 +51,7 @@
             background-image: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
             
             /* 关键：渐变从距离顶部 100px 开始渲染 */
-            background-position: 0 380px;
+            background-position: 0 360px;
             
             /* 关键：渐变只渲染「剩余区域」，不重复平铺 */
             background-size: 100% calc(100% - 100px);
@@ -118,11 +118,10 @@
             text-align: center;
         }
         .authors sup {
-            font-size: 16px;
+            font-size: 0.7em;
             color: #000000;
-            vertical-align: super;
             position: relative;
-            top: -4px;
+            top: -3px;    /* 从 -4px 改成 -1px，立刻降低！ */
             left: 2px;
         }
         .author-notes {
@@ -377,15 +376,15 @@
             margin-bottom: 24px;
         }
         #sticky-nav-clone {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            background: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
-            padding: 16px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: none !important;   /* 这里加 !important */
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            z-index: 1 !important;
+            background: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
             justify-content: center;
             gap: 16px;
             flex-wrap: wrap;
@@ -455,8 +454,8 @@
             position: sticky;
             left: 0;
             z-index: 30; /* 提高层级，确保压过所有内容 */
-            min-width: 250px; /* 固定列宽度，防止被挤压 */
-            width: 250px; /* 强制宽度 */
+            min-width: 330px; /* 固定列宽度，防止被挤压 */
+            width: 330px; /* 强制宽度 */
             text-align: left !important;
             padding-left: 16px !important;
         }
@@ -684,11 +683,11 @@
         <div class="authors">
             <span class="author-name">xxx</span><sup>*</sup>
             <span class="author-name">xxx</span><sup>*</sup>
-            <span class="author-name">xxx</span><sup>*</sup><br>
-            <span class="author-name">xxx</span>
+            <span class="author-name">xxx</span><sup>*</sup>
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span><br>
+            <span class="author-name">xxx</span>
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span>
             <span class="author-name">xxx</span>
@@ -701,7 +700,7 @@
         <div id="top-button-group" class="button-group">
             <a href="#" class="btn" style="background: #000000; color: #ffffff; border-color: #000000;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                Release soon!
+                GitHub
             </a>
             <a href="#" class="btn" style="background: #ef4444; color: #ffffff; border-color: #ef4444;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -726,11 +725,7 @@
         <div class="abstract-card">
             <p class="abstract-text">
                 This work presents <strong>EPIC-Bench</strong>, <strong>E</strong>mbodied <strong>P</strong>ercept<strong>I</strong>on Ben<strong>C</strong>hmark, a grounding benchmark designed to systematically evaluate the visual perceptual capabilities required for large vision-language models (VLMs) in embodied environments. We construct a dataset of 6.6k meticulously annotated (Image, Text, Mask) tuples, to answer the question: <em>Can VLMs perceive the embodied real-world?</em>
-            </p>
-            <p class="abstract-text">
                 EPIC-Bench is characterized by three key design principles. First, it encourages genuine visually grounded perception without exploiting linguistic priors. Second, it comprises 23 fine-grained tasks spanning the embodied interaction pipeline from Target Localization to Navigation and Manipulation. Third, its fine-grained taxonomy supports diagnostic analysis of embodied visual perception.
-            </p>
-            <p class="abstract-text">
                 Comprehensive experiments show that VLMs still struggle to align visual–text information for downstream physical interactions, especially in affordance region detection, where the target is only part of an object.
             </p>
         </div>
@@ -739,7 +734,7 @@
     <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
     <!-- ====================== 第一部分：Leaderboard ====================== -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">🏆Leaderboard</h2>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">🏆 Leaderboard</h2>
 
         <div id="sticky-nav-wrapper" class="data-button-group">
             <button class="data-btn" id="btn-epic" style="background: #1e40af; color: white; border: none;">EPIC-Bench</button>
@@ -758,16 +753,16 @@
 
     <!-- ====================== 第二部分：Benchmark ====================== -->
     <section id="benchmark-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">📊Benchmark</h2>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">📊 Benchmark</h2>
 
         <div id="data-view-image" style="max-width:100%; margin:0 auto 24px; display:block;">
             <div style="text-align:center; margin-bottom:16px;">
-                <h2 style="font-size:24px; font-weight:700; color:#1e293b; margin:0;">EPIC-Bench - Key Features and Statistics</h2>
+                <h2 style="font-size:24px; font-weight:700; color:#1e293b; margin:0;">Key Features and Statistics</h2>
             </div>
             <ul style="padding-left:20px; margin:0; list-style-position: outside;">
-                <li style="margin-bottom:12px;">6.6K mask-level samples move embodied perception beyond QA/MCQ, testing whether VLMs can truly see, localize, and understand the physical world.</li>
-                <li style="margin-bottom:12px;">23 fine-grained tasks across 3 embodied stages cover the full interaction pipeline, from target localization to navigation and manipulation, including affordance, contact, and placement.</li>
-                <li>70+ VLMs evaluated expose where today’s models still fail, revealing critical gaps in multi-target grounding, spatial understanding, and action-oriented visual perception.</li>
+                <li style="margin-bottom:12px;"><strong>6.6K mask-level samples move embodied perception beyond QA/MCQ</strong>, testing whether VLMs can truly see, localize, and understand the physical world.</li>
+                <li style="margin-bottom:12px;"><strong>23 fine-grained tasks across 3 embodied stages cover the full interaction pipeline</strong>, from target localization to navigation and manipulation, including affordance, contact, and placement.</li>
+                <li><strong>70+ VLMs evaluated expose where today’s models still fail</strong>, revealing critical gaps in multi-target grounding, spatial understanding, and action-oriented visual perception.</li>
             </ul>
             <img src="img\screenshot-20260306-181202.png" style="max-width:100%; border-radius:16px; display:block; margin:0 auto;">
         </div>
@@ -1330,17 +1325,17 @@
             'nav': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
                 { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
-                { key: 'GroundDetection', label: 'GroundDetection', minWidth: '120px', sortable: true },
-                { key: 'FeasiblePath', label: 'FeasiblePath', minWidth: '120px', sortable: true },
-                { key: 'VisualMatching', label: 'VisualMatching', minWidth: '120px', sortable: true }
+                { key: 'GroundDetection', label: 'GroundDetection(391)', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'FeasiblePath(502)', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'VisualMatching(352)', minWidth: '120px', sortable: true }
             ],
             // ========== 操作感知（manip）配置修改 ==========
             'manip': [
                 { key: 'Model', label: 'Model', minWidth: '200px', sortable: false },
                 { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
-                { key: 'Affordance', label: 'Affordance', minWidth: '120px', sortable: true },
-                { key: 'ContactRelationship', label: 'ContactRelationship', minWidth: '120px', sortable: true },
-                { key: 'PlacementRegion', label: 'PlacementRegion', minWidth: '120px', sortable: true }
+                { key: 'Affordance', label: 'Affordance(315)', minWidth: '120px', sortable: true },
+                { key: 'ContactRelationship', label: 'ContactRelationship(289)', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'PlacementRegion(402)', minWidth: '120px', sortable: true }
             ]
         };
 
@@ -1431,7 +1426,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g1.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g1.style.fontWeight = '700';
-                g1.textContent = 'BasicAttributes';
+                g1.textContent = 'BasicAttributes(1618)';
                 tr1.appendChild(g1);
 
                 const g2 = document.createElement('th');
@@ -1440,7 +1435,7 @@
                 g2.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g2.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g2.style.fontWeight = '700';
-                g2.textContent = 'SpatialRelatedAttributes';
+                g2.textContent = 'SpatialRelatedAttributes(1501)';
                 tr1.appendChild(g2);
 
                 const g3 = document.createElement('th');
@@ -1448,19 +1443,26 @@
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g3.style.fontWeight = '700';
-                g3.textContent = 'EmbodiedCompositionalAttributes';
+                g3.textContent = 'EmbodiedCompositionalAttributes(1291)';
                 tr1.appendChild(g3);
             } else if (module === 'nav' || module === 'manip') {
-                // ✅ 统一导航/操作模块表头高度，与 EPIC / Target 完全一致
-                const totalNeeded = module === 'nav' ? 4 : 4; // nav:4列 / manip:4列
-                for (let i = 0; i < totalNeeded; i++) {
-                    const th = document.createElement('th');
-                    th.colSpan = 1;
-                    th.style.padding = '12px';
-                    th.style.borderBottom = '2px solid #e2e8f0';
-                    th.textContent = '';
-                    tr1.appendChild(th);
+                // ✅ 导航/操作表头：合并 4 列居中显示
+                const th = document.createElement('th');
+                th.colSpan = 4;          // 跨 4 列
+                th.style.padding = '12px';
+                th.style.borderBottom = '2px solid #e2e8f0';
+                th.style.background = '#f1f5f9';
+                th.style.textAlign = 'center';
+                th.style.verticalAlign = 'middle';
+                th.style.fontWeight = '700';
+
+                if (module === 'nav') {
+                    th.textContent = 'Navigation(1245)';
+                } else if (module === 'manip') {
+                    th.textContent = 'Manipulation(1006)';
                 }
+
+                tr1.appendChild(th);
             }
 
             // ========== 第二行（tr2）处理 ==========
@@ -1672,7 +1674,6 @@
             // ============== 榜单视图：正常渲染表格（完全保留原有逻辑） ==============
             if (view === 'rank') {
                 tableContainer.style.display = 'block';
-                imageContainer.style.display = 'none';
                 tbody.innerHTML = '';
 
                 sortedModels.forEach((model, globalIdx) => {
@@ -1720,7 +1721,6 @@
             document.getElementById('data-image-container').style.display = 'block';
 
             // ============== 数据视图：显示图片（EPIC模块隐藏，只显示target/nav/manip） ==============
-            tableContainer.style.display = 'none';
             imageContainer.style.display = 'block';
 
             // 模块对应图片文件夹（按你要求：3个独立文件夹）
@@ -1796,9 +1796,13 @@
 
         // 模块切换
         function bindButtonEvents() {
-            document.querySelectorAll('.data-btn').forEach(btn => {
+            // ======================
+            // Leaderboard 按钮（独立样式，不影响 Benchmark）
+            // ======================
+            document.querySelectorAll('#sticky-nav-wrapper .data-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.data-btn, #sticky-nav-clone .data-btn').forEach(b => {
+                    // 只重置 Leaderboard 自己的按钮
+                    document.querySelectorAll('#sticky-nav-wrapper .data-btn').forEach(b => {
                         b.style.background = '#fff';
                         b.style.color = '#1e293b';
                         b.style.border = '1px solid #e2e8f0';
@@ -1806,19 +1810,12 @@
                     btn.style.background = '#1e40af';
                     btn.style.color = '#fff';
                     btn.style.border = 'none';
-                    
-                    const cloneBtn = document.querySelector(`#sticky-nav-clone #${btn.id}`);
-                    if (cloneBtn) {
-                        cloneBtn.style.background = '#1e40af';
-                        cloneBtn.style.color = '#fff';
-                        cloneBtn.style.border = 'none';
-                    }
 
                     if (btn.id === 'btn-epic') currentModule = 'epic';
                     else if (btn.id === 'btn-target') currentModule = 'target';
                     else if (btn.id === 'btn-nav') currentModule = 'nav';
                     else if (btn.id === 'btn-manip') currentModule = 'manip';
-                    // 切换模块时自动刷新图片
+
                     if (currentView === 'data') {
                         currentImageIndex = 1;
                         const moduleFolderMap = {
@@ -1839,59 +1836,42 @@
                 });
             });
 
-                // Benchmark 模块按钮
-                document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(b => {
-                            b.style.background = '#fff';
-                            b.style.color = '#1e293b';
-                            b.style.border = '1px solid #e2e8f0';
-                        });
-                        btn.style.background = '#1e40af';
-                        btn.style.color = '#fff';
-                        btn.style.border = 'none';
-                        
-
-                        if (btn.id === 'btn-target-bench') currentModule = 'target';
-                        if (btn.id === 'btn-nav-bench') currentModule = 'nav';
-                        if (btn.id === 'btn-manip-bench') currentModule = 'manip';
-
-                        // ✅ 强制显示图片容器
-                        document.getElementById('data-image-container').style.display = 'block';
-
-                        // ✅ 正确渲染当前模块图片
-                        const moduleFolderMap = {
-                            target: 'TargetLocalization',
-                            nav: 'Navigation',
-                            manip: 'Manipulation'
-                        };
-                        renderFixedImages(moduleFolderMap[currentModule]);
+            // ======================
+            // Benchmark 按钮（完全独立）
+            // ======================
+            document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 只重置 Benchmark 自己的按钮
+                    document.querySelectorAll('#sticky-nav-wrapper-benchmark .data-btn').forEach(b => {
+                        b.style.background = '#fff';
+                        b.style.color = '#1e293b';
+                        b.style.border = '1px solid #e2e8f0';
                     });
+                    btn.style.background = '#1e40af';
+                    btn.style.color = '#fff';
+                    btn.style.border = 'none';
+
+                    let benchModule;
+                    if (btn.id === 'btn-target-bench') {
+                        benchModule = 'TargetLocalization';
+                    } else if (btn.id === 'btn-nav-bench') {
+                        benchModule = 'Navigation';
+                    } else if (btn.id === 'btn-manip-bench') {
+                        benchModule = 'Manipulation';
+                    }
+
+                    document.getElementById('data-image-container').style.display = 'block';
+                    renderFixedImages(benchModule);
                 });
-            }
+            });
+        }
 
         // 粘性导航
         function initStickyNav() {
-            const stickyWrapper = document.getElementById('sticky-nav-wrapper');
+            // 完全禁用吸顶逻辑
             const stickyClone = document.getElementById('sticky-nav-clone');
-            const dataSection = document.querySelector('.data-example-section');
-            
-            stickyClone.innerHTML = stickyWrapper.innerHTML;
-            
-            function checkSticky() {
-                const sectionRect = dataSection.getBoundingClientRect();
-                const wrapperRect = stickyWrapper.getBoundingClientRect();
-                
-                if (sectionRect.top <= window.innerHeight && wrapperRect.top <= 0) {
-                    stickyClone.style.display = 'flex';
-                } else {
-                    stickyClone.style.display = 'none';
-                }
-            }
-
+            stickyClone.style.display = 'none';
             bindButtonEvents();
-            window.addEventListener('scroll', checkSticky);
-            checkSticky();
         }
 
         // 初始化
@@ -2837,18 +2817,33 @@
         // 绑定换一批按钮
         document.getElementById('refresh-images-btn-bench').onclick = nextImageSet;
 
-        // 跳转到榜单：自动切换到 榜单视图 + EPIC-Bench
         function goToLeaderboard() {
-            document.getElementById('tab-rank').click();
-            document.getElementById('btn-epic').click();
+            currentView = 'rank';
+            currentModule = 'epic';
+
+            // ✅ 只激活 Leaderboard 按钮，不影响 Benchmark
+            document.querySelectorAll('#sticky-nav-wrapper .data-btn').forEach(btn => {
+                btn.style.background = '#fff';
+                btn.style.color = '#1e293b';
+                btn.style.border = '1px solid #e2e8f0';
+            });
+            const epicBtn = document.getElementById('btn-epic');
+            if (epicBtn) {
+                epicBtn.style.background = '#1e40af';
+                epicBtn.style.color = '#fff';
+                epicBtn.style.border = 'none';
+            }
+
+            document.getElementById('btn-epic').style.display = 'inline-flex';
             document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+            refreshTable();
         }
 
-        // 跳转到数据：自动切换到 数据视图 + TargetLocalization
         function goToData() {
-            document.getElementById('tab-data').click();
-            document.getElementById('btn-target').click();
-            document.getElementById('leaderboard-section').scrollIntoView({ behavior: 'smooth' });
+            const target = document.getElementById('benchmark-section');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
         }
         // 页面加载完成后初始化
         // 页面加载完成后初始化
