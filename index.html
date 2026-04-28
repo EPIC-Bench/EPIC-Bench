@@ -127,7 +127,8 @@
         .author-notes {
             font-size: 16px;
             color: #000000;
-            margin-top: 12px;
+            margin-top: 12px;    /* 增大：离上面作者更远 */
+            margin-bottom: 12px; /* 新增：离下面按钮更远 */
             font-weight: 500;
         }
         .author-name {
@@ -2727,7 +2728,7 @@
             imgContainer.style.display = 'flex';
             imgContainer.style.gap = '16px';
             imgContainer.style.marginTop = '50px';
-            imgContainer.style.marginBottom = '40px';
+            imgContainer.style.marginBottom = '12px';
             imgContainer.style.alignItems = 'flex-start';
 
             const totalImages = data.images.length;
@@ -2797,14 +2798,19 @@
         }
 
         // 换一批：切换到下一条（每个模块独立切换）
+        // 换一批：切换到下一条（每个模块独立切换）
         function nextImageSet() {
-            const folderMap = {
-                target: 'TargetLocalization',
-                nav: 'Navigation',
-                manip: 'Manipulation'
-            };
-            const folder = folderMap[currentModule];
-            if (!folder) return;
+            // 获取当前 Benchmark 选中的模块（直接从按钮状态判断）
+            let folder;
+            if(document.getElementById('btn-target-bench').style.background === 'rgb(30, 64, 175)'){
+                folder = 'TargetLocalization';
+            } else if(document.getElementById('btn-nav-bench').style.background === 'rgb(30, 64, 175)'){
+                folder = 'Navigation';
+            } else if(document.getElementById('btn-manip-bench').style.background === 'rgb(30, 64, 175)'){
+                folder = 'Manipulation';
+            } else {
+                folder = 'TargetLocalization';
+            }
 
             const list = dataset[folder];
             if (!list) return;
