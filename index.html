@@ -153,14 +153,29 @@
             cursor: pointer;
             transition: all 0.2s ease !important;
         }
+        /* 按钮样式：使用 flex 布局让图标和文字对齐 */
         .data-btn {
-            padding: 12px 28px !important;
-            border-radius: 50px !important;
-            border: 1px solid #e2e8f0 !important;
-            font-size: 15px !important;
-            font-weight: 600 !important;
+            display: inline-flex;  /* 使用 flex 布局 */
+            align-items: center;    /* 垂直居中 */
+            justify-content: center;/* 水平居center */
+            gap: 8px;               /* 图标和文字之间的距离 */
+            
+            /* 以下保持你原有的按钮样式，比如： */
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            background: white;
             cursor: pointer;
-            transition: all 0.2s ease !important;
+            font-size: 14px;
+            white-space: nowrap;    /* 确保文字不换行 */
+            transition: all 0.3s;
+        }
+
+        /* 按钮内图标的大小控制 */
+        .btn-icon {
+            width: 18px;  /* 调整图标大小 */
+            height: 18px;
+            object-fit: contain; /* 确保图标不拉伸 */
         }
         .btn {
             display: inline-flex;
@@ -673,84 +688,100 @@
         .module-target #data-table tbody tr:nth-child(3) td:first-child {
             background: #fff3e0 !important;
         }
-        /* 导航树容器布局 */
-        /* 导航树容器布局 */
-        .nav-tree-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px; /* 减小整体底部间距 */
-            position: relative;
-            gap: 0 !important; /* 消除行之间默认空隙 */
-        }
-
-        /* 每一行的按钮样式 */
-        .nav-row-top, .nav-row-bottom {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            z-index: 2;
-            margin: 0 !important; /* 按钮行无间距 */
-        }
-
-        /* 连接区域样式 */
-        /* 连接区域样式 */
+        /* 1. 容器：确保居中对齐 */
         .nav-connector {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
+            margin: -5px 0; /* 使用负边距或极小的边距来强行拉近上下按钮的距离 */
             position: relative;
-            margin: 2px 0; /* 大幅缩小上下间距，核心修改 */
         }
 
-        /* 文字样式 */
-        .subtasks-text {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 600;
-            background: #f8fafc; /* 与背景色一致，遮挡线条 */
-            padding: 0 10px;
-            z-index: 3;
-            margin: 5px 0;
-        }
-
-        /* 垂直实线 (连接 EPIC 到 文字) */
-        .vertical-line {
+        /* 2. 顶部垂直线 (从 EPIC-Bench 到 Subtasks) */
+        .vertical-line-top {
             width: 2px;
-            height: 12px; /* 缩短线条高度 */
+            height: 40px;
             background-color: #cbd5e1;
-            margin-bottom: -2px;
-        }
-
-        /* 虚线容器：计算三个按钮的覆盖宽度 */
-        /* 虚线容器：计算三个按钮的覆盖宽度 */
-        .dashed-line-container {
-            width: 30%; 
-            height: 12px; /* 缩短高度 */
-            border-left: 2px dashed #cbd5e1;
-            border-right: 2px dashed #cbd5e1;
-            border-top: 2px dashed #cbd5e1;
             position: relative;
-            top: -2px; /* 上移贴近文字 */
         }
 
-        /* 新增：中間的垂直虛線 */
-        /* 新增：中間的垂直虛線 */
-        .dashed-line-container::after {
-            content: "";
+        /* 顶部起始圆点 */
+        .vertical-line-top::before {
+            content: '';
             position: absolute;
+            top: -4px;
             left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+        }
+
+        /* 3. Subtasks 标签样式 */
+        .subtasks-badge {
+            padding: 2px 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #64748b;
+            z-index: 2;
+            margin: -13px 0; /* 增加负边距，让上下线段更靠近标签 */
+        }
+
+        /* 4. 分叉树容器 */
+        .tree-fork {
+            width: 300px; /* 控制左右两个分叉的跨度，需对应下方卡片的间距 */
+            height: 40px;
+            position: relative;
+        }
+
+        /* 横向长线 (横梁) */
+        .horizontal-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #cbd5e1;
+        }
+
+        /* 5. 通用的垂直分支线样式 */
+        .branch {
+            position: absolute;
             top: 0;
             width: 2px;
-            height: 100%;
-            border-left: 2px dashed #cbd5e1;
+            height: 40px;
+            background-color: #cbd5e1;
+        }
+
+        /* 分支底部的圆点 */
+        .branch::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+        }
+
+        /* 6. 定位三个分叉 */
+        .branch.left {
+            left: 0;
+        }
+
+        .branch.middle {
+            left: 50%;
             transform: translateX(-50%);
         }
 
-        /* 修正按钮默认样式 (防止原有样式冲突) */
-        .nav-tree-container .data-btn {
-            margin: 0 !important;
+        .branch.right {
+            right: 0;
         }
     </style>
 </head>
@@ -826,7 +857,7 @@
     <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
     <!-- ====================== 第一部分：Leaderboard ====================== -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
-        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom:-20px !important;">🏆 Leaderboard</h2>
+        <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom:-10px !important;">🏆 Leaderboard</h2>
 
         <<div id="sticky-nav-wrapper" class="nav-tree-container">
             <div class="nav-row-top">
@@ -834,17 +865,29 @@
             </div>
 
             <div class="nav-connector">
-                <div class="vertical-line"></div>
-                <span class="subtasks-text">Subtasks</span>
-                <div class="dashed-line-container">
-                    <div class="horizontal-dashed-line"></div>
+                <div class="vertical-line-top"></div>
+                <div class="subtasks-badge">Subtasks</div>
+                <div class="tree-fork">
+                    <div class="horizontal-bar"></div>
+                    <div class="branch left"></div>
+                    <div class="branch middle"></div>
+                    <div class="branch right"></div>
                 </div>
             </div>
 
             <div class="nav-row-bottom">
-                <button class="data-btn" id="btn-target">TargetLocalization</button>
-                <button class="data-btn" id="btn-nav">Navigation</button>
-                <button class="data-btn" id="btn-manip">Manipulation</button>
+                <button class="data-btn" id="btn-target">
+                    <img src="img/20260428-155942.png" class="btn-icon">
+                    TargetLocalization
+                </button>
+                <button class="data-btn" id="btn-nav">
+                    <img src="img/20260428-160003.png" class="btn-icon">
+                    Navigation
+                </button>
+                <button class="data-btn" id="btn-manip">
+                    <img src="img/20260428-155953.png" class="btn-icon">
+                    Manipulation
+                </button>
             </div>
         </div>
 
@@ -906,7 +949,7 @@
     </section>
     <!-- ====================== 新增：Data Collection Pipeline ====================== -->
     <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
-        <h2 style="font-size: 32px; font-weight: 700; color: #333; margin-bottom: 24px;">
+        <h2 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 24px;">
             Data Collection and Annotation Pipeline
         </h2>
         <div style="text-align: center;">
@@ -918,7 +961,7 @@
     </section>
     <!-- 新增：Why EPIC-Bench 模块 -->
     <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
-        <h2 style="font-size: 32px; font-weight: 700; color: #333; margin-bottom: 24px;">
+        <h2 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 24px;">
             Why EPIC-Bench: Comprehensive Coverage of Embodied Perception
         </h2>
         <div style="text-align: center;">
