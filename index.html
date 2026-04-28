@@ -155,27 +155,25 @@
         }
         /* 按钮样式：使用 flex 布局让图标和文字对齐 */
         .data-btn {
-            display: inline-flex;  /* 使用 flex 布局 */
-            align-items: center;    /* 垂直居中 */
-            justify-content: center;/* 水平居center */
-            gap: 8px;               /* 图标和文字之间的距离 */
-            
-            /* 以下保持你原有的按钮样式，比如： */
-            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;             /* 增大图标和文字的间距 */
+            padding: 12px 24px;    /* 增大按钮高度和宽度 */
+            font-size: 16px;       /* 增大字体 */
+            background: white;
             border: 1px solid #e2e8f0;
             border-radius: 50px;
-            background: white;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 14px;
-            white-space: nowrap;    /* 确保文字不换行 */
-            transition: all 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
         }
 
-        /* 按钮内图标的大小控制 */
+        /* 按钮内的图标也同步放大 */
         .btn-icon {
-            width: 18px;  /* 调整图标大小 */
-            height: 18px;
-            object-fit: contain; /* 确保图标不拉伸 */
+            width: 22px; 
+            height: 22px;
         }
         .btn {
             display: inline-flex;
@@ -733,7 +731,7 @@
 
         /* 4. 分叉树容器 */
         .tree-fork {
-            width: 300px; /* 控制左右两个分叉的跨度，需对应下方卡片的间距 */
+            width: 450px; /* 控制左右两个分叉的跨度，需对应下方卡片的间距 */
             height: 40px;
             position: relative;
         }
@@ -782,6 +780,29 @@
 
         .branch.right {
             right: 0;
+        }
+        /* 找到对应的底部按钮容器 */
+        .nav-row-bottom {
+            display: flex;
+            justify-content: center; /* 确保按钮组居中 */
+            
+            /* 修改这个值来调大间距 */
+            /* 如果之前是 20px，可以改为 40px 或更大 */
+            gap: 60px; 
+            
+            margin-top: 10px; /* 如果需要调节按钮与上方线段的距离，也可以改这里 */
+        }
+        .leaderboard-btn {
+            padding: 14px 32px;    /* 增加内边距 */
+            font-size: 20px;       /* 增大字体 */
+            font-weight: 700;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
