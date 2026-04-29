@@ -44,18 +44,16 @@
             animation: slideUp 0.3s ease forwards;
         }
         body {
-            /* 基础背景色（顶部 100px 区域的颜色） */
+            /* 基础背景色设为纯白 */
             background-color: #fff; 
             
-            /* 你的渐变背景 */
-            background-image: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
+            /* 清除之前的渐变图片 */
+            background-image: none;
             
-            /* 关键:渐变从距离顶部 100px 开始渲染 */
-            background-position: 0 340px;
-            
-            /* 关键:渐变只渲染「剩余区域」，不重复平铺 */
-            background-size: 100% calc(100% - 100px);
-            background-repeat: no-repeat;
+            /* 重置背景相关属性 */
+            background-position: 0 0;
+            background-size: auto;
+            background-repeat: repeat;
             
             padding-top: 0;
             margin: 0;
