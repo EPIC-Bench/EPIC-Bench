@@ -50,10 +50,10 @@
             /* 你的渐变背景 */
             background-image: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
             
-            /* 关键：渐变从距离顶部 100px 开始渲染 */
+            /* 关键:渐变从距离顶部 100px 开始渲染 */
             background-position: 0 340px;
             
-            /* 关键：渐变只渲染「剩余区域」，不重复平铺 */
+            /* 关键:渐变只渲染「剩余区域」，不重复平铺 */
             background-size: 100% calc(100% - 100px);
             background-repeat: no-repeat;
             
@@ -111,7 +111,7 @@
         }
         .authors {
             max-width: 1200px;
-            margin: -30px auto 4px; /* 关键：负上边距，往上拉20px，紧贴标题 */
+            margin: -30px auto 4px; /* 关键:负上边距，往上拉20px，紧贴标题 */
             color: #334155;
             font-size: 16px;
             line-height: 1.1;
@@ -127,8 +127,8 @@
         .author-notes {
             font-size: 16px;
             color: #000000;
-            margin-top: 12px;    /* 增大：离上面作者更远 */
-            margin-bottom: 12px; /* 新增：离下面按钮更远 */
+            margin-top: 12px;    /* 增大:离上面作者更远 */
+            margin-bottom: 12px; /* 新增:离下面按钮更远 */
             font-weight: 500;
         }
         .author-name {
@@ -153,7 +153,7 @@
             cursor: pointer;
             transition: all 0.2s ease !important;
         }
-        /* 按钮样式：使用 flex 布局让图标和文字对齐 */
+        /* 按钮样式:使用 flex 布局让图标和文字对齐 */
         .data-btn {
             display: inline-flex;
             align-items: center;
@@ -190,7 +190,7 @@
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        /* 新增：独立的榜单/数据快捷按钮样式 */
+        /* 新增:独立的榜单/数据快捷按钮样式 */
         .quick-jump-btn {
             padding: 10px 24px;
             border-radius: 8px;
@@ -442,7 +442,7 @@
             font-size: 16px;
         }
         
-        /* 表格容器核心样式：固定高度，仅表格滚动 */
+        /* 表格容器核心样式:固定高度，仅表格滚动 */
         .table-scroll-wrapper {
             position: relative;
             max-width: 1600px;
@@ -454,7 +454,7 @@
             padding: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             overflow-x: auto;
-            /* 核心：固定高度，仅表格区域垂直滚动 */
+            /* 核心:固定高度，仅表格区域垂直滚动 */
             max-height: 800px;
             overflow-y: auto;
             overflow-x: auto;
@@ -546,20 +546,20 @@
         #top-button-group .quick-jump-btn {
             font-size: 15px !important;
             font-weight: 600 !important;
-            /* 核心：给文字加左边距，直接隔开图标 */
+            /* 核心:给文字加左边距，直接隔开图标 */
         }
         #top-button-group .quick-jump-btn span {
-            margin-left: 12px !important; /* 关键：间距数值，可改10/15px */
+            margin-left: 12px !important; /* 关键:间距数值，可改10/15px */
         }
         /* 固定表头和固定列（解决内容穿透问题） */
         .data-table-container {
-            position: relative; /* 新增：作为固定元素的参考 */
+            position: relative; /* 新增:作为固定元素的参考 */
             max-width: 1600px;
             margin: 0 auto;
-            padding: 0; /* 关键：移除内边距，紧贴顶部 */
+            padding: 0; /* 关键:移除内边距，紧贴顶部 */
         }
 
-        /* 双行表头全部固定：第一行 top:0，第二行紧贴第一行下面 */
+        /* 双行表头全部固定:第一行 top:0，第二行紧贴第一行下面 */
         .data-table-container thead tr:nth-child(1) {
             position: sticky;
             top: 0;
@@ -602,7 +602,7 @@
             z-index: 10;
         }
 
-        /* 关键：给表格行加背景色，避免透明穿透 */
+        /* 关键:给表格行加背景色，避免透明穿透 */
         #data-table tbody tr {
             background: #fff !important; /* 强制白色背景 */
         }
@@ -686,7 +686,7 @@
         .module-target #data-table tbody tr:nth-child(3) td:first-child {
             background: #fff3e0 !important;
         }
-        /* 1. 容器：确保居中对齐 */
+        /* 1. 容器:确保居中对齐 */
         .nav-connector {
             display: flex;
             flex-direction: column;
@@ -850,12 +850,12 @@
                 <img src=".\img\screenshot-20260303-101720.png" alt="modelscope" style="width: 24px; height: 24px; margin-right: 8px; object-fit: contain; vertical-align: middle;">
                 ModelScope
             </a>
-            <!-- 新增：独立的榜单/数据快捷按钮（放在四个按钮后面） -->
+            <!-- 新增:独立的榜单/数据快捷按钮（放在四个按钮后面） -->
             <button class="quick-jump-btn" onclick="goToLeaderboard() ">🏆<span>Leaderboard</span></button>
             <button class="quick-jump-btn" onclick="goToData()">📊<span>Benchmark</span></button>
         </div>
     </header>
-    <!-- ====================== 新增：Overview 模块 ====================== -->
+    <!-- ====================== 新增:Overview 模块 ====================== -->
     <section class="overview-section">
         <h2 class="overview-title">Overview</h2>
         <div style="text-align: center; margin-bottom: 24px;">
@@ -864,7 +864,7 @@
                 alt="Overview">
         </div>
     </section>
-    <!-- ====================== 新增：Abstract 模块 ====================== -->
+    <!-- ====================== 新增:Abstract 模块 ====================== -->
     <section class="abstract-section">
         <h2 class="abstract-title">Abstract</h2>
         <div class="abstract-card">
@@ -876,8 +876,8 @@
         </div>
     </section>
 
-    <!-- 榜单区域：保留原有切换按钮，添加ID用于锚点跳转 -->
-    <!-- ====================== 第一部分：Leaderboard ====================== -->
+    <!-- 榜单区域:保留原有切换按钮，添加ID用于锚点跳转 -->
+    <!-- ====================== 第一部分:Leaderboard ====================== -->
     <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
         <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom:10px !important;">🏆 Leaderboard</h2>
 
@@ -921,7 +921,7 @@
         </div>
     </section>
 
-    <!-- ====================== 第二部分：Benchmark ====================== -->
+    <!-- ====================== 第二部分:Benchmark ====================== -->
     <section id="benchmark-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
         <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom: 24px;">📊 Benchmark</h2>
 
@@ -968,7 +968,7 @@
                 alt="Representative VLM performance on 23 tasks of Epic-Bench">
         </div>
     </section>
-    <!-- ====================== 新增：Data Collection Pipeline ====================== -->
+    <!-- ====================== 新增:Data Collection Pipeline ====================== -->
     <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
         <h2 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 24px;">
             Data Collection and Annotation Pipeline
@@ -980,7 +980,7 @@
                 alt="Data Collection and Annotation Pipeline">
         </div>
     </section>
-    <!-- 新增：Why EPIC-Bench 模块 -->
+    <!-- 新增:Why EPIC-Bench 模块 -->
     <section style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
         <h2 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 24px;">
             Why EPIC-Bench: Comprehensive Coverage of Embodied Perception
@@ -1557,14 +1557,14 @@
 
             const cols = moduleColumnConfigs[module];
 
-            // 两行表头：第一行分组/空，第二行字段
+            // 两行表头:第一行分组/空，第二行字段
             const tr1 = document.createElement('tr');
             const tr2 = document.createElement('tr');
             tr1.style.background = '#f1f5f9';
             tr2.style.background = '#f1f5f9';
 
             // ========== 第一行（tr1）处理 ==========
-            // Model 列：第一行留空 + 右侧分隔线
+            // Model 列:第一行留空 + 右侧分隔线
             const thModel1 = document.createElement('th');
             thModel1.colSpan = 1;
             thModel1.style.padding = '12px';
@@ -1574,7 +1574,7 @@
             tr1.appendChild(thModel1);
 
             if (module === 'epic') {
-                // EPIC 表：Average 列第一行留空（移除右侧分隔线）
+                // EPIC 表:Average 列第一行留空（移除右侧分隔线）
                 const thAvg1 = document.createElement('th');
                 thAvg1.colSpan = 1;
                 thAvg1.style.padding = '12px';
@@ -1583,7 +1583,7 @@
                 tr1.appendChild(thAvg1);
 
                 // 【关键修改】修正分组列数，和下方列严格对应
-                // BasicAttributes 分组：对应下方 4 列（TargetAvg+Basic+SpatialRelated+EmbodiedCompositional）
+                // BasicAttributes 分组:对应下方 4 列（TargetAvg+Basic+SpatialRelated+EmbodiedCompositional）
                 const g1 = document.createElement('th');
                 g1.colSpan = 4; // 原 7 → 改为 4
                 g1.style.padding = '12px';
@@ -1593,7 +1593,7 @@
                 g1.textContent = 'TargetLocalization';
                 tr1.appendChild(g1);
 
-                // Navigation 分组：对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
+                // Navigation 分组:对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
                 const g2 = document.createElement('th');
                 g2.colSpan = 4; // 原 5 → 改为 4
                 g2.style.padding = '12px';
@@ -1603,7 +1603,7 @@
                 g2.textContent = 'Navigation';
                 tr1.appendChild(g2);
 
-                // Manipulation 分组：对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
+                // Manipulation 分组:对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
                 const g3 = document.createElement('th');
                 g3.colSpan = 4; // 原 5 → 改为 4
                 g3.style.padding = '12px';
@@ -1612,7 +1612,7 @@
                 g3.textContent = 'Manipulation';
                 tr1.appendChild(g3);
             } else if (module === 'target') {
-                // Target 表：统一边框样式（和EPIC一致）
+                // Target 表:统一边框样式（和EPIC一致）
                 const g1 = document.createElement('th');
                 g1.colSpan = 7;
                 g1.style.padding = '12px';
@@ -1639,7 +1639,7 @@
                 g3.textContent = 'EmbodiedCompositionalAttributes(1291)';
                 tr1.appendChild(g3);
             } else if (module === 'nav' || module === 'manip') {
-                // ✅ 导航/操作表头：合并 4 列居中显示
+                // ✅ 导航/操作表头:合并 4 列居中显示
                 const th = document.createElement('th');
                 th.colSpan = 4;          // 跨 4 列
                 th.style.padding = '12px';
@@ -1659,7 +1659,7 @@
             }
 
             // ========== 第二行（tr2）处理 ==========
-            // Model 列：文字 + 右侧分隔线
+            // Model 列:文字 + 右侧分隔线
             const thModel2 = document.createElement('th');
             thModel2.style.padding = '12px';
             thModel2.style.borderBottom = '2px solid #e2e8f0';
@@ -1672,8 +1672,8 @@
 
 
             if (module === 'epic') {
-                // EPIC 表：Average 列文字（移除右侧分隔线）
-                // EPIC 表：Average 列文字（移除右侧分隔线）+ 添加排序功能
+                // EPIC 表:Average 列文字（移除右侧分隔线）
+                // EPIC 表:Average 列文字（移除右侧分隔线）+ 添加排序功能
                 const thAvg2 = document.createElement('th');
                 thAvg2.style.padding = '12px';
                 thAvg2.style.borderBottom = '2px solid #e2e8f0';
@@ -1699,7 +1699,7 @@
 
                 tr2.appendChild(thAvg2);
 
-                // 其他列：给第一组第一个列（i=2）加左侧分隔线
+                // 其他列:给第一组第一个列（i=2）加左侧分隔线
                 for (let i = 2; i < cols.length; i++) {
                     const col = cols[i];
                     const th = document.createElement('th');
@@ -1709,7 +1709,7 @@
                     th.style.minWidth = col.minWidth;
                     th.innerHTML = col.label;
                     
-                    // 核心修改：第一组第一个列（i=2）左侧加分隔线
+                    // 核心修改:第一组第一个列（i=2）左侧加分隔线
                     if (i === 2) {
                         th.style.borderLeft = '2px solid #e2e8f0 !important';
                     }
@@ -1733,13 +1733,13 @@
                     tr2.appendChild(th);
                 }
             } else if (module === 'target') {
-                // Target 表：原有逻辑不变
+                // Target 表:原有逻辑不变
                 // Target 表第二行渲染（替换原有代码）
                 const colCount = cols.length - 1;
                 let currentCol = 1;
 
-                // 第一组：BasicAttributes
-                // 第一组：BasicAttributes（新增 Average 后循环 7 次）
+                // 第一组:BasicAttributes
+                // 第一组:BasicAttributes（新增 Average 后循环 7 次）
                 for (let i = 1; i <= 7; i++) { // 6 → 7
                     const col = cols[currentCol];
                     const th = document.createElement('th');
@@ -1768,7 +1768,7 @@
                     currentCol++;
                 }
 
-                // 第二组：SpatialRelatedAttributes（新增 Average 后循环 5 次）
+                // 第二组:SpatialRelatedAttributes（新增 Average 后循环 5 次）
                 for (let i = 1; i <= 5; i++) { // 4 → 5
                     const col = cols[currentCol];
                     const th = document.createElement('th');
@@ -1797,7 +1797,7 @@
                     currentCol++;
                 }
 
-                // 第三组：EmbodiedCompositionalAttributes（新增 Average 后循环 5 次）
+                // 第三组:EmbodiedCompositionalAttributes（新增 Average 后循环 5 次）
                 for (let i = 1; i <= 5; i++) { // 4 → 5
                     const col = cols[currentCol];
                     const th = document.createElement('th');
@@ -1825,7 +1825,7 @@
                     currentCol++;
                 }
             } else {
-                // nav / manip 模块：原有逻辑不变
+                // nav / manip 模块:原有逻辑不变
                 for (let i = 1; i < cols.length; i++) {
                     const col = cols[i];
                     const th = document.createElement('th');
@@ -1856,7 +1856,7 @@
             thead.appendChild(tr2);
         }
 
-        // 渲染表格/图片：榜单正常显示表格，数据显示图片（EPIC数据视图隐藏）
+        // 渲染表格/图片:榜单正常显示表格，数据显示图片（EPIC数据视图隐藏）
         function renderBody(module, view) {
             const tbody = document.getElementById('data-table-body');
             const tableContainer = document.querySelector('.data-table-container');
@@ -1864,7 +1864,7 @@
             const columns = moduleColumnConfigs[module];
             const sortedModels = sortModels(module, sortKey, sortDirection);
 
-            // ============== 榜单视图：正常渲染表格（完全保留原有逻辑） ==============
+            // ============== 榜单视图:正常渲染表格（完全保留原有逻辑） ==============
             if (view === 'rank') {
                 tableContainer.style.display = 'block';
                 tbody.innerHTML = '';
@@ -1884,7 +1884,7 @@
                         td.style.padding = '12px';
                         td.style.textAlign = 'center';
                         
-                        if (idx === 0) { // 模型名列：排名+奖牌+名称
+                        if (idx === 0) { // 模型名列:排名+奖牌+名称
                             const rankNumber = document.createElement('span');
                             rankNumber.className = 'rank-number';
                             rankNumber.textContent = globalIdx + 1;
@@ -1913,10 +1913,10 @@
             }
             document.getElementById('data-image-container').style.display = 'block';
 
-            // ============== 数据视图：显示图片（EPIC模块隐藏，只显示target/nav/manip） ==============
+            // ============== 数据视图:显示图片（EPIC模块隐藏，只显示target/nav/manip） ==============
             imageContainer.style.display = 'block';
 
-            // 模块对应图片文件夹（按你要求：3个独立文件夹）
+            // 模块对应图片文件夹（按你要求:3个独立文件夹）
             const moduleFolderMap = {
                 target: 'TargetLocalization',
                 nav: 'Navigation',
@@ -1924,7 +1924,7 @@
             };
             const folder = moduleFolderMap[module];
 
-            // EPIC模块数据视图：不显示任何内容（你要求删除EPIC数据）
+            // EPIC模块数据视图:不显示任何内容（你要求删除EPIC数据）
             if (module === 'epic') {
                 document.querySelector('.data-image-grid').innerHTML = `
                     <div style="grid-column:1/-1; text-align:center; padding:60px; color:#94a3b8; font-size:16px;">
@@ -1934,7 +1934,7 @@
                 return;
             }
 
-            // 非EPIC模块：渲染随机5张图片
+            // 非EPIC模块:渲染随机5张图片
             if (!folder) return;
             renderRandomImages(folder);
         }
@@ -1959,7 +1959,7 @@
 
                 currentView = btn.id === 'tab-rank' ? 'rank' : 'data';
 
-                // 新增：控制图片只在数据视图显示
+                // 新增:控制图片只在数据视图显示
                 const img = document.getElementById('data-view-image');
                 img.style.display = currentView === 'data' ? 'block' : 'none';
 
@@ -1968,15 +1968,15 @@
                     document.getElementById('btn-target').click();              
                 }
                 
-                // 新增：切换视图时控制EPIC按钮显示/隐藏
+                // 新增:切换视图时控制EPIC按钮显示/隐藏
                 if (currentView === 'rank') {
-                    // 榜单：显示所有按钮
+                    // 榜单:显示所有按钮
                     document.getElementById('btn-epic').style.display = 'inline-flex';
                     document.getElementById('btn-target').style.display = 'inline-flex';
                     document.getElementById('btn-nav').style.display = 'inline-flex';
                     document.getElementById('btn-manip').style.display = 'inline-flex';
                 } else {
-                    // 数据：隐藏EPIC，只显示后三个
+                    // 数据:隐藏EPIC，只显示后三个
                     document.getElementById('btn-epic').style.display = 'none';
                     document.getElementById('btn-target').style.display = 'inline-flex';
                     document.getElementById('btn-nav').style.display = 'inline-flex';
@@ -2086,14 +2086,14 @@
             document.getElementById('btn-target-bench').click();
             refreshTable();
         }
-        // // ====================== 数据模块：图片+文字 循环展示（自动识别条数） ======================
+        // // ====================== 数据模块:图片+文字 循环展示（自动识别条数） ======================
         // let currentImageIndex = 1; // 全局记录当前从第几条开始
         // let moduleDataCounts = {}; // 存储每个模块的总条数
 
         // // 1. 先定义每个模块的总条数（你自己改数字，比如TargetLocalization有6条就写6）
         // function initModuleDataCounts() {
         //     moduleDataCounts = {
-        //         TargetLocalization: 19,  // 这里改：你文件夹里最大的x值，比如有1-1/1-2到3-1/3-2，就是3条
+        //         TargetLocalization: 19,  // 这里改:你文件夹里最大的x值，比如有1-1/1-2到3-1/3-2，就是3条
         //         Navigation: 7,         // 同理，Navigation有几组就写几
         //         Manipulation: 12        // Manipulation有几组就写几
         //     };
@@ -2121,7 +2121,7 @@
         // }
 
         // ==============================================
-        // 🎯 三套独立数据：Target / Navigation / Manipulation
+        // 🎯 三套独立数据:Target / Navigation / Manipulation
         // 每条数据的文字全部独立，你只需要在这里改！！！
         // ==============================================
         const dataset = {
@@ -2136,15 +2136,15 @@
                         "TargetLocalization/1-1.png",
                         "TargetLocalization/1-2.png"
                     ],
-                    // 👇 第1条：所有图片上方共用文字
+                    // 👇 第1条:所有图片上方共用文字
                     imageTopTexts: [
                         "[Input]: Original Img & Target Object Description",
                         "[GT]: GT Mask & GT Count"
                     ],
-                    // 👇 第1条：每张图片下方文字（数组，顺序对应图片）
+                    // 👇 第1条:每张图片下方文字（数组，顺序对应图片）
                     imageBottomTexts: [
                         "Target Object Description : packaging box",
-                        "GT Count: 19"
+                        "GT Count : 19"
                     ],
                     additionalLabels: ""
                 },
@@ -2161,7 +2161,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : Items with alternating white and pink colors",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },
@@ -2178,7 +2178,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : circular area",
-                        "GT Count ： 8"
+                        "GT Count : 8"
                     ],
                     additionalLabels: ""
                 },
@@ -2195,7 +2195,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fabric items",
-                        "GT Count ： 6"
+                        "GT Count : 6"
                     ],
                     additionalLabels: ""
                 },
@@ -2212,7 +2212,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : mirror image of the green box",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },
@@ -2229,7 +2229,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : four larger mirrors",
-                        "GT Count ： 4"
+                        "GT Count : 4"
                     ],
                     additionalLabels: ""
                 },
@@ -2246,7 +2246,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : shooping cater pointing to the left side of the photo",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },
@@ -2263,7 +2263,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : chair oriented to the flowerpot on the ground",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2280,7 +2280,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : people facing their own up left directoin",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2297,7 +2297,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : bread outside the toaster",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },
@@ -2314,7 +2314,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2331,7 +2331,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : clock closest to the person in the upper left from camera’s perceptive",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2348,7 +2348,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : the left half of the screen",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2365,7 +2365,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : human part below the ears",
-                        "GT Count ： 7"
+                        "GT Count : 7"
                     ],
                     additionalLabels: ""
                 },
@@ -2382,7 +2382,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : glass that is almost full of liquid",
-                        "GT Count ： 3"
+                        "GT Count : 3"
                     ],
                     additionalLabels: ""
                 },
@@ -2399,7 +2399,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : glowing button on water dispenser",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },
@@ -2416,7 +2416,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : garbage in the middle of the scene",
-                        "GT Count ： 1"
+                        "GT Count : 1"
                     ],
                     additionalLabels: ""
                 },
@@ -2433,7 +2433,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fruit in the plastic bag under robot gripper",
-                        "GT Count ： 2"
+                        "GT Count : 2"
                     ],
                     additionalLabels: ""
                 },    
@@ -2450,7 +2450,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fingers",
-                        "GT Count ： 4"
+                        "GT Count : 4"
                     ],
                     additionalLabels: ""
                 }                                       
@@ -2533,7 +2533,7 @@
                     ],
                     imageBottomTexts: [
                         "",
-                        " Target Area Description :\n1.the rightmost table\n 2.the smallest bookshelf area"
+                        " Target Area Description :\n 1.the rightmost table\n 2.the smallest bookshelf area"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
                     additionalLabels: ""
@@ -2553,7 +2553,7 @@
                     ],
                     imageBottomTexts: [
                         "",
-                        " Target Area Description :\n1.the door\n 2.the sink"
+                        " Target Area Description :\n 1.the door\n 2.the sink"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
                     additionalLabels: ""
@@ -2568,15 +2568,15 @@
                         "Navigation/6-4.png"
                     ],
                     imageTopTexts: [
-                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                        "[Input]: Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]: Original Scene Image",
+                        "[Input]: Reference Area Overlay",
+                        "[Input]: Scene Image from different view",
                         "[GT]: GT Mask & GT Count"
                     ],
                     imageBottomTexts: [
-                        "Original Image",
-                        "Reference Area Overlay",
-                        "Scene from different view", 
+                        "",
+                        "",
+                        "", 
                         "GT Count : 2"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
@@ -2592,15 +2592,15 @@
                         "Navigation/7-4.png"
                     ],
                     imageTopTexts: [
-                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
-                        "[Input]:  Original Scene Image & Reference Area Overlay & Scene Image from different spatial/time view",
+                        "[Input]:  Original Scene Image",
+                        "[Input]:  Reference Area Overlay",
+                        "[Input]:  Scene from different view",
                         "[GT] : GT Mask & GT Count"
                     ],
                     imageBottomTexts: [
-                        "Original Image", 
-                        "Reference Area Overlay",
-                        "Scene from different view",
+                        "", 
+                        "",
+                        "",
                         "GT Count : 3"
                     ],
                     // ✅ 这条数据自己的 Additional Labels
@@ -2818,7 +2818,7 @@
                     ],
                     imageBottomTexts: [
                         "Task : find target in contact with ref object simultaneously",
-                        "Reference Object Description : \n1.The leftmost egg\n2. the third egg from left to right",
+                        "Reference Object Description :\n 1.The leftmost egg\n 2. the third egg from left to right",
                         "GT Count : 1"
                     ],
                     additionalLabels: ""
@@ -2838,7 +2838,7 @@
                     ],
                     imageBottomTexts: [
                         "Task : find all targets in contact with multiple ref object",
-                        "Reference Object Description : dishcloth\nReference Object Description : Right robot gripper",
+                        "Reference Object Description :\n 1.dishcloth\n 2.Right robot gripper",
                         "GT Count : 2"
                     ],
                     additionalLabels: ""
@@ -2846,7 +2846,7 @@
             ]
         };
 
-        // ====================== 数据模块：图片+文字 循环展示（自动识别条数） ======================
+        // ====================== 数据模块:图片+文字 循环展示（自动识别条数） ======================
         // 当前显示的索引（每个模块独立计数）
         let currentIndex = {
             TargetLocalization: 0,
@@ -2854,7 +2854,7 @@
             Manipulation: 0
         };
 
-        // 渲染当前模块的当前条数据（修复版：确保内容挂载）
+        // 渲染当前模块的当前条数据（修复版:确保内容挂载）
         function renderFixedImages(folder) {
             const grid = document.querySelector('.data-image-grid');
             if (!grid) return;
@@ -2909,10 +2909,10 @@
                 wrapper.style.flex = '1';
                 wrapper.style.display = 'flex';
                 wrapper.style.flexDirection = 'column';
-                wrapper.style.alignItems = 'center';
                 
-                // ✅ 關鍵 1：使用 space-between 讓內容撐開，但圖片永遠在最下方
-                wrapper.style.justifyContent = 'flex-end'; 
+                // ✅ 關鍵 1:改為 flex-start，確保內部的文字和圖片都從左邊開始排列
+                wrapper.style.alignItems = 'flex-start'; 
+                wrapper.style.justifyContent = 'flex-end'; // 保持圖片底部對齊
                 wrapper.style.gap = '4px';
 
                 // 取得內容
@@ -2922,24 +2922,36 @@
                 // --- 1. 頂部文字 ---
                 if (topContent !== '') {
                     const topText = document.createElement('div');
-                    // topText.style.fontSize = '14px';
+                    topText.style.fontSize = '14px';
                     topText.style.fontWeight = '600';
                     topText.style.color = '#1e293b';
-                    topText.style.textAlign = 'center';
-                    topText.style.marginBottom = '2px'; // 貼近下方內容
+                    // ✅ 關鍵 2:改為左對齊
+                    topText.style.textAlign = 'left'; 
+                    topText.style.width = '100%';
+                    topText.style.marginBottom = '2px';
                     topText.textContent = topContent;
                     wrapper.appendChild(topText);
                 }
 
                 // --- 2. 原底部文字 (現在在圖片上方) ---
+                // --- 2. 原底部文字 (处理特定的绿色高亮) ---
                 if (bottomContent !== '') {
                     const bottomText = document.createElement('div');
-                    bottomText.style.fontWeight = '600'; // 稍微小一點顯得精緻
-                    bottomText.style.color = '#1e293b';
-                    bottomText.style.textAlign = 'center';
+                    bottomText.style.fontSize = '13px';
+                    bottomText.style.color = '#475569'; 
+                    bottomText.style.textAlign = 'left'; 
+                    bottomText.style.width = '100%';
                     bottomText.style.whiteSpace = 'pre-wrap';
-                    bottomText.style.marginBottom = '8px'; // 貼近圖片
-                    bottomText.textContent = bottomContent;
+                    bottomText.style.marginBottom = '8px';
+
+                    // 💡 最終修正版正則：
+                    // 1. 匹配冒號及其後面的所有內容（包含換行），全部塗綠
+                    // 2. 匹配 GT Count 字樣，塗綠
+                    let formattedText = bottomContent
+                        .replace(/([:：][\s\S]*)/g, '<span style="color: #22c55e; font-weight: 600;">$1</span>')
+                        .replace(/(GT\s*Count)/g, '<span style="color: #22c55e; font-weight: 600;">$1</span>');
+
+                    bottomText.innerHTML = formattedText;
                     wrapper.appendChild(bottomText);
                 }
 
@@ -2947,20 +2959,19 @@
                 const img = document.createElement('img');
                 img.src = src;
                 img.style.width = '100%';
-                img.style.display = 'block'; // 消除圖片下方間隙
+                img.style.display = 'block';
                 img.style.borderRadius = '12px';
                 img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
                 wrapper.appendChild(img);
 
-                // ✅ 關鍵 2：強制所有 wrapper 的高度一致
-                // 這樣即使某個 wrapper 沒文字，圖片也會對齊到底部
+                // 強制 wrapper 延伸，配合父容器的 flex-end 實現圖片水平對齊
                 wrapper.style.alignSelf = 'stretch';
 
                 imgContainer.appendChild(wrapper);
             });
 
-            // ✅ 關鍵 3：父容器對齊方式
-            imgContainer.style.alignItems = 'flex-end'; // 強制所有子元素（wrapper）底部對齊
+            // ✅ 關鍵 4:父容器依然保持底部對齊，確保圖片在同一水平線
+            imgContainer.style.alignItems = 'flex-end';
 
             // 4. Additional Labels
             const additionalLabel = document.createElement('div');
@@ -2974,8 +2985,8 @@
             grid.appendChild(card);
         }
 
-        // 换一批：切换到下一条（每个模块独立切换）
-        // 换一批：切换到下一条（每个模块独立切换）
+        // 换一批:切换到下一条（每个模块独立切换）
+        // 换一批:切换到下一条（每个模块独立切换）
         function nextImageSet() {
             // 获取当前 Benchmark 选中的模块（直接从按钮状态判断）
             let folder;
@@ -3037,7 +3048,7 @@
             document.getElementById('btn-target-bench').click();
 
             // ==============================================
-            // ✅ 修复：默认选中 EPIC-Bench 按钮（高亮生效）
+            // ✅ 修复:默认选中 EPIC-Bench 按钮（高亮生效）
             // ==============================================
             setTimeout(() => {
                 // 重置所有按钮样式
