@@ -467,10 +467,28 @@
             position: sticky;
             left: 0;
             z-index: 30; /* 提高层级，确保压过所有内容 */
-            min-width: 330px; /* 固定列宽度，防止被挤压 */
-            width: 330px; /* 强制宽度 */
+            min-width: 10px; /* 固定列宽度，防止被挤压 */
+            width: 10px; /* 强制宽度 */
             text-align: left !important;
             padding-left: 16px !important;
+        }
+        #data-table th:not(:first-child),
+        #data-table td:not(:first-child) {
+            width: 50px !important;   /* 统一分数列宽度 */
+            min-width: 50px !important;
+            max-width: 50px !important;
+            text-align: center !important;
+        }
+        /* ========== 强制分数列自动换行 ========== */
+        #data-table th:not(:first-child),
+        #data-table td:not(:first-child) {
+            /* 核心：允许单词内换行 */
+            word-wrap: break-word !important;
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+
+            /* 可选：让文字垂直居中 */
+            vertical-align: middle !important;
         }
         /* 仅针对 Model 表头文字居中 */
         #data-table th:first-child {
@@ -556,6 +574,15 @@
             max-width: 1600px;
             margin: 0 auto;
             padding: 0; /* 关键:移除内边距，紧贴顶部 */
+        }
+        /* ========== EPIC-Bench 表格全局字体大小统一设置 ========== */
+        /* 表头字体大小 */
+        #data-table th {
+            font-size: 10px !important;
+        }
+        /* 表格内容字体大小 */
+        #data-table td {
+            font-size: 10px !important;
         }
 
         /* 双行表头全部固定:第一行 top:0，第二行紧贴第一行下面 */
@@ -1540,7 +1567,7 @@
         // 列配置
         const moduleColumnConfigs = {
             'epic': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '200px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
                 { key: 'Average', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Basic', label: 'Basic', minWidth: '120px', sortable: true },
@@ -1556,7 +1583,7 @@
                 { key: 'PlacementRegion', label: 'PlacementRegion', minWidth: '120px', sortable: true }
             ],
             'target': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '200px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
                 { key: 'BasicAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Category', label: 'Category', minWidth: '100px', sortable: true },
                 { key: 'Color', label: 'Color', minWidth: '100px', sortable: true },
@@ -1577,7 +1604,7 @@
             ],
             // ========== 导航移动感知（nav）配置修改 ==========
             'nav': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '200px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false},
                 { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
                 { key: 'GroundDetection', label: 'GroundDetection(391)', minWidth: '120px', sortable: true },
                 { key: 'FeasiblePath', label: 'FeasiblePath(502)', minWidth: '120px', sortable: true },
@@ -1585,7 +1612,7 @@
             ],
             // ========== 操作感知（manip）配置修改 ==========
             'manip': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '200px', sortable: false },
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false },
                 { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
                 { key: 'Affordance', label: 'Affordance(315)', minWidth: '120px', sortable: true },
                 { key: 'ContactRelationship', label: 'ContactRelationship(289)', minWidth: '120px', sortable: true },
@@ -3161,6 +3188,7 @@
 
     <footer style="width: 100%; padding: 30px 20px; text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0;">
         <p style="color: #64748b; font-size: 14px; font-weight: 500;">
+            © 2026 X-Humanoid Team
         </p>
     </footer>
 </body>
