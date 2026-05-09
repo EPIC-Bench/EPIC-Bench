@@ -848,7 +848,7 @@
         .side-nav-toggle {
             width: 32px;
             height: 60px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 242, 226, 0.9);
             border: 1px solid #e2e8f0;
             border-left: none;
             border-radius: 0 8px 8px 0;
@@ -1071,7 +1071,7 @@
             <div class="nav-row-bottom">
                 <button class="data-btn" id="btn-target" style="font-size: 12px !important;">
                     <img src="img/20260428-155942.png" class="btn-icon">
-                    TargetLocalization
+                    Target Localization
                 </button>
                 <button class="data-btn" id="btn-nav" style="font-size: 12px !important;">
                     <img src="img/20260428-160003.png" class="btn-icon">
@@ -1109,7 +1109,7 @@
         </div>
 
         <div id="sticky-nav-wrapper-benchmark" class="data-button-group">
-            <button class="data-btn" id="btn-target-bench" style="background: #1e40af; color: white; border: none;">TargetLocalization</button>
+            <button class="data-btn" id="btn-target-bench" style="background: #1e40af; color: white; border: none;">Target Localization</button>
             <button class="data-btn" id="btn-nav-bench" style="background: white; color: #1e293b;">Navigation</button>
             <button class="data-btn" id="btn-manip-bench" style="background: white; color: #1e293b;">Manipulation</button>
         </div>
@@ -1130,13 +1130,13 @@
     </section>
         <section id="vlm-performance" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; text-align: center;">
         <h2 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 24px;">
-            Representative VLM performance on 23 tasks of Epic-Bench
+            Representative VLM performance on 23 tasks of EPIC-Bench
         </h2>
         <div style="text-align: center;">
             <img 
                 src="img/screenshot-20260428-142503.png"
                 style="max-width: 68%; height: auto; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-                alt="Representative VLM performance on 23 tasks of Epic-Bench">
+                alt="Representative VLM performance on 23 tasks of EPIC-Bench">
         </div>
     </section>
     <!-- ====================== 新增:Data Collection Pipeline ====================== -->
@@ -1654,16 +1654,16 @@
                 { key: 'Average', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Basic', label: 'Basic', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelated', label: 'SpatialRelated', minWidth: '120px', sortable: true },
-                { key: 'EmbodiedCompositional', label: 'EmbodiedCompositional', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelated', label: 'Spatial Related', minWidth: '120px', sortable: true },
+                { key: 'EmbodiedCompositional', label: 'Embodied Compositional', minWidth: '120px', sortable: true },
                 { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true },
-                { key: 'GroundDetection', label: 'GroundDetection', minWidth: '120px', sortable: true },
-                { key: 'FeasiblePath', label: 'FeasiblePath', minWidth: '120px', sortable: true },
-                { key: 'VisualMatching', label: 'VisualMatching', minWidth: '120px', sortable: true },
+                { key: 'GroundDetection', label: 'Ground Detection', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'Feasible Path', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'Visual Matching', minWidth: '120px', sortable: true },
                 { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Affordance', label: 'Affordance', minWidth: '120px', sortable: true },
-                { key: 'ContactRelationship', label: 'ContactRelationship', minWidth: '120px', sortable: true },
-                { key: 'PlacementRegion', label: 'PlacementRegion', minWidth: '120px', sortable: true }
+                { key: 'ContactRelationship', label: 'Contact Relationship', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'Placement Region', minWidth: '120px', sortable: true }
             ],
             'target': [
                 { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
@@ -1672,34 +1672,34 @@
                 { key: 'Color', label: 'Color', minWidth: '100px', sortable: true },
                 { key: 'Geometry', label: 'Geometry', minWidth: '100px', sortable: true },
                 { key: 'Material', label: 'Material', minWidth: '100px', sortable: true },
-                { key: 'RelativePerception', label: 'RelativePerception', minWidth: '120px', sortable: true },
-                { key: 'ObjectProjections', label: 'ObjectProjections', minWidth: '120px', sortable: true },
+                { key: 'RelativePerception', label: 'Relative Perception', minWidth: '120px', sortable: true },
+                { key: 'ObjectProjections', label: 'Object Projections', minWidth: '120px', sortable: true },
                 { key: 'SpatialAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Orientation', label: 'Orientation', minWidth: '100px', sortable: true },
-                { key: 'OrientationHuman', label: 'OrientationHuman', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelation', label: 'SpatialRelation', minWidth: '120px', sortable: true },
-                { key: 'SpatialRelationHuman', label: 'SpatialRelationHuman', minWidth: '140px', sortable: true },
+                { key: 'OrientationHuman', label: 'Orientation Human', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelation', label: 'Spatial Relation', minWidth: '120px', sortable: true },
+                { key: 'SpatialRelationHuman', label: 'Spatial Relation Human', minWidth: '140px', sortable: true },
                 { key: 'EmbodiedAvg', label: 'Avg.', minWidth: '100px', sortable: true },
-                { key: 'PartWhole', label: 'PartWhole', minWidth: '120px', sortable: true },
-                { key: 'PartWholeHuman', label: 'PartWholeHuman', minWidth: '120px', sortable: true },
-                { key: 'ObjectState', label: 'ObjectState', minWidth: '120px', sortable: true },
+                { key: 'PartWhole', label: 'Part Whole', minWidth: '120px', sortable: true },
+                { key: 'PartWholeHuman', label: 'Part Whole Human', minWidth: '120px', sortable: true },
+                { key: 'ObjectState', label: 'Object State', minWidth: '120px', sortable: true },
                 { key: 'Spoken', label: 'Spoken', minWidth: '100px', sortable: true }
             ],
             // ========== 导航移动感知（nav）配置修改 ==========
             'nav': [
                 { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false},
                 { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
-                { key: 'GroundDetection', label: 'GroundDetection(391)', minWidth: '120px', sortable: true },
-                { key: 'FeasiblePath', label: 'FeasiblePath(502)', minWidth: '120px', sortable: true },
-                { key: 'VisualMatching', label: 'VisualMatching(352)', minWidth: '120px', sortable: true }
+                { key: 'GroundDetection', label: 'Ground Detection(391)', minWidth: '120px', sortable: true },
+                { key: 'FeasiblePath', label: 'Feasible Path(502)', minWidth: '120px', sortable: true },
+                { key: 'VisualMatching', label: 'Visual Matching(352)', minWidth: '120px', sortable: true }
             ],
             // ========== 操作感知（manip）配置修改 ==========
             'manip': [
                 { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false },
                 { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
                 { key: 'Affordance', label: 'Affordance(315)', minWidth: '120px', sortable: true },
-                { key: 'ContactRelationship', label: 'ContactRelationship(289)', minWidth: '120px', sortable: true },
-                { key: 'PlacementRegion', label: 'PlacementRegion(402)', minWidth: '120px', sortable: true }
+                { key: 'ContactRelationship', label: 'Contact Relationship(289)', minWidth: '120px', sortable: true },
+                { key: 'PlacementRegion', label: 'Placement Region(402)', minWidth: '120px', sortable: true }
             ]
         };
 
@@ -1761,7 +1761,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0';
                 g1.style.borderRight = '2px solid #e2e8f0';
                 g1.style.fontWeight = '700';
-                g1.textContent = 'TargetLocalization';
+                g1.textContent = 'Target Localization';
                 tr1.appendChild(g1);
 
                 // Navigation 分组:对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
@@ -1790,7 +1790,7 @@
                 g1.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g1.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g1.style.fontWeight = '700';
-                g1.textContent = 'BasicAttributes(1618)';
+                g1.textContent = 'Basic Attributes(1618)';
                 tr1.appendChild(g1);
 
                 const g2 = document.createElement('th');
@@ -1799,7 +1799,7 @@
                 g2.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g2.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
                 g2.style.fontWeight = '700';
-                g2.textContent = 'SpatialRelatedAttributes(1501)';
+                g2.textContent = 'Spatial Related Attributes(1501)';
                 tr1.appendChild(g2);
 
                 const g3 = document.createElement('th');
@@ -1807,7 +1807,7 @@
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
                 g3.style.fontWeight = '700';
-                g3.textContent = 'EmbodiedCompositionalAttributes(1291)';
+                g3.textContent = 'Embodied Compositional Attributes(1291)';
                 tr1.appendChild(g3);
             } else if (module === 'nav' || module === 'manip') {
                 // ✅ 导航/操作表头:合并 4 列居中显示
