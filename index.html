@@ -831,45 +831,81 @@
             transition: all 0.3s;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        /* 侧边导航基础样式 */
-        /* 侧边导航基础样式 */
-        .side-nav {
+        /* ====================================== */
+        /* 🎯 折叠式左侧悬浮目录（hover 展开） */
+        /* ====================================== */
+        .side-nav-collapsed {
             position: fixed;
-            left: 20px;
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 220px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            z-index: 1000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 折叠箭头按钮 */
+        .side-nav-toggle {
+            width: 32px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
             border: 1px solid #e2e8f0;
-            
-            /* ✅ 默认虚化半透明 */
-            opacity: 0.3;
-            transition: all 0.3s ease;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #64748b;
+            cursor: pointer;
+            box-shadow: 2px 0 6px rgba(0,0,0,0.05);
+            transition: all 0.25s ease;
         }
 
-        /* ✅ 鼠标悬浮：恢复清晰 + 高亮 */
-        .side-nav:hover {
+        /* 目录内容（默认隐藏在左侧外） */
+        .side-nav-content {
+            width: 220px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px);
+            padding: 18px;
+            border-radius: 0 12px 12px 0;
+            border: 1px solid #e2e8f0;
+            border-left: none;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            margin-left: -100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: 
+                margin-left 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                opacity 0.2s ease;
+        }
+
+        /* HOVER 时展开目录 */
+        .side-nav-collapsed:hover .side-nav-content {
+            margin-left: 0;
             opacity: 1;
-            border-color: #22c55e;
-            box-shadow: 0 6px 24px rgba(34, 197, 94, 0.15);
+            pointer-events: all;
+        }
+        /* HOVER 时箭头变成 ← */
+        .side-nav-collapsed:hover .side-nav-toggle {
+            color: #22c55e;
+        }
+        .side-nav-collapsed:hover .side-nav-toggle::after {
+            content: "←";
+        }
+        .side-nav-collapsed:hover .side-nav-toggle {
+            font-size: 0;
         }
 
-        .side-nav ul {
+        .side-nav-content ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-
-        .side-nav li {
-            margin-bottom: 12px;
+        .side-nav-content li {
+            margin-bottom: 11px;
         }
-
-        .side-nav a {
+        .side-nav-content a {
             text-decoration: none;
             color: #475569;
             font-size: 14px;
@@ -878,11 +914,16 @@
             display: block;
             line-height: 1.4;
         }
-
-        /* 悬停效果 */
-        .side-nav a:hover {
+        .side-nav-content a:hover {
             color: #22c55e;
-            transform: translateX(5px);
+            transform: translateX(4px);
+        }
+
+        /* 小屏幕自动隐藏 */
+        @media (max-width: 1200px) {
+            .side-nav-collapsed {
+                display: none;
+            }
         }
 
         .side-nav ul {
@@ -925,7 +966,10 @@
     </style>
 </head>
 <body>
-    <nav class="side-nav">
+    <!-- 折叠式左侧悬浮目录 -->
+    <nav class="side-nav-collapsed">
+        <div class="side-nav-toggle">→</div>
+        <div class="side-nav-content">
         <ul>
             <li><a href="#overview">Overview</a></li>
             <li><a href="#abstract">Abstract</a></li>
@@ -934,6 +978,7 @@
             <li><a href="#data-collection-pipeline">Data Construction</a></li>
             <li><a href="#why-epic">Benchmark Comparison</a></li>
         </ul>
+        </div>
     </nav>
     <header class="rynn-header">
         <h1 id="epic-title" class="title">
