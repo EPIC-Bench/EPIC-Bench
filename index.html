@@ -176,7 +176,7 @@
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
             padding: 10px 20px;
             background: white;
             border: 1px solid #e2e8f0;
@@ -444,11 +444,14 @@
         /* 表格容器核心样式:固定高度，仅表格滚动 */
         .table-scroll-wrapper {
             position: relative;
-            max-width: 1600px;
+            max-width: 100% !important; /* 占满屏幕 */
+            width: 100% !important;
             margin: 0 auto;
         }
         .data-table-container {
             background: white;
+            max-width: 98% !important;    /* 占满几乎整个屏幕宽度 */
+            width: 98% !important;
             border-radius: 16px;
             padding: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -550,7 +553,7 @@
         #top-button-group .btn,
         #top-button-group .quick-jump-btn {
             width: 135px !important;  /* 统一宽度 */
-            height: 35px !important; /* 统一高度 */
+            height: 32px !important; /* 统一高度 */
             padding: 0 16px !important; /* 清除原有padding，改为内边距统一 */
             display: inline-flex !important;
             align-items: center !important;
@@ -566,7 +569,7 @@
             /* 核心:给文字加左边距，直接隔开图标 */
         }
         #top-button-group .quick-jump-btn span {
-            margin-left: 12px !important; /* 关键:间距数值，可改10/15px */
+            margin-left: 6px !important; /* 关键:间距数值，可改10/15px */
         }
         /* 固定表头和固定列（解决内容穿透问题） */
         .data-table-container {
@@ -1049,7 +1052,7 @@
 
     <!-- 榜单区域:保留原有切换按钮，添加ID用于锚点跳转 -->
     <!-- ====================== 第一部分:Leaderboard ====================== -->
-    <section id="leaderboard-section" class="data-example-section" style="max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
+    <section id="leaderboard-section" class="data-example-section" style="max-width: 1500px; margin: 0 auto 60px; padding: 0 20px;">
         <h2 class="data-example-title" style="font-size: 32px; font-weight: 700; color: #333; text-align: center; margin-bottom:10px !important;">🏆 Leaderboard</h2>
 
         <div id="sticky-nav-wrapper" class="nav-tree-container">
