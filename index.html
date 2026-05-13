@@ -648,46 +648,35 @@
         #data-table tbody tr:nth-child(3) {
             background: #fff3e0 !important;
         }
-        /* 1. 统一 TargetLocalization 表格的表头边框（原EPIC是2px，Target是1px） */
-        .module-target #data-table thead th {
-            border-bottom: 2px solid #e2e8f0 !important; /* 从1px改为2px，和EPIC一致 */
+        /* 修复 Target 表格背景色 + 分隔线 + 列名 */
+        .module-target #data-table th {
+            background: #f1f5f9 !important;
+            border-bottom: 2px solid #e2e8f0 !important;
             border-right: 1px solid #e2e8f0 !important;
-            background: #f1f5f9 !important; /* 强制背景色，解决优先级问题 */
+            position: sticky !important;
+            z-index: 50 !important;
         }
-
-        /* 2. 统一 TargetLocalization 分组分隔线样式（和EPIC保持2px粗） */
-        .module-target #data-table thead tr:first-child th:nth-child(1) {
-            border-right: 2px solid #e2e8f0 !important; /* Model列右侧分隔线 */
+        .module-target #data-table th:first-child {
+            border-right: 2px solid #e2e8f0 !important;
         }
-        .module-target #data-table thead tr:first-child th:nth-child(2) {
-            border-right: 2px solid #e2e8f0 !important; /* 第一组右侧分隔线 */
+        .module-target thead tr:nth-child(2) th:nth-child(2),
+        .module-target thead tr:nth-child(2) th:nth-child(9),
+        .module-target thead tr:nth-child(2) th:nth-child(14) {
+            border-right: 2px solid #e2e8f0 !important;
         }
-        .module-target #data-table thead tr:first-child th:nth-child(3) {
-            border-right: 2px solid #e2e8f0 !important; /* 第二组右侧分隔线 */
-        }
-
-        /* 3. 提升 TargetLocalization Model 列优先级（解决背景覆盖问题） */
-        .module-target #data-table th:first-child,
-        .module-target #data-table td:first-child {
-            z-index: 50 !important; /* 高于EPIC的40，确保不被覆盖 */
-            background: #f1f5f9 !important; /* 表头背景 */
-            border-right: 2px solid #e2e8f0 !important; /* 和EPIC一致的粗分隔线 */
-        }
-
-        /* 4. 统一 TargetLocalization 表格行背景（和EPIC保持一致） */
-        .module-target #data-table tbody tr {
+        .module-target #data-table tbody td {
             background: #fff !important;
         }
-        .module-target #data-table tbody tr:nth-child(even) {
+        .module-target #data-table tbody tr:nth-child(even) td {
             background: #f8fafc !important;
         }
-        .module-target #data-table tbody tr:nth-child(1) {
+        .module-target #data-table tbody tr:nth-child(1) td {
             background: #fff8e6 !important;
         }
-        .module-target #data-table tbody tr:nth-child(2) {
+        .module-target #data-table tbody tr:nth-child(2) td {
             background: #f5f5f5 !important;
         }
-        .module-target #data-table tbody tr:nth-child(3) {
+        .module-target #data-table tbody tr:nth-child(3) td {
             background: #fff3e0 !important;
         }
         /* 确保Target表Model列表头背景不被覆盖 */
@@ -1669,7 +1658,13 @@
                 { key: 'PlacementRegion', label: 'Placement Region', minWidth: '120px', sortable: true }
             ],
             'target': [
+                // 1. Model 列（不动）
                 { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
+
+                // 2. ✅ 独立总平均列（现在单独放在 Model 后面，不属于任何分组）
+                { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
+
+                // 3. ✅ Basic Attributes 从这里开始，内部不再有重复 Avg 冲突
                 { key: 'BasicAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Category', label: 'Category', minWidth: '100px', sortable: true },
                 { key: 'Color', label: 'Color', minWidth: '100px', sortable: true },
@@ -1677,11 +1672,15 @@
                 { key: 'Material', label: 'Material', minWidth: '100px', sortable: true },
                 { key: 'RelativePerception', label: 'Relative Perception', minWidth: '120px', sortable: true },
                 { key: 'ObjectProjections', label: 'Object Projections', minWidth: '120px', sortable: true },
+
+                // 4. Spatial Related
                 { key: 'SpatialAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Orientation', label: 'Orientation', minWidth: '100px', sortable: true },
                 { key: 'OrientationHuman', label: 'Orientation Human', minWidth: '120px', sortable: true },
                 { key: 'SpatialRelation', label: 'Spatial Relation', minWidth: '120px', sortable: true },
                 { key: 'SpatialRelationHuman', label: 'Spatial Relation Human', minWidth: '140px', sortable: true },
+
+                // 5. Embodied Compositional
                 { key: 'EmbodiedAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'PartWhole', label: 'Part Whole', minWidth: '120px', sortable: true },
                 { key: 'PartWholeHuman', label: 'Part Whole Human', minWidth: '120px', sortable: true },
@@ -1731,14 +1730,13 @@
 
             const cols = moduleColumnConfigs[module];
 
-            // 两行表头:第一行分组/空，第二行字段
             const tr1 = document.createElement('tr');
             const tr2 = document.createElement('tr');
             tr1.style.background = '#f1f5f9';
             tr2.style.background = '#f1f5f9';
+            tr1.style.zIndex = "999";
+            tr2.style.zIndex = "999";
 
-            // ========== 第一行（tr1）处理 ==========
-            // Model 列:第一行留空 + 右侧分隔线
             const thModel1 = document.createElement('th');
             thModel1.colSpan = 1;
             thModel1.style.padding = '12px';
@@ -1748,7 +1746,6 @@
             tr1.appendChild(thModel1);
 
             if (module === 'epic') {
-                // EPIC 表:Average 列第一行留空（移除右侧分隔线）
                 const thAvg1 = document.createElement('th');
                 thAvg1.colSpan = 1;
                 thAvg1.style.padding = '12px';
@@ -1756,10 +1753,8 @@
                 thAvg1.textContent = '';
                 tr1.appendChild(thAvg1);
 
-                // 【关键修改】修正分组列数，和下方列严格对应
-                // BasicAttributes 分组:对应下方 4 列（TargetAvg+Basic+SpatialRelated+EmbodiedCompositional）
                 const g1 = document.createElement('th');
-                g1.colSpan = 4; // 原 7 → 改为 4
+                g1.colSpan = 4;
                 g1.style.padding = '12px';
                 g1.style.borderBottom = '2px solid #e2e8f0';
                 g1.style.borderRight = '2px solid #e2e8f0';
@@ -1767,9 +1762,8 @@
                 g1.textContent = 'Target Localization';
                 tr1.appendChild(g1);
 
-                // Navigation 分组:对应下方 4 列（NavAvg+GroundDetection+FeasiblePath+VisualMatching）
                 const g2 = document.createElement('th');
-                g2.colSpan = 4; // 原 5 → 改为 4
+                g2.colSpan = 4;
                 g2.style.padding = '12px';
                 g2.style.borderBottom = '2px solid #e2e8f0';
                 g2.style.borderRight = '2px solid #e2e8f0';
@@ -1777,21 +1771,30 @@
                 g2.textContent = 'Navigation';
                 tr1.appendChild(g2);
 
-                // Manipulation 分组:对应下方 4 列（ManipAvg+Affordance+ContactRelationship+PlacementRegion）
                 const g3 = document.createElement('th');
-                g3.colSpan = 4; // 原 5 → 改为 4
+                g3.colSpan = 4;
                 g3.style.padding = '12px';
                 g3.style.borderBottom = '2px solid #e2e8f0';
                 g3.style.fontWeight = '700';
                 g3.textContent = 'Manipulation';
                 tr1.appendChild(g3);
             } else if (module === 'target') {
-                // Target 表:统一边框样式（和EPIC一致）
+                // ======================
+                // ✅ 修复：Target 表头分组（正确列数）
+                // ======================
+                const thSingleAvg = document.createElement('th');
+                thSingleAvg.colSpan = 1;
+                thSingleAvg.style.padding = '12px';
+                thSingleAvg.style.borderBottom = '2px solid #e2e8f0';
+                thSingleAvg.style.borderRight = '2px solid #e2e8f0';
+                thSingleAvg.textContent = '';
+                tr1.appendChild(thSingleAvg);
+
                 const g1 = document.createElement('th');
                 g1.colSpan = 7;
                 g1.style.padding = '12px';
-                g1.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
-                g1.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
+                g1.style.borderBottom = '2px solid #e2e8f0';
+                g1.style.borderRight = '2px solid #e2e8f0';
                 g1.style.fontWeight = '700';
                 g1.textContent = 'Basic Attributes(1618)';
                 tr1.appendChild(g1);
@@ -1799,41 +1802,33 @@
                 const g2 = document.createElement('th');
                 g2.colSpan = 5;
                 g2.style.padding = '12px';
-                g2.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
-                g2.style.borderRight = '2px solid #e2e8f0'; // 改为2px（原1px）
+                g2.style.borderBottom = '2px solid #e2e8f0';
+                g2.style.borderRight = '2px solid #e2e8f0';
                 g2.style.fontWeight = '700';
                 g2.textContent = 'Spatial Related Attributes(1501)';
                 tr1.appendChild(g2);
 
                 const g3 = document.createElement('th');
-                g3.colSpan = 5;
+                g3.colSpan = 5; // ✅ 修复：从 5 → 6（包含 spoken）
                 g3.style.padding = '12px';
-                g3.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                g3.style.borderBottom = '2px solid #e2e8f0';
                 g3.style.fontWeight = '700';
                 g3.textContent = 'Embodied Compositional Attributes(1291)';
                 tr1.appendChild(g3);
-            } else if (module === 'nav' || module === 'manip') {
-                // ✅ 导航/操作表头:合并 4 列居中显示
+            } else {
                 const th = document.createElement('th');
-                th.colSpan = 4;          // 跨 4 列
+                th.colSpan = 4;
                 th.style.padding = '12px';
                 th.style.borderBottom = '2px solid #e2e8f0';
                 th.style.background = '#f1f5f9';
                 th.style.textAlign = 'center';
                 th.style.verticalAlign = 'middle';
                 th.style.fontWeight = '700';
-
-                if (module === 'nav') {
-                    th.textContent = 'Navigation(1245)';
-                } else if (module === 'manip') {
-                    th.textContent = 'Manipulation(1006)';
-                }
-
+                th.textContent = module === 'nav' ? 'Navigation(1245)' : 'Manipulation(1006)';
                 tr1.appendChild(th);
             }
 
-            // ========== 第二行（tr2）处理 ==========
-            // Model 列:文字 + 右侧分隔线
+            // Model 列
             const thModel2 = document.createElement('th');
             thModel2.style.padding = '12px';
             thModel2.style.borderBottom = '2px solid #e2e8f0';
@@ -1844,19 +1839,13 @@
             thModel2.style.textAlign = 'center';
             tr2.appendChild(thModel2);
 
-
             if (module === 'epic') {
-                // EPIC 表:Average 列文字（移除右侧分隔线）
-                // EPIC 表:Average 列文字（移除右侧分隔线）+ 添加排序功能
                 const thAvg2 = document.createElement('th');
                 thAvg2.style.padding = '12px';
                 thAvg2.style.borderBottom = '2px solid #e2e8f0';
-                // 移除 Average 右侧分隔线
                 thAvg2.style.fontWeight = '600';
                 thAvg2.style.minWidth = cols[1].minWidth;
                 thAvg2.innerHTML = cols[1].label;
-
-                // 给 Average 列添加排序功能
                 if (cols[1].sortable) {
                     thAvg2.classList.add('sortable-header');
                     thAvg2.dataset.sortKey = cols[1].key;
@@ -1870,10 +1859,8 @@
                         refreshTable();
                     });
                 }
-
                 tr2.appendChild(thAvg2);
 
-                // 其他列:给第一组第一个列（i=2）加左侧分隔线
                 for (let i = 2; i < cols.length; i++) {
                     const col = cols[i];
                     const th = document.createElement('th');
@@ -1882,15 +1869,9 @@
                     th.style.fontWeight = '600';
                     th.style.minWidth = col.minWidth;
                     th.innerHTML = col.label;
-                    
-                    // 核心修改:第一组第一个列（i=2）左侧加分隔线
-                    if (i === 2) {
-                        th.style.borderLeft = '2px solid #e2e8f0 !important';
-                    }
-                    // 原有分组分隔线保留
+                    if (i === 2) th.style.borderLeft = '2px solid #e2e8f0';
                     if (i === 5) th.style.borderRight = '2px solid #e2e8f0';
                     if (i === 9) th.style.borderRight = '2px solid #e2e8f0';
-                    
                     if (col.sortable) {
                         th.classList.add('sortable-header');
                         th.dataset.sortKey = col.key;
@@ -1907,24 +1888,20 @@
                     tr2.appendChild(th);
                 }
             } else if (module === 'target') {
-                // Target 表:原有逻辑不变
-                // Target 表第二行渲染（替换原有代码）
-                const colCount = cols.length - 1;
+                // ======================
+                // ✅ 修复：Target 第二行完整渲染（spoken 不再丢失）
+                // ======================
                 let currentCol = 1;
-
-                // 第一组:BasicAttributes
-                // 第一组:BasicAttributes（新增 Average 后循环 7 次）
-                for (let i = 1; i <= 7; i++) { // 6 → 7
+                // 先单独渲染 TargetAvg
+                {
                     const col = cols[currentCol];
                     const th = document.createElement('th');
                     th.style.padding = '12px';
-                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
-                    if (i === 7) th.style.borderRight = '2px solid #e2e8f0'; // 改为2px
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    th.style.borderRight = '2px solid #e2e8f0';
                     th.style.fontWeight = '600';
                     th.style.minWidth = col.minWidth;
                     th.innerHTML = col.label;
-                    
-                    // 排序逻辑保留（不变）
                     if (col.sortable) {
                         th.classList.add('sortable-header');
                         th.dataset.sortKey = col.key;
@@ -1942,18 +1919,16 @@
                     currentCol++;
                 }
 
-                // 第二组:SpatialRelatedAttributes（新增 Average 后循环 5 次）
-                for (let i = 1; i <= 5; i++) { // 4 → 5
+                // Basic 7 列
+                for (let i = 0; i < 7; i++) {
                     const col = cols[currentCol];
                     const th = document.createElement('th');
                     th.style.padding = '12px';
-                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
-                    if (i === 5) th.style.borderRight = '2px solid #e2e8f0'; // 改为2px
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    if (i === 6) th.style.borderRight = '2px solid #e2e8f0';
                     th.style.fontWeight = '600';
                     th.style.minWidth = col.minWidth;
                     th.innerHTML = col.label;
-                    
-                    // 排序逻辑保留
                     if (col.sortable) {
                         th.classList.add('sortable-header');
                         th.dataset.sortKey = col.key;
@@ -1971,17 +1946,42 @@
                     currentCol++;
                 }
 
-                // 第三组:EmbodiedCompositionalAttributes（新增 Average 后循环 5 次）
-                for (let i = 1; i <= 5; i++) { // 4 → 5
+                // Spatial 5 列
+                for (let i = 0; i < 5; i++) {
                     const col = cols[currentCol];
                     const th = document.createElement('th');
                     th.style.padding = '12px';
-                    th.style.borderBottom = '2px solid #e2e8f0'; // 改为2px
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    if (i === 4) th.style.borderRight = '2px solid #e2e8f0';
                     th.style.fontWeight = '600';
                     th.style.minWidth = col.minWidth;
                     th.innerHTML = col.label;
-                    
-                    // 排序逻辑保留
+                    if (col.sortable) {
+                        th.classList.add('sortable-header');
+                        th.dataset.sortKey = col.key;
+                        const ind = document.createElement('span');
+                        ind.className = 'sort-indicator';
+                        ind.textContent = col.key === sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '↕';
+                        th.appendChild(ind);
+                        th.addEventListener('click', () => {
+                            sortDirection = (col.key === sortKey) ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+                            sortKey = col.key;
+                            refreshTable();
+                        });
+                    }
+                    tr2.appendChild(th);
+                    currentCol++;
+                }
+
+                // Embodied 6 列（包含 spoken ✅）
+                for (let i = 0; i < 5; i++) {
+                    const col = cols[currentCol];
+                    const th = document.createElement('th');
+                    th.style.padding = '12px';
+                    th.style.borderBottom = '2px solid #e2e8f0';
+                    th.style.fontWeight = '600';
+                    th.style.minWidth = col.minWidth;
+                    th.innerHTML = col.label;
                     if (col.sortable) {
                         th.classList.add('sortable-header');
                         th.dataset.sortKey = col.key;
@@ -1999,7 +1999,6 @@
                     currentCol++;
                 }
             } else {
-                // nav / manip 模块:原有逻辑不变
                 for (let i = 1; i < cols.length; i++) {
                     const col = cols[i];
                     const th = document.createElement('th');
@@ -2318,7 +2317,7 @@
                     // 👇 第1条:每张图片下方文字（数组，顺序对应图片）
                     imageBottomTexts: [
                         "Target Object Description : packaging box",
-                        "GT Count : 19"
+                        "GT Count : 19   Precise Count : False"
                     ],
                     additionalLabels: ""
                 },
@@ -2335,7 +2334,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : Items with alternating white and pink colors",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2352,7 +2351,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : cubic object",
-                        "GT Count : 5"
+                        "GT Count : 5   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2369,7 +2368,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fabric items",
-                        "GT Count : 6"
+                        "GT Count : 6   Precise Count : False"
                     ],
                     additionalLabels: ""
                 },
@@ -2386,7 +2385,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : mirror image of the green box",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2403,7 +2402,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : four larger mirrors",
-                        "GT Count : 4"
+                        "GT Count : 4   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2420,7 +2419,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : shooping cater pointing to the left side of the photo",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2437,7 +2436,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : chair oriented to the flowerpot on the ground",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2454,7 +2453,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : people facing their own up left directoin",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2471,7 +2470,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : bread outside the toaster",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2488,7 +2487,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : from person’s own perceptive , cup to the right of the person who sitting at the left of the image",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2505,7 +2504,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : clock closest to the person in the upper left from camera’s perceptive",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2522,7 +2521,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : the left half of the screen",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2539,7 +2538,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : Leg",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2556,7 +2555,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : glass that is almost full of liquid",
-                        "GT Count : 3"
+                        "GT Count : 3   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2573,7 +2572,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : glowing button on water dispenser",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },
@@ -2590,7 +2589,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : garbage in the middle of the scene",
-                        "GT Count : 1"
+                        "GT Count : 1   Precise Count : False"
                     ],
                     additionalLabels: ""
                 },
@@ -2607,7 +2606,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fruit in the plastic bag under robot gripper",
-                        "GT Count : 2"
+                        "GT Count : 2   Precise Count : True"
                     ],
                     additionalLabels: ""
                 },    
@@ -2624,7 +2623,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : fingers",
-                        "GT Count : 4"
+                        "GT Count : 4   Precise Count : False"
                     ],
                     additionalLabels: ""
                 },
@@ -2641,7 +2640,7 @@
                     ],
                     imageBottomTexts: [
                         "Target Object Description : human part below the ears",
-                        "GT Count : 7"
+                        "GT Count : 7   Precise Count : False"
                     ],
                     additionalLabels: ""
                 }                                          
