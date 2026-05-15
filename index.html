@@ -704,6 +704,12 @@
         .module-target #data-table tbody tr:nth-child(3) td:first-child {
             background: #fff3e0 !important;
         }
+        .module-nav thead tr:nth-child(1) th:nth-child(2),
+        .module-manip thead tr:nth-child(1) th:nth-child(2),
+        .module-nav thead tr:nth-child(2) th:nth-child(2),
+        .module-manip thead tr:nth-child(2) th:nth-child(2) {
+            border-right: 2px solid #e2e8f0 !important;
+        }
         /* 1. 容器:确保居中对齐 */
         .nav-connector {
             display: flex;
@@ -1816,8 +1822,17 @@
                 g3.textContent = 'Embodied Compositional Attributes(1291)';
                 tr1.appendChild(g3);
             } else {
+                const thAvgGroup = document.createElement('th');
+                thAvgGroup.colSpan = 1;
+                thAvgGroup.style.padding = '12px';
+                thAvgGroup.style.borderBottom = '2px solid #e2e8f0';
+                thAvgGroup.style.borderRight = '2px solid #e2e8f0';
+                thAvgGroup.style.background = '#f1f5f9';
+                thAvgGroup.textContent = '';
+                tr1.appendChild(thAvgGroup);
+
                 const th = document.createElement('th');
-                th.colSpan = 4;
+                th.colSpan = 3;
                 th.style.padding = '12px';
                 th.style.borderBottom = '2px solid #e2e8f0';
                 th.style.background = '#f1f5f9';
