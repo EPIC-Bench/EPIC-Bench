@@ -109,8 +109,8 @@
         }
         .authors {
             max-width: 1200px;
-            margin: -30px auto 4px; /* 关键:负上边距，往上拉20px，紧贴标题 */
-            color: #334155;
+            margin: 0px auto 4px; /* 关键:负上边距，往上拉20px，紧贴标题 */
+            color: #2f9ab7;
             font-size: 16px;
             line-height: 1.1;
             text-align: center;
@@ -120,12 +120,26 @@
             color: #000000;
             position: relative;
             top: -3px;    /* 从 -4px 改成 -1px，立刻降低！ */
-            left: 2px;
+            left: -1px;
+        }
+        .author-affiliations {
+            font-size: 16px;
+            color: #000;
+            margin-top: 10px;
+            margin-bottom: 4px;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .author-affiliations sup {
+            font-size: 0.65em;
+            top: -4px;
+            left: 0;
         }
         .author-notes {
             font-size: 16px;
             color: #000000;
-            margin-top: 12px;    /* 增大:离上面作者更远 */
+            margin-top: 10px;    /* 增大:离上面作者更远 */
             margin-bottom: 12px; /* 新增:离下面按钮更远 */
             font-weight: 500;
         }
@@ -973,6 +987,7 @@
             <li><a href="#abstract">Abstract</a></li>
             <li><a href="#leaderboard-section">🏆 Leaderboard</a></li>
             <li><a href="#benchmark-section">📊 Benchmark</a></li>
+            <li><a href="#vlm-performance">Representative VLM</a></li>
             <li><a href="#data-collection-pipeline">Data Construction</a></li>
             <li><a href="#why-epic">Benchmark Comparison</a></li>
         </ul>
@@ -980,24 +995,27 @@
     </nav>
     <header class="rynn-header">
         <h1 id="epic-title" class="title">
-            <span class="epic-wrapper"><span class="epic-letter">E</span><span class="epic-letter">P</span><span class="epic-letter">I</span><span class="epic-letter">C</span></span>-Bench: <span> Can VLMs Perceive the </span><br>
-            <span>Embodied Real-world?</span>
+            <span class="epic-wrapper"><span class="epic-letter">E</span><span class="epic-letter">P</span><span class="epic-letter">I</span><span class="epic-letter">C</span></span>-Bench: <span>  A Perception-Centric Benchmark for Fine-Grained</span><br>
+            <span>Embodied Visual Grounding in Vision-Language Mode</span>
         </h1>
         <div class="authors">
-            <span class="author-name">xxx</span><sup>*</sup>
-            <span class="author-name">xxx</span><sup>*</sup>
-            <span class="author-name">xxx</span><sup>*</sup>
-            <span class="author-name">xxx</span><sup>*</sup>
-            <span class="author-name">xxx</span>
-            <span class="author-name">xxx</span><br>
-            <span class="author-name">xxx</span>
-            <span class="author-name">xxx</span>
-            <span class="author-name">xxx</span>
-            <span class="author-name">xxx</span>
-            <span class="author-name">xxx</span><sup>†</sup>
-            <span class="author-name">xxx</span><sup></sup><sup>‡</sup>
+            <span class="author-name">Haozhe Shan</span><sup>1,2,*</sup><span>,</span>
+            <span class="author-name">Xiancong Ren</span><sup>1,*</sup><span>,</span>
+            <span class="author-name">Han Dong</span><sup>1,*</sup><span>,</span>
+            <span class="author-name">Haoyuan Shi</span><sup>1,3,*</sup><span>,</span>
+            <span class="author-name">Yingji Zhang</span><sup>4</sup><br>
+            <span class="author-name">Jiayu Hu</span><sup>1</sup><span>,</span>
+            <span class="author-name">Yi Zhang</span><sup>1</sup><span>,</span>
+            <span class="author-name">Yong Dai</span><sup>1,†</sup><span>,</span>
+            <span class="author-name">Bin Shen</span><sup>6</sup><span>,</span>
+            <span class="author-name">Lizhen Qu</span><sup>5</sup><span>,</span>
+            <span class="author-name">Zenglin Xu</span><sup>2</sup><span>,</span>
+            <span class="author-name">Xiaozhu Ju</span><sup>1,‡</sup>
+            <div class="author-affiliations">
+                <sup>1</sup>X-Humanoid, <sup>2</sup>FDU, <sup>3</sup>USTC, <sup>4</sup>UoM, <sup>5</sup>MON, <sup>6</sup>Celonis AI
+            </div>
             <div class="author-notes">
-                <sup>*</sup> Core contributors &nbsp; <sup>†</sup> Project lead &nbsp; <sup>‡</sup> Correspondence
+                <sup>*</sup>Core contributors &nbsp; <sup>†</sup>Project leader &nbsp; <sup>‡</sup>Correspondence
             </div>
         </div>
         <div id="top-button-group" class="button-group">
