@@ -595,11 +595,11 @@
         /* ========== EPIC-Bench 表格全局字体大小统一设置 ========== */
         /* 表头字体大小 */
         #data-table th {
-            font-size: 9px !important;
+            font-size: 13px !important;
         }
         /* 表格内容字体大小 */
         #data-table td {
-            font-size: 10px !important;
+            font-size: 13px !important;
         }
 
         /* 双行表头全部固定:第一行 top:0，第二行紧贴第一行下面 */
@@ -892,21 +892,21 @@
                 opacity 0.2s ease;
         }
 
-        /* HOVER 时展开目录 */
-        .side-nav-collapsed:hover .side-nav-content {
+        .side-nav-toggle:hover + .side-nav-content,
+        .side-nav-content:hover {
             margin-left: 0;
             opacity: 1;
             pointer-events: all;
         }
-        /* HOVER 时箭头变成 ← */
-        .side-nav-collapsed:hover .side-nav-toggle {
+
+        .side-nav-toggle:hover {
             color: #22c55e;
-        }
-        .side-nav-collapsed:hover .side-nav-toggle::after {
-            content: "←";
-        }
-        .side-nav-collapsed:hover .side-nav-toggle {
             font-size: 0;
+        }
+
+        .side-nav-toggle:hover::after {
+            content: "←";
+            font-size: 16px;
         }
 
         .side-nav-content ul {
@@ -3348,7 +3348,7 @@
             <div style="background: #f8fafc; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 14px; line-height: 1.6; color: #1e293b; overflow-x: auto;">
                 <pre style="margin: 0;">
     @article{2026,
-    title={EPIC-Bench: Can VLMs Perceive the Embodied Real-world?},
+    title={EPIC-Bench: A Perception-Centric Benchmark for Fine-Grained Embodied Visual Grounding in Vision-Language Mode},
     journal={xxx},
     year={2026}
     }
