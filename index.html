@@ -1019,7 +1019,7 @@
             </div>
         </div>
         <div id="top-button-group" class="button-group">
-            <a href="#" class="btn" style="background: #000000; color: #ffffff; border-color: #000000;width: 100px !important; font-size: 15px !important;">
+            <a href="https://github.com/rxc205/EPIC-Bench-Eval" class="btn" style="background: #000000; color: #ffffff; border-color: #000000;width: 100px !important; font-size: 15px !important;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 GitHub
             </a>
@@ -1030,10 +1030,10 @@
                 </svg>
                 Paper
             </a>
-            <a href="#" class="btn" style="background: #fbbf24; color: #ffffff; border-color: #fbbf24; width: 140px !important; font-size: 13px !important; display: inline-flex; align-items: center; justify-content: center;">
+            <a href="https://huggingface.co/datasets/rxc205/EPIC-Bench" class="btn" style="background: #fbbf24; color: #ffffff; border-color: #fbbf24; width: 140px !important; font-size: 13px !important; display: inline-flex; align-items: center; justify-content: center;">
                 <span style="font-size: 16px; margin-right: 4px;">🤗</span>Huggingface
             </a>
-            <a href="#" class="btn" style="background: #3b82f6; color: #ffffff; border-color: #3b82f6;width: 140px !important; font-size: 15px !important;">
+            <a href="https://www.modelscope.cn/datasets/macarich/EPIC-Bench" class="btn" style="background: #3b82f6; color: #ffffff; border-color: #3b82f6;width: 140px !important; font-size: 15px !important;">
                 <img src=".\img\screenshot-20260303-101720.png" alt="modelscope" style="width: 24px; height: 24px; margin-right: 8px; object-fit: contain; vertical-align: middle;">
                 ModelScope
             </a>
@@ -1272,7 +1272,13 @@
             "MiMo-VL-7B-SFT-2508",
             "MiMo-VL-7B-RL-2508",
             "MiMo-Embodied-7B",
-            "VeBrain"
+            "VeBrain",
+            "gpt-5.4",
+            "gemini-3-pro",
+            "Qwen3.6-35B-A3B",
+            "Qwen3.6-27B",
+            "Qwen3.6-27B🧠",
+            "Qwen3.6-35B-A3B🧠",
         ];
 
         function generateMockScores() {
@@ -1358,7 +1364,15 @@
                 "MiMo-VL-7B-SFT-2508":[31.18,33.01,37.17,32.98,17.59,29.14,36.89,4.91,23.2,32.82],
                 "MiMo-VL-7B-RL-2508":[34.65,36.65,42.31,34.92,18.31,36.9,37.45,6.51,30.37,32.86],
                 "MiMo-Embodied-7B":[37.16,41.22,44.17,38.74,24.67,32.22,40.23,8.71,28.23,33.88],
-                "VeBrain":[29.27,33.63,35.98,27.69,29.56,20.04,27.58,2.85,19.25,32.3]
+                "VeBrain":[29.27,33.63,35.98,27.69,29.56,20.04,27.58,2.85,19.25,32.3],
+                "gemini-3-pro-preview":[54.81,56.81,54.5,53.9,48.82,70.82,60.08,30.4,51.78,53.42],
+                "gpt-5.5":[50.16,57.78,55.37,45.19,50.97,38.57,51.65,24.62,49.67,48.7],
+                "gpt-5.4":[38.95,43.78,43.9,33.84,32.24,43.12,44.35,8.67,39.55,37.3],
+                "gemini-3-pro":[54.81,56.81,54.5,53.9,48.82,70.82,60.08,30.4,51.78,53.42],
+                "Qwen3.6-35B-A3B":[38.52,46.4,46.19,40.01,3.9,39.16,39.42,5.41,34.19,34.52],
+                "Qwen3.6-27B":[45.38,51.04,48.02,41.46,49.99,59.15,43.45,10.61,38.69,37.35],
+                "Qwen3.6-27B🧠":[36.31,46.33,45.05,36.31,11.61,35.1,28.07,10.76,21.53,26.78],
+                "Qwen3.6-35B-A3B🧠":[35.07,48.17,43.99,36.61,14.41,33.97,21.3,2.84,17.05,15.9],
             };
 
             // 真实的 TargetLocalization 分数数据
@@ -1443,7 +1457,15 @@
                 "MiMo-VL-7B-SFT-2508":[30.06,26.87,39.31,30.95,30.51,48,30.57,34.95,33.46,44.35,29.48,38.28,36.86,31.75],
                 "MiMo-VL-7B-RL-2508":[32.49,30.84,38.45,34.56,38.39,50.02,30.46,37.97,39.42,50.97,25.73,39.97,43.76,34.59],
                 "MiMo-Embodied-7B":[37.42,34.62,42.72,37.59,42.34,59.23,31.02,38.22,42.45,52.54,32.84,43.99,45.4,37.63],
-                "VeBrain":[34.99,24.15,40.97,30.84,30.95,47.69,18.63,32.22,32.65,46.48,21.55,29.3,33.17,28.11]
+                "VeBrain":[34.99,24.15,40.97,30.84,30.95,47.69,18.63,32.22,32.65,46.48,21.55,29.3,33.17,28.11],
+                "gemini-3-pro-preview":[63.72,47.15,52.53,47.18,60.64,73.46,56.91,46.75,50.7,61.6,45.78,55.37,60.49,54.87],
+                "gpt-5.5":[57.92,49.58,66,48.57,58.39,72.37,56.67,44.46,56.26,58.73,43.51,45.1,54.96,42.37],
+                "gpt-5.4":[41.27,35.15,53.16,36.5,43.25,61.45,43.79,36.54,40.36,51.26,32.81,33.63,46.44,29.72],
+                "gemini-3-pro":[63.72,47.15,52.53,47.18,60.64,73.46,56.91,46.75,50.7,61.6,45.78,55.37,60.49,54.87],
+                "Qwen3.6-35B-A3B":[47.93,41.25,49.63,35.81,48.16,59.54,38.83,33.84,48.81,50.65,35.81,43.56,43.85,39.61],
+                "Qwen3.6-27B":[48.54,45.07,60.25,42.48,51.87,63.3,43.69,37,49.96,51.82,35.32,44.2,43.51,42.85],
+                "Qwen3.6-27B🧠":[46.9,36.95,58.21,35.64,47.23,58.97,39.07,33.32,47.14,49.45,32.46,47.15,43.68,32.47],
+                "Qwen3.6-35B-A3B🧠":[49.93,41.49,52.33,39.99,48.91,61.15,40.57,32.45,46.98,46.53,32.31,44.24,45.26,33.37]
             };
 
             // 你提供的三列平均值（严格按顺序）
@@ -1528,7 +1550,15 @@
                 [34.42,27.7,21.32],
                 [38.07,31.22,23.89],
                 [41.5,32.11,24.38],
-                [32.69,25.16,19.33]
+                [32.69,25.16,19.33],
+                [55.17,60.87,45.74],
+                [53.27,46.16,41.44],
+                [40.91,40.05,28.98],
+                [55.17,60.87,45.74],
+                [44.46,28.16,25.31],
+                [47.21,51.83,29.36],
+                [42.96,25.74,20.25],
+                [43.36,24.25,12.14]
             ];
 
             // 模型顺序（必须严格一致）
@@ -1613,7 +1643,13 @@
                 "MiMo-VL-7B-SFT-2508",
                 "MiMo-VL-7B-RL-2508",
                 "MiMo-Embodied-7B",
-                "VeBrain"
+                "VeBrain",
+                "gpt-5.4",
+                "gemini-3-pro",
+                "Qwen3.6-35B-A3B",
+                "Qwen3.6-27B",
+                "Qwen3.6-27B🧠",
+                "Qwen3.6-35B-A3B🧠",
             ];
 
             const mockScores = {};
@@ -1666,7 +1702,7 @@
         // 列配置
         const moduleColumnConfigs = {
             'epic': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(🧠 indicates Thinking mode)</span>', minWidth: '150px', sortable: false},
                 { key: 'Average', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
                 { key: 'Basic', label: 'Basic', minWidth: '120px', sortable: true },
@@ -1683,7 +1719,7 @@
             ],
             'target': [
                 // 1. Model 列（不动）
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '150px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(🧠 indicates Thinking mode)</span>', minWidth: '150px', sortable: false},
 
                 // 2. ✅ 独立总平均列（现在单独放在 Model 后面，不属于任何分组）
                 { key: 'TargetAvg', label: 'Avg.', minWidth: '100px', sortable: true },
@@ -1713,7 +1749,7 @@
             ],
             // ========== 导航移动感知（nav）配置修改 ==========
             'nav': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false},
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(🧠 indicates Thinking mode)</span>', minWidth: '10px', sortable: false},
                 { key: 'NavAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
                 { key: 'GroundDetection', label: 'Ground Detection(391)', minWidth: '120px', sortable: true },
                 { key: 'FeasiblePath', label: 'Feasible Path(502)', minWidth: '120px', sortable: true },
@@ -1721,7 +1757,7 @@
             ],
             // ========== 操作感知（manip）配置修改 ==========
             'manip': [
-                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(Models marked with 🧠 use Thinking mode)</span>', minWidth: '10px', sortable: false },
+                { key: 'Model', label: 'Model<br><span style="font-size:12px; color:#64748b; font-weight:400;">(🧠 indicates Thinking mode)</span>', minWidth: '10px', sortable: false },
                 { key: 'ManipAvg', label: 'Avg.', minWidth: '100px', sortable: true }, // 新增 Average 列
                 { key: 'Affordance', label: 'Affordance(315)', minWidth: '120px', sortable: true },
                 { key: 'ContactRelationship', label: 'Contact Relationship(289)', minWidth: '120px', sortable: true },
